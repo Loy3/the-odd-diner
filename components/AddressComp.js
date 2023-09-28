@@ -2,7 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Image, Button, TextInput, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import userIcon from "../assets/Icons/location.png";
-const AddressComp = ({setpopUpStatus}) => {
+import closeBtnIcon from "../assets/Icons/close.png";
+
+const AddressComp = ({ setpopUpStatus }) => {
     const [streetAddr, setStreetAddr] = useState("");
     const [city, setCity] = useState("");
     const [zipCode, setZipCode] = useState("");
@@ -31,8 +33,19 @@ const AddressComp = ({setpopUpStatus}) => {
         }
     }
 
+
+    function onClose() {
+        setpopUpStatus(false);
+    }
+
+
     return (
         <View style={styles.container}>
+            <View >
+                <TouchableOpacity style={styles.closeBtnCont} onPress={onClose}>
+                    <Image source={closeBtnIcon} style={styles.closeBtn} />
+                </TouchableOpacity>
+            </View>
             <Text style={styles.title}>Physical Address:</Text>
 
             {warningStatus ?
@@ -109,6 +122,24 @@ const styles = StyleSheet.create({
         // height:"84%",
         marginVertical: "8%"
 
+    },
+    closeBtnCont: {
+      position: "absolute",
+      top: -20,
+      right: -10,
+      backgroundColor:"#FFFEF5",
+      borderWidth: 2,
+      borderColor: "#7C9070",
+      borderRadius: 60,
+      width: 60,
+      height: 60,
+      justifyContent: "center",
+      alignItems:"center",
+  
+    },
+    closeBtn: {
+      width: 20,
+      height: 20
     },
     title: {
         color: "#7C9070",

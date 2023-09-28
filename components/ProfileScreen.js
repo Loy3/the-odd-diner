@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Image, Button, TextInput, ScrollView } from 'react-native';
 import { signIn } from "../services/serviceAuth";
+
+import { storage } from "../config/Firebase";
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+
+import { storeUserDoc } from "../services/serviceStoreDoc";
+
 import cover from "../assets/Images/cover.jpg";
 import emailIcon from "../assets/Icons/email.png";
 import userIcon from "../assets/Icons/user.png";
@@ -21,10 +27,16 @@ import CardDetailsComp from './CardDetailsComp';
 const ProfileScreen = ({ setSignIn }) => {
     const navigation = useNavigation();
     const [emailAddress, setEmailAddress] = useState("");
-    const [password, setPassword] = useState("");
+    const [userId, setUserId] = useState("");
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
     const [phoneNum, setPhoneNum] = useState("");
+    const [cardDetails, setCardDetails] = useState("Enter Card Details:");
+    const [addressDetails, setAddressDetails] = useState("Enter Physical Address:");
+
+    const [cardDetailsArr, setCardDetailsArr] = useState(null);
+    const [addressDetailsArr, setAddressDetailsArr] = useState("");
+
     const [userImage, setUserImage] = useState(null);
 
 
@@ -34,15 +46,24 @@ const ProfileScreen = ({ setSignIn }) => {
     const [errorMSG, seterrorMSG] = useState("");
 
     const [popUpStatus, setpopUpStatus] = useState(false)
-    const [popUpCardStatus, setpopUpCardStatus] = useState(false)
+    const [popUpCardStatus, setpopUpCardStatus] = useState(false);
+
+    const [loadingStatus, setloadingStatusStatus] = useState(true);
+
+    const [cardStatus, setCardStatus] = useState(false)
+    const [addrStatus, setAddrStatus] = useState(false)
+
+    const [btnDisable, setBtnDisable] = useState(true)
+
 
     useEffect(() => {
         (async () => {
             const user = await getUser();
-            // console.log("The user", user);
+            // console.log("The user", user);?
             if (user !== null) {
-                console.log("user", user.email)
+                // console.log("user", user.localId)
                 setEmailAddress(user.email)
+                setUserId(user.localId);
             } else {
                 console.log("Not Signed In");
             }
@@ -63,11 +84,13 @@ const ProfileScreen = ({ setSignIn }) => {
     useEffect(() => {
         (async () => {
             const address = await getAddress();
-            // console.log("The user", user);
             if (address !== null) {
-                console.log("Address", address.city)
+                setAddrStatus(true);
+                const addressDtls = `${address.streetAddr} ${address.city}, ${address.zipCode}`;
+                setAddressDetails(addressDtls);
             } else {
-                console.log("Not Signed In");
+                console.log("No address");
+                setAddrStatus(false);
             }
 
         })();
@@ -75,15 +98,174 @@ const ProfileScreen = ({ setSignIn }) => {
 
     async function getAddress() {
         const jsonValue = await AsyncStorage.getItem('physicalAddress');
-        // const jsonValue = await AsyncStorage.removeItem('user');
-
-        // const user = JSON.parse(jsonValue);
-        // console.log("RTN User", JSON.parse(jsonValue));
-
         return jsonValue != null ? JSON.parse(jsonValue) : null;
     }
 
+    async function getAddressonSave() {
+        var myAddress = null;
+        const address = await getAddress();
+        if (address !== null) {
+            const addDets = {
+                streetAddr: address.streetAddr,
+                city: address.city,
+                zipCode: address.zipCode
+            };
+            console.log(addDets);
+            myAddress = address;
+        } else {
+            setWarningStatus(true)
+            setWarningMsg("Address missing")
+        }
+
+        return myAddress;
+    }
+
+    useEffect(() => {
+        (async () => {
+            const card = await getCardDetails();
+            if (card !== null) {
+                setCardStatus(true);
+                setCardDetails("Card Details Added.");
+            } else {
+                console.log("No card details");
+                setCardStatus(false);
+                setCardDetails("Enter Card Details:");
+            }
+
+        })();
+    }, [getCardDetails]);
+
+    async function getCardDetails() {
+        const jsonValue = await AsyncStorage.getItem('cardDetails');
+        return jsonValue != null ? JSON.parse(jsonValue) : null;
+    }
+
+    async function getCardDetailsOnSav() {
+        //Get card details
+        var myCardDetails = null;
+        const card = await getCardDetails();
+        if (card !== null) {
+            const cardDets = {
+                cardName: card.cardName,
+                cardNum: card.cardNum,
+                zipCode: card.zipCode,
+                cardDate: card.cardDate
+            }
+            myCardDetails = cardDets;
+        } else {
+            setWarningStatus(true)
+            setWarningMsg("Card details missing")
+        }
+
+        return myCardDetails;
+    }
+
+    // useEffect(() => {
+    //     if (cardStatus === true && addressDetails === true) {
+    //         setBtnDisable(false);
+    //     } else {
+    //         setBtnDisable(true);
+    //     }
+    // }, [])
+
     async function onSave() {
+
+        if (phoneNum !== "" && lastname !== "" && firstname !== "") {
+            console.log("All is well");
+            setWarningStatus(false)
+            setWarningMsg("")
+            setloadingStatusStatus(true);
+            //Get address 
+            const myAddress = await getAddressonSave();
+            // console.log("address", myAddress);
+
+            //Get card details
+            const myCardDetails = await getCardDetailsOnSav();
+            // console.log("Card", myCardDetails);
+
+
+            //Store
+            console.log(userImage);
+
+            const blob = await new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.onload = () => {
+                    try {
+                        resolve(xhr.response);
+                    } catch (error) {
+                        console.log("Line 205 error:", error);
+                    }
+                };
+                xhr.onerror = (e) => {
+                    console.log(e);
+                    reject(new TypeError("Network request failed"));
+                };
+                xhr.responseType = "blob";
+                xhr.open("GET", userImage, true);
+                xhr.send(null);
+            });
+            if (blob != null) {
+                const uriParts = userImage.split(".");
+                const fileType = uriParts[uriParts.length - 1];
+
+                const userImgToStore = `${emailAddress}${new Date().getTime()}.${fileType}`;
+                const path = `oddUsers/${userImgToStore}`;
+
+                const storageRef = ref(storage, path);
+                uploadBytes(storageRef, blob).then(() => {
+                    // Get download URL
+                    getDownloadURL(storageRef)
+                        .then(async (url) => {
+                            // Save data to Firestore   
+                            const myUserToStore = {
+                                firstname: firstname,
+                                lastname: lastname,
+                                emailAddress: emailAddress,
+                                phoneNum: phoneNum,
+                                imageName: userImgToStore,
+                                imageUrl: url,
+
+                                streetAddr: myAddress.streetAddr,
+                                city: myAddress.city,
+                                zipCode: myAddress.zipCode,
+
+
+                                cardName: myCardDetails.cardName,
+                                cardNum: myCardDetails.cardNum,
+                                zipCode: myCardDetails.zipCode,
+                                cardDate: myCardDetails.cardDate,
+
+                                userId: userId
+
+                            }
+
+                            // console.log("User detail", myUserToStore);
+
+                            await storeUserDoc(myUserToStore);
+                            console.log("saved");
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        }).then(async () => {
+                            // setRecordings([]);
+                            // setIsLoading(false);
+                            // navigation.navigate("Journals")
+                            console.log("very saved");
+                            setloadingStatusStatus(false);
+                        })
+                });
+            } else {
+                console.log("error with blob");
+            }
+            //End
+
+
+
+        } else {
+            setWarningStatus(true)
+            setWarningMsg("Fields cannot be left empty!")
+        }
+
         // console.log(emailAddress, password);
         // if (password === "" || emailAddress === "") {
         //     setWarningStatus(true)
@@ -215,7 +397,7 @@ const ProfileScreen = ({ setSignIn }) => {
                             keyboardType="visible-password"
                             autoCapitalize="none"
                             onChangeText={text => setPhoneNum(text)}
-                            value={phoneNum} placeholder={"Enter your email address:"} />
+                            value={phoneNum} placeholder={"Enter your phone number:"} />
                     </View>
                 </View>
 
@@ -232,7 +414,7 @@ const ProfileScreen = ({ setSignIn }) => {
                     </View>
 
                     <TouchableOpacity onPress={openAddressPopup}>
-                        <Text style={styles.formInputE}>Enter Physical Address</Text>
+                        <Text style={styles.formInputE}>{addressDetails}</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -242,7 +424,7 @@ const ProfileScreen = ({ setSignIn }) => {
                     </View>
 
                     <TouchableOpacity onPress={openCardPopup}>
-                        <Text style={styles.formInputE}>Enter Card Details</Text>
+                        <Text style={styles.formInputE}>{cardDetails}</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -260,6 +442,7 @@ const ProfileScreen = ({ setSignIn }) => {
 
                 <View style={styles.btnCon}>
                     <TouchableOpacity style={styles.siBtn} onPress={onSave}>
+                        {/* <TouchableOpacity style={styles.siBtn} onPress={onSave} disabled={btnDisable}> */}
                         {/* <TouchableOpacity style={styles.siBtn}  onPress={() => navigation.navigate("Journals")}> */}
                         <Text style={styles.siBtnTxt}>Save</Text>
                     </TouchableOpacity>
@@ -277,6 +460,14 @@ const ProfileScreen = ({ setSignIn }) => {
                 : null}
 
             {popUpCardStatus ?
+                <View style={styles.popUp}>
+                    <View style={styles.popUpBox}>
+                        <CardDetailsComp setpopUpCardStatus={setpopUpCardStatus} />
+                    </View>
+                </View>
+                : null}
+
+            {loadingStatus ?
                 <View style={styles.popUp}>
                     <View style={styles.popUpBox}>
                         <CardDetailsComp setpopUpCardStatus={setpopUpCardStatus} />
