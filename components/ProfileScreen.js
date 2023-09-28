@@ -48,7 +48,7 @@ const ProfileScreen = ({ setSignIn }) => {
     const [popUpStatus, setpopUpStatus] = useState(false)
     const [popUpCardStatus, setpopUpCardStatus] = useState(false);
 
-    const [loadingStatus, setloadingStatusStatus] = useState(true);
+    const [loadingStatus, setloadingStatusStatus] = useState(false);
 
     const [cardStatus, setCardStatus] = useState(false)
     const [addrStatus, setAddrStatus] = useState(false)
@@ -72,7 +72,7 @@ const ProfileScreen = ({ setSignIn }) => {
     }, [getUser]);
 
     async function getUser() {
-        const jsonValue = await AsyncStorage.getItem('user');
+        const jsonValue = await AsyncStorage.getItem('myUser');
         // const jsonValue = await AsyncStorage.removeItem('user');
 
         // const user = JSON.parse(jsonValue);
@@ -89,7 +89,7 @@ const ProfileScreen = ({ setSignIn }) => {
                 const addressDtls = `${address.streetAddr} ${address.city}, ${address.zipCode}`;
                 setAddressDetails(addressDtls);
             } else {
-                console.log("No address");
+                // console.log("No address");
                 setAddrStatus(false);
             }
 
@@ -110,7 +110,7 @@ const ProfileScreen = ({ setSignIn }) => {
                 city: address.city,
                 zipCode: address.zipCode
             };
-            console.log(addDets);
+            // console.log(addDets);
             myAddress = address;
         } else {
             setWarningStatus(true)
@@ -127,7 +127,7 @@ const ProfileScreen = ({ setSignIn }) => {
                 setCardStatus(true);
                 setCardDetails("Card Details Added.");
             } else {
-                console.log("No card details");
+                // console.log("No card details");
                 setCardStatus(false);
                 setCardDetails("Enter Card Details:");
             }
@@ -174,7 +174,7 @@ const ProfileScreen = ({ setSignIn }) => {
             console.log("All is well");
             setWarningStatus(false)
             setWarningMsg("")
-            setloadingStatusStatus(true);
+
             //Get address 
             const myAddress = await getAddressonSave();
             // console.log("address", myAddress);
@@ -183,82 +183,110 @@ const ProfileScreen = ({ setSignIn }) => {
             const myCardDetails = await getCardDetailsOnSav();
             // console.log("Card", myCardDetails);
 
+            if (myAddress !== null && myCardDetails !== null) {
 
-            //Store
-            console.log(userImage);
+                setloadingStatusStatus(true);
+                //Store
+                console.log(userImage);
 
-            const blob = await new Promise((resolve, reject) => {
-                const xhr = new XMLHttpRequest();
-                xhr.onload = () => {
-                    try {
-                        resolve(xhr.response);
-                    } catch (error) {
-                        console.log("Line 205 error:", error);
-                    }
-                };
-                xhr.onerror = (e) => {
-                    console.log(e);
-                    reject(new TypeError("Network request failed"));
-                };
-                xhr.responseType = "blob";
-                xhr.open("GET", userImage, true);
-                xhr.send(null);
-            });
-            if (blob != null) {
-                const uriParts = userImage.split(".");
-                const fileType = uriParts[uriParts.length - 1];
-
-                const userImgToStore = `${emailAddress}${new Date().getTime()}.${fileType}`;
-                const path = `oddUsers/${userImgToStore}`;
-
-                const storageRef = ref(storage, path);
-                uploadBytes(storageRef, blob).then(() => {
-                    // Get download URL
-                    getDownloadURL(storageRef)
-                        .then(async (url) => {
-                            // Save data to Firestore   
-                            const myUserToStore = {
-                                firstname: firstname,
-                                lastname: lastname,
-                                emailAddress: emailAddress,
-                                phoneNum: phoneNum,
-                                imageName: userImgToStore,
-                                imageUrl: url,
-
-                                streetAddr: myAddress.streetAddr,
-                                city: myAddress.city,
-                                zipCode: myAddress.zipCode,
-
-
-                                cardName: myCardDetails.cardName,
-                                cardNum: myCardDetails.cardNum,
-                                zipCode: myCardDetails.zipCode,
-                                cardDate: myCardDetails.cardDate,
-
-                                userId: userId
-
-                            }
-
-                            // console.log("User detail", myUserToStore);
-
-                            await storeUserDoc(myUserToStore);
-                            console.log("saved");
-                        })
-                        .catch((error) => {
-                            console.error(error);
-                        }).then(async () => {
-                            // setRecordings([]);
-                            // setIsLoading(false);
-                            // navigation.navigate("Journals")
-                            console.log("very saved");
-                            setloadingStatusStatus(false);
-                        })
+                const blob = await new Promise((resolve, reject) => {
+                    const xhr = new XMLHttpRequest();
+                    xhr.onload = () => {
+                        try {
+                            resolve(xhr.response);
+                        } catch (error) {
+                            console.log("Line 205 error:", error);
+                        }
+                    };
+                    xhr.onerror = (e) => {
+                        console.log(e);
+                        reject(new TypeError("Network request failed"));
+                    };
+                    xhr.responseType = "blob";
+                    xhr.open("GET", userImage, true);
+                    xhr.send(null);
                 });
-            } else {
-                console.log("error with blob");
-            }
-            //End
+                if (blob != null) {
+                    const uriParts = userImage.split(".");
+                    const fileType = uriParts[uriParts.length - 1];
 
+                    const userImgToStore = `${emailAddress}${new Date().getTime()}.${fileType}`;
+                    const path = `oddUsers/${userImgToStore}`;
+
+                    const storageRef = ref(storage, path);
+                    uploadBytes(storageRef, blob).then(() => {
+                        // Get download URL
+                        getDownloadURL(storageRef)
+                            .then(async (url) => {
+                                // Save data to Firestore   
+                                const myUserToStore = {
+                                    firstname: firstname,
+                                    lastname: lastname,
+                                    emailAddress: emailAddress,
+                                    phoneNum: phoneNum,
+                                    imageName: userImgToStore,
+                                    imageUrl: url,
+
+                                    streetAddr: myAddress.streetAddr,
+                                    city: myAddress.city,
+                                    zipCode: myAddress.zipCode,
+
+
+                                    cardName: myCardDetails.cardName,
+                                    cardNum: myCardDetails.cardNum,
+                                    zipCode: myCardDetails.zipCode,
+                                    cardDate: myCardDetails.cardDate,
+
+                                    userId: userId
+
+                                }
+
+                                // console.log("User detail", myUserToStore);
+
+                                await storeUserDoc(myUserToStore);
+                                console.log("saved");
+                            })
+                            .catch((error) => {
+                                console.error(error);
+                            }).then(async () => {
+                                // setRecordings([]);
+                                // setIsLoading(false);
+                                // navigation.navigate("Journals")
+                                console.log("very saved");
+                                setloadingStatusStatus(false);
+                                await AsyncStorage.removeItem('physicalAddress').then(async () => {
+                                    console.log("Address removed");
+                                    await AsyncStorage.removeItem('cardDetails').then(() => {
+                                        console.log("Card Details removed");
+
+                                    }).then(async () => {
+                                        const userRes = JSON.stringify(await getUser());
+                                        await AsyncStorage.setItem('user', userRes).then(async () => {
+                                            console.log("Success");
+                                            await AsyncStorage.removeItem('myUser').then(() => {
+                                                console.log("myUser removed");
+                                                // navigation.navigate("Home")
+                                                setSignIn(true)
+                                            })
+
+                                        })
+                                    })
+                                }).catch((error) => {
+                                    console.log("Error", error);
+                                })
+
+
+
+                            })
+                    });
+                } else {
+                    console.log("error with blob");
+                }
+                //End
+            } else {
+                setWarningStatus(true)
+                setWarningMsg("Card details or physical address is missing!")
+            }
 
 
         } else {
@@ -468,10 +496,8 @@ const ProfileScreen = ({ setSignIn }) => {
                 : null}
 
             {loadingStatus ?
-                <View style={styles.popUp}>
-                    <View style={styles.popUpBox}>
-                        <CardDetailsComp setpopUpCardStatus={setpopUpCardStatus} />
-                    </View>
+                <View style={styles.loadingScreen}>
+                    <Text style={{ fontSize: 18, color: "#7C9070", fontWeight: "bold" }}>Loading...</Text>
                 </View>
                 : null}
         </View >
@@ -668,5 +694,19 @@ const styles = StyleSheet.create({
         width: "90%",
         height: "auto",
         marginHorizontal: "5%",
+    },
+
+    loadingScreen: {
+        backgroundColor: "#FFFEF5",
+        // opacity: 0.5,
+        position: "absolute",
+        height: "100%",
+        width: "100%",
+        zIndex: 99,
+        top: 0,
+        left: 0,
+        alignItems: "center",
+        justifyContent: "center"
+
     },
 })

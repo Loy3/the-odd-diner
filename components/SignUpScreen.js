@@ -50,10 +50,11 @@ const SignUpScreen = ({ setSignIn }) => {
     } else {
       console.log("all is well");
       const jsonValue = JSON.stringify(res);
-      await AsyncStorage.setItem('user', jsonValue).then(() => {
+      await AsyncStorage.setItem('myUser', jsonValue).then(() => {
         console.log("Success");
-        setSignIn(true)
+        // setSignIn(true)
         seterrorMSG("");
+        navigation.navigate("Profile")
       })
     }
 
