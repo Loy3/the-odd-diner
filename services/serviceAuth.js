@@ -1,4 +1,4 @@
-
+const api_key = "AIzaSyB8nsrDiFiPADG9_eyRY3b2QOGECobl0w8";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const authUrl = `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${api_key}`
