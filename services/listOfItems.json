@@ -1,0 +1,412 @@
+{
+    "documents": [
+        {
+            "name": "projects/the-hidden-inn/databases/(default)/documents/oddItems/7WiNVtwajwEdYDGz1Fnv",
+            "fields": {
+                "itemDescription": {
+                    "stringValue": "Indulge your taste buds with our succulent, mouth-watering beef cuts, expertly sourced and prepared to perfection. From tender steaks to juicy burgers, savor the rich flavors and premium quality of our prime beef. Experience meat that's not just nice, but truly exceptional."
+                },
+                "itemImageUrl": {
+                    "stringValue": "https://firebasestorage.googleapis.com/v0/b/the-hidden-inn.appspot.com/o/oddItems%2F38.jpg?alt=media&token=ed85c34f-2733-4b40-b75a-7c6b21544d6d&_gl=1*12b6eyg*_ga*ODg2OTc1OTQ1LjE2OTE3NTQ0NDk.*_ga_CW55HF8NVT*MTY5NTg5NTQwNi4xMC4xLjE2OTU4OTc4MjAuNDcuMC4w"
+                },
+                "itemPrice": {
+                    "stringValue": "200"
+                },
+                "itemSub": {
+                    "stringValue": "Shredded beef."
+                },
+                "itemName": {
+                    "stringValue": "Piece of Beef"
+                },
+                "itemImageName": {
+                    "stringValue": "38.jpg"
+                },
+                "itemStatus": {
+                    "stringValue": "not"
+                },
+                "itemPrepTime": {
+                    "stringValue": "10 - 15 min"
+                },
+                "itemCategory": {
+                    "stringValue": "dinner"
+                }
+            },
+            "createTime": "2023-09-28T12:53:19.819843Z",
+            "updateTime": "2023-09-28T12:53:19.819843Z"
+        },
+        {
+            "name": "projects/the-hidden-inn/databases/(default)/documents/oddItems/FrvEExUp7mzbB8V0my1f",
+            "fields": {
+                "itemImageName": {
+                    "stringValue": "19.jpg"
+                },
+                "itemImageUrl": {
+                    "stringValue": "https://firebasestorage.googleapis.com/v0/b/the-hidden-inn.appspot.com/o/oddItems%2F19.jpg?alt=media&token=cbcd3468-38fc-44a6-b7c3-f8a0809b34e0&_gl=1*1lw7o8l*_ga*ODg2OTc1OTQ1LjE2OTE3NTQ0NDk.*_ga_CW55HF8NVT*MTY5NTg5NTQwNi4xMC4xLjE2OTU4OTc3NzUuMzIuMC4w."
+                },
+                "itemPrepTime": {
+                    "stringValue": "15 - 20 min"
+                },
+                "itemName": {
+                    "stringValue": "Two In Two Pizza"
+                },
+                "itemDescription": {
+                    "stringValue": "Indulge in the irresistible allure of our handcrafted pizzas, where every bite is a symphony of flavors. From the perfectly crisp crust to the melty cheese and fresh toppings, each slice is a work of art. Experience pizza perfection like never before and let your taste buds embark on a journey of pure delight."
+                },
+                "itemSub": {
+                    "stringValue": "Two topings pizza"
+                },
+                "itemStatus": {
+                    "stringValue": "not"
+                },
+                "itemCategory": {
+                    "stringValue": "lunch"
+                },
+                "itemPrice": {
+                    "stringValue": "200"
+                }
+            },
+            "createTime": "2023-09-28T12:38:03.519875Z",
+            "updateTime": "2023-09-28T12:38:03.519875Z"
+        },
+        {
+            "name": "projects/the-hidden-inn/databases/(default)/documents/oddItems/HRREFlyhcDc9UDxrjNGO",
+            "fields": {
+                "itemStatus": {
+                    "stringValue": "not"
+                },
+                "itemPrepTime": {
+                    "stringValue": "none"
+                },
+                "itemCategory": {
+                    "stringValue": "beverages"
+                },
+                "itemName": {
+                    "stringValue": "Milkie"
+                },
+                "itemSub": {
+                    "stringValue": "Full cream milk in a bottle."
+                },
+                "itemImageUrl": {
+                    "stringValue": "https://firebasestorage.googleapis.com/v0/b/the-hidden-inn.appspot.com/o/oddItems%2F33.jpg?alt=media&token=27c73aa3-a849-4c9e-aaf9-8c6c7c67d871&_gl=1*vqb10b*_ga*ODg2OTc1OTQ1LjE2OTE3NTQ0NDk.*_ga_CW55HF8NVT*MTY5NTg5NTQwNi4xMC4xLjE2OTU4OTc4MTYuNTEuMC4w"
+                },
+                "itemImageName": {
+                    "stringValue": "33.jpg"
+                },
+                "itemDescription": {
+                    "stringValue": "Indulge in the crisp, effervescent delight of Coca-Cola, a timeless beverage that brings joy with every sip. From its iconic red label to its refreshing taste, this beloved fizzy drink has been bringing people together for generations. Raise a glass and experience the simple pleasure of Coca-Cola."
+                },
+                "itemPrice": {
+                    "stringValue": "30"
+                }
+            },
+            "createTime": "2023-09-28T12:33:07.366310Z",
+            "updateTime": "2023-09-28T12:33:07.366310Z"
+        },
+        {
+            "name": "projects/the-hidden-inn/databases/(default)/documents/oddItems/PlyD7MUZRLumib6xYK5n",
+            "fields": {
+                "itemPrice": {
+                    "stringValue": "250"
+                },
+                "itemImageUrl": {
+                    "stringValue": "https://firebasestorage.googleapis.com/v0/b/the-hidden-inn.appspot.com/o/oddItems%2F29.jpg?alt=media&token=0691bd14-c7ea-413a-ab12-c00459f0a2cb&_gl=1*1hgy2ns*_ga*ODg2OTc1OTQ1LjE2OTE3NTQ0NDk.*_ga_CW55HF8NVT*MTY5NTg5NTQwNi4xMC4xLjE2OTU4OTc4MDcuNjAuMC4w"
+                },
+                "itemImageName": {
+                    "stringValue": "29.jpg"
+                },
+                "itemStatus": {
+                    "stringValue": "not"
+                },
+                "itemName": {
+                    "stringValue": "Chicken & Potatos"
+                },
+                "itemPrepTime": {
+                    "stringValue": "15 - 20 min"
+                },
+                "itemDescription": {
+                    "stringValue": "Indulge in the mouthwatering delight of our signature full chicken, cooked to perfection with a tantalizing blend of spices. Each juicy bite is a culinary journey that will leave you craving for more. Experience the ultimate satisfaction of a flavorful and succulent full chicken that will elevate your dining experience to new heights."
+                },
+                "itemSub": {
+                    "stringValue": "Full chicken with potatos."
+                },
+                "itemCategory": {
+                    "stringValue": "dinner"
+                }
+            },
+            "createTime": "2023-09-28T12:50:55.799Z",
+            "updateTime": "2023-09-28T12:50:55.799Z"
+        },
+        {
+            "name": "projects/the-hidden-inn/databases/(default)/documents/oddItems/Rb8SnOJV59cAjIrzyi4Q",
+            "fields": {
+                "itemCategory": {
+                    "stringValue": "beverages"
+                },
+                "itemStatus": {
+                    "stringValue": "popular"
+                },
+                "itemName": {
+                    "stringValue": "Heineken' Beer"
+                },
+                "itemImageUrl": {
+                    "stringValue": "https://firebasestorage.googleapis.com/v0/b/the-hidden-inn.appspot.com/o/oddItems%2F20.jpg?alt=media&token=5270f0ed-9815-4026-a8f9-aff65e8f107d&_gl=1*ueu9dr*_ga*ODg2OTc1OTQ1LjE2OTE3NTQ0NDk.*_ga_CW55HF8NVT*MTY5NTg5NTQwNi4xMC4xLjE2OTU4OTc3OTYuMTEuMC4w"
+                },
+                "itemPrepTime": {
+                    "stringValue": "none"
+                },
+                "itemSub": {
+                    "stringValue": "Six pack of Heineken'."
+                },
+                "itemImageName": {
+                    "stringValue": "20.jpg"
+                },
+                "itemDescription": {
+                    "stringValue": "Heineken beer is brewed using natural ingredients and has a characteristic fruity flavor with a soft malty body. It is known for its refreshing and smooth taste, making it enjoyable for any occasion. Heineken's iconic green bottle with a red star is instantly recognizable and symbolizes the brand's long-standing history and commitment to quality . Whether you're hosting a gathering with friends or simply want to relax and unwind, Heineken Lager Beer is a timeless choice that delivers a satisfying beer-drinking experience."
+                },
+                "itemPrice": {
+                    "stringValue": "120"
+                }
+            },
+            "createTime": "2023-09-28T12:22:33.573017Z",
+            "updateTime": "2023-09-28T12:22:33.573017Z"
+        },
+        {
+            "name": "projects/the-hidden-inn/databases/(default)/documents/oddItems/X6kZGCaERyROPpmmaNf5",
+            "fields": {
+                "itemSub": {
+                    "stringValue": "Flapjacks and caramel."
+                },
+                "itemImageName": {
+                    "stringValue": "6.jpg"
+                },
+                "itemImageUrl": {
+                    "stringValue": "https://firebasestorage.googleapis.com/v0/b/the-hidden-inn.appspot.com/o/oddItems%2F6.jpg?alt=media&token=a6162b92-2a1a-424b-a7f8-45054107d5c9&_gl=1*12t4anc*_ga*ODg2OTc1OTQ1LjE2OTE3NTQ0NDk.*_ga_CW55HF8NVT*MTY5NTg5NTQwNi4xMC4xLjE2OTU4OTc4MjcuNDAuMC4w"
+                },
+                "itemPrice": {
+                    "stringValue": "150"
+                },
+                "itemPrepTime": {
+                    "stringValue": "15 - 20 min"
+                },
+                "itemName": {
+                    "stringValue": "Flappy Jack"
+                },
+                "itemStatus": {
+                    "stringValue": "not"
+                },
+                "itemCategory": {
+                    "stringValue": "breakfast"
+                },
+                "itemDescription": {
+                    "stringValue": "Indulge in the delightful world of flapjacks, where each bite is a burst of pure bliss. Our homemade creations are crafted with love and care, ensuring a perfect balance of sweetness and texture. Treat yourself to a heavenly experience and savor the simple pleasure of our delicious flapjacks."
+                }
+            },
+            "createTime": "2023-09-28T12:47:59.098684Z",
+            "updateTime": "2023-09-28T12:47:59.098684Z"
+        },
+        {
+            "name": "projects/the-hidden-inn/databases/(default)/documents/oddItems/iTCYURooEKTzqyQwn1yg",
+            "fields": {
+                "itemDescription": {
+                    "stringValue": "Indulge in the crispy, flavorful delight of our signature chicken wings. Served hot and fresh, each bite is a tantalizing explosion of savory goodness. Whether you prefer tangy barbecue or spicy buffalo, our chicken wings are sure to satisfy your cravings. Dive into a plateful of deliciousness and experience chicken wing perfection at its finest."
+                },
+                "itemImageUrl": {
+                    "stringValue": "https://firebasestorage.googleapis.com/v0/b/the-hidden-inn.appspot.com/o/oddItems%2F25.jpg?alt=media&token=b8b5b88e-e9d5-4a8c-ae8e-c119cfc0da8e&_gl=1*edvl4t*_ga*ODg2OTc1OTQ1LjE2OTE3NTQ0NDk.*_ga_CW55HF8NVT*MTY5NTg5NTQwNi4xMC4xLjE2OTU4OTc4MDAuNy4wLjA."
+                },
+                "itemName": {
+                    "stringValue": "Chickenie Wings"
+                },
+                "itemStatus": {
+                    "stringValue": "not"
+                },
+                "itemSub": {
+                    "stringValue": "Fried chicken wings."
+                },
+                "itemPrice": {
+                    "stringValue": "130"
+                },
+                "itemImageName": {
+                    "stringValue": "25.jpg"
+                },
+                "itemPrepTime": {
+                    "stringValue": "15 - 20 min"
+                },
+                "itemCategory": {
+                    "stringValue": "lunch"
+                }
+            },
+            "createTime": "2023-09-28T12:35:29.736309Z",
+            "updateTime": "2023-09-28T12:35:29.736309Z"
+        },
+        {
+            "name": "projects/the-hidden-inn/databases/(default)/documents/oddItems/l1gycfAUgG8fqwgPUI2u",
+            "fields": {
+                "itemPrice": {
+                    "stringValue": "300"
+                },
+                "itemStatus": {
+                    "stringValue": "popular"
+                },
+                "itemDescription": {
+                    "stringValue": "Indulge in the divine symphony of flavors with our heavenly mixed berry pie. Each bite bursts with the sweetness of strawberries, the tartness of raspberries, and the juiciness of blueberries. With a flaky golden crust, this pie is the perfect harmony of taste and texture."
+                },
+                "itemCategory": {
+                    "stringValue": "breakfast"
+                },
+                "itemSub": {
+                    "stringValue": "Mixed berry pie."
+                },
+                "itemName": {
+                    "stringValue": "Berry White Pie"
+                },
+                "itemImageName": {
+                    "stringValue": "3.jpg"
+                },
+                "itemImageUrl": {
+                    "stringValue": "https://firebasestorage.googleapis.com/v0/b/the-hidden-inn.appspot.com/o/oddItems%2F3.jpg?alt=media&token=c1f215a7-a1fc-4751-b2c9-4213b8df88de&_gl=1*164f2zw*_ga*ODg2OTc1OTQ1LjE2OTE3NTQ0NDk.*_ga_CW55HF8NVT*MTY5NTg5NTQwNi4xMC4xLjE2OTU4OTc4MTAuNTcuMC4w"
+                },
+                "itemPrepTime": {
+                    "stringValue": "10 - 15 min"
+                }
+            },
+            "createTime": "2023-09-28T12:44:01.113946Z",
+            "updateTime": "2023-09-28T12:44:01.113946Z"
+        },
+        {
+            "name": "projects/the-hidden-inn/databases/(default)/documents/oddItems/mZ2iKVt5bvFwJd8cWY2X",
+            "fields": {
+                "itemName": {
+                    "stringValue": "Cheesy Burger"
+                },
+                "itemImageName": {
+                    "stringValue": "1.jpg"
+                },
+                "itemStatus": {
+                    "stringValue": "popular"
+                },
+                "itemPrice": {
+                    "stringValue": "80"
+                },
+                "itemPrepTime": {
+                    "stringValue": "05 - 10 min"
+                },
+                "itemImageUrl": {
+                    "stringValue": "https://firebasestorage.googleapis.com/v0/b/the-hidden-inn.appspot.com/o/oddItems%2F1.jpg?alt=media&token=064929c2-7488-4242-9e5b-96b0619a9edc&_gl=1*11zw0s9*_ga*ODg2OTc1OTQ1LjE2OTE3NTQ0NDk.*_ga_CW55HF8NVT*MTY5NTg5NTQwNi4xMC4xLjE2OTU4OTc3ODguMTkuMC4w"
+                },
+                "itemSub": {
+                    "stringValue": "Cheese, beef, and bacon burger."
+                },
+                "itemDescription": {
+                    "stringValue": "A juicy, flame-grilled beef patty, cooked to perfection and nestled between two perfectly toasted buns. The first bite reveals an explosion of savory goodness, as the succulent patty releases its delectable juices, mingling with the tantalizing flavors of our secret seasoning."
+                },
+                "itemCategory": {
+                    "stringValue": "lunch"
+                }
+            },
+            "createTime": "2023-09-28T12:15:19.253175Z",
+            "updateTime": "2023-09-28T12:15:19.253175Z"
+        },
+        {
+            "name": "projects/the-hidden-inn/databases/(default)/documents/oddItems/qZKlOGuK97twWHfW7YEV",
+            "fields": {
+                "itemSub": {
+                    "stringValue": "English breakfast."
+                },
+                "itemName": {
+                    "stringValue": "Simplie a Dish"
+                },
+                "itemCategory": {
+                    "stringValue": "breakfast"
+                },
+                "itemPrepTime": {
+                    "stringValue": "10 - 12 min"
+                },
+                "itemPrice": {
+                    "stringValue": "100"
+                },
+                "itemStatus": {
+                    "stringValue": "not"
+                },
+                "itemDescription": {
+                    "stringValue": "Indulge in the delightful flavors of a traditional English breakfast, where crispy bacon, succulent sausages, and perfectly fried eggs take center stage. Pair it with buttery toast, grilled tomatoes, and a steaming cup of tea for a truly comforting start to your day. Experience the rich heritage and warmth of this iconic culinary tradition, brought to life in every bite."
+                },
+                "itemImageUrl": {
+                    "stringValue": "https://firebasestorage.googleapis.com/v0/b/the-hidden-inn.appspot.com/o/oddItems%2F28.jpg?alt=media&token=3a0226b8-92c8-4384-a73a-dfc6d5716e65&_gl=1*aj8yen*_ga*ODg2OTc1OTQ1LjE2OTE3NTQ0NDk.*_ga_CW55HF8NVT*MTY5NTg5NTQwNi4xMC4xLjE2OTU4OTc4MDMuNC4wLjA."
+                },
+                "itemImageName": {
+                    "stringValue": "28.jpg"
+                }
+            },
+            "createTime": "2023-09-28T12:41:02.679848Z",
+            "updateTime": "2023-09-28T12:41:02.679848Z"
+        },
+        {
+            "name": "projects/the-hidden-inn/databases/(default)/documents/oddItems/qmHul3oUJwYYyTA5L9Vc",
+            "fields": {
+                "itemSub": {
+                    "stringValue": "Mix of sea food."
+                },
+                "itemImageUrl": {
+                    "stringValue": "https://firebasestorage.googleapis.com/v0/b/the-hidden-inn.appspot.com/o/oddItems%2F41.jpg?alt=media&token=0d0ba880-8121-4f27-9f57-e7637d424a97&_gl=1*13zebo6*_ga*ODg2OTc1OTQ1LjE2OTE3NTQ0NDk.*_ga_CW55HF8NVT*MTY5NTg5NTQwNi4xMC4xLjE2OTU4OTc4MjQuNDMuMC4w"
+                },
+                "itemDescription": {
+                    "stringValue": "Indulge in the ocean's bounty with our exquisite selection of seafood. From succulent shrimp to mouthwatering lobster, each dish is crafted with care to bring you a taste of the sea's finest treasures. Dive into a culinary adventure and savor the flavors that will transport your taste buds to coastal bliss."
+                },
+                "itemPrice": {
+                    "stringValue": "320"
+                },
+                "itemCategory": {
+                    "stringValue": "dinner"
+                },
+                "itemImageName": {
+                    "stringValue": "41.jpg"
+                },
+                "itemStatus": {
+                    "stringValue": "popular"
+                },
+                "itemName": {
+                    "stringValue": "Under the Sea"
+                },
+                "itemPrepTime": {
+                    "stringValue": "20 - 25 min"
+                }
+            },
+            "createTime": "2023-09-28T12:55:23.968698Z",
+            "updateTime": "2023-09-28T12:55:23.968698Z"
+        },
+        {
+            "name": "projects/the-hidden-inn/databases/(default)/documents/oddItems/zHpmMq74xYsGaxhHAPTc",
+            "fields": {
+                "itemPrepTime": {
+                    "stringValue": "none"
+                },
+                "itemPrice": {
+                    "stringValue": "30"
+                },
+                "itemName": {
+                    "stringValue": "Colie my Coca"
+                },
+                "itemImageUrl": {
+                    "stringValue": "https://firebasestorage.googleapis.com/v0/b/the-hidden-inn.appspot.com/o/oddItems%2F32.jpg?alt=media&token=59c27eb9-8ca4-4f57-8158-66c9eca5cd99&_gl=1*1ihh29w*_ga*ODg2OTc1OTQ1LjE2OTE3NTQ0NDk.*_ga_CW55HF8NVT*MTY5NTg5NTQwNi4xMC4xLjE2OTU4OTc4MTMuNTQuMC4w"
+                },
+                "itemSub": {
+                    "stringValue": "Two Can of Coca Cola."
+                },
+                "itemImageName": {
+                    "stringValue": "32.jpg"
+                },
+                "itemStatus": {
+                    "stringValue": "not"
+                },
+                "itemDescription": {
+                    "stringValue": "Indulge in the crisp, effervescent delight of Coca-Cola, a timeless beverage that brings joy with every sip. From its iconic red label to its refreshing taste, this beloved fizzy drink has been bringing people together for generations. Raise a glass and experience the simple pleasure of Coca-Cola."
+                },
+                "itemCategory": {
+                    "stringValue": "beverages"
+                }
+            },
+            "createTime": "2023-09-28T12:28:16.607813Z",
+            "updateTime": "2023-09-28T12:28:16.607813Z"
+        }
+    ]
+}

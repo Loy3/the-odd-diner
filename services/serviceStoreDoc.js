@@ -1,4 +1,5 @@
 const project = "the-hidden-inn";
+import items  from "./listOfItems";
 
 //Save Document
 export const storeUserDoc = async (data) => {
@@ -54,4 +55,52 @@ export const storeUserDoc = async (data) => {
     } catch (error) {
         console.log(error);
     }
+}
+
+
+//Get Recordings
+/*export const getItems = async () => {
+    const url = `https://firestore.googleapis.com/v1/projects/${project}/databases/(default)/documents/oddItems`;
+    try {
+        const response = await fetch(url, {
+            method: "GET",
+        });
+        const data = await response.json();
+        // console.log("Done: ", data.documents[0].name);
+        let items = [];
+
+        data.documents.forEach(dat => {
+            // console.log("Done: ", dat.fields.email.stringValue);
+
+            const array = dat.name.split("/");
+            items.push({ id: array[array.length - 1], ...dat.fields })
+            // console.log("Id: ", array[array.length - 1]);
+
+
+        });
+        console.log("Journals", items);
+        return items;
+    } catch (error) {
+        console.log(error);
+    }
+}
+*/
+
+export const getItems = async () => {
+    // console.log("items", items.documents[0].fields);
+    
+    let myItems = [];
+    const data = items;
+    // console.log("data",data);
+    data.documents.forEach(dat => {
+        // console.log("Done: ", dat.fields.email.stringValue);
+
+        const array = dat.name.split("/");
+        myItems.push({ id: array[array.length - 1], ...dat.fields })
+        // console.log("Id: ", array[array.length - 1]);
+
+
+    });
+    // console.log("Journals", myItems);
+    return myItems;
 }
