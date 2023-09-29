@@ -18,6 +18,7 @@ import prepTimeIcon from "../assets/Icons/stopwatch2.png";
 import priceIcon from "../assets/Icons/money.png";
 import starIcon from "../assets/Icons/star.png";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import SideNavComp from './SideNavComp';
 
 const HomeScreen = () => {
   const [loadingStatus, setloadingStatusStatus] = useState(false);
@@ -36,7 +37,8 @@ const HomeScreen = () => {
   const [signedInUser, setSignedInUser] = useState({
     firstname: null,
     lastname: null,
-    imageUrl: null
+    imageUrl: null,
+    emailAddress: null
   });
 
   // popularDets = {
@@ -86,12 +88,12 @@ const HomeScreen = () => {
         setStorePopularItems(popular)
         // console.log("get pop", popular);
         setPopularItems({
-          id: popular[1].id,
-          itemImageUrl: popular[1].itemImageUrl,
-          itemName: popular[1].itemName,
-          itemSub: popular[1].itemSub,
-          itemPrepTime: popular[1].itemPrepTime,
-          itemPrice: popular[1].itemPrice,
+          id: popular[0].id,
+          itemImageUrl: popular[0].itemImageUrl,
+          itemName: popular[0].itemName,
+          itemSub: popular[0].itemSub,
+          itemPrepTime: popular[0].itemPrepTime,
+          itemPrice: popular[0].itemPrice,
         });
         setloadingStatusStatus(false)
       })
@@ -102,13 +104,14 @@ const HomeScreen = () => {
   async function getUser() {
     const jsonValue = await AsyncStorage.getItem('user');
     const res = jsonValue != null ? JSON.parse(jsonValue) : null;
-    // console.log("Ress", res);
+    // console.log("Ress", user[0]);
     const user = await getUsers(res.localId)
-    // console.log("signed in user", user[0].lastname.stringValue);
+    console.log("signed in user", user[0].lastname.stringValue);
     setSignedInUser({
       firstname: user[0].firstname.stringValue,
       lastname: user[0].lastname.stringValue,
-      imageUrl: user[0].imageUrl.stringValue
+      imageUrl: user[0].imageUrl.stringValue,
+      emailAddress: res.email
     });
     // return null;
   }
@@ -197,39 +200,39 @@ const HomeScreen = () => {
 
 
 
-  function filterItems(type){
+  function filterItems(type) {
     let itemsStore = [];
-    switch(type){
-      case"breakfast":
-      storeItems.forEach(item => {
-        if (item.itemCategory.stringValue === "breakfast") {
-          itemsStore.push(item);
-        }
-      });
-      break;
-      case"bev":
-      storeItems.forEach(item => {
-        if (item.itemCategory.stringValue === "beverages") {
-          itemsStore.push(item);
-        }
-      });
-      break;
-      case"lunch":
-      storeItems.forEach(item => {
-        if (item.itemCategory.stringValue === "lunch") {
-          itemsStore.push(item);
-        }
-      });
-      break;
-      case"dinner":
-      storeItems.forEach(item => {
-        if (item.itemCategory.stringValue === "dinner") {
-          itemsStore.push(item);
-        }
-      });
-      break;
-      default: 
-      console.log("None");
+    switch (type) {
+      case "breakfast":
+        storeItems.forEach(item => {
+          if (item.itemCategory.stringValue === "breakfast") {
+            itemsStore.push(item);
+          }
+        });
+        break;
+      case "bev":
+        storeItems.forEach(item => {
+          if (item.itemCategory.stringValue === "beverages") {
+            itemsStore.push(item);
+          }
+        });
+        break;
+      case "lunch":
+        storeItems.forEach(item => {
+          if (item.itemCategory.stringValue === "lunch") {
+            itemsStore.push(item);
+          }
+        });
+        break;
+      case "dinner":
+        storeItems.forEach(item => {
+          if (item.itemCategory.stringValue === "dinner") {
+            itemsStore.push(item);
+          }
+        });
+        break;
+      default:
+        itemsStore = storeItems;
     }
 
     setItems(itemsStore);
@@ -318,28 +321,35 @@ const HomeScreen = () => {
 
           <View style={styles.filterBtnCont}>
             <View>
-              <TouchableOpacity style={styles.filterBtn} onPress={()=>filterItems("breakfast")}>
+              <TouchableOpacity style={styles.filterBtn} onPress={() => filterItems("all")}>
+                <Image source={bfIcon} style={styles.filterBtnImg} />
+              </TouchableOpacity>
+              <Text style={styles.filterBtnTxt}>All</Text>
+            </View>
+
+            <View>
+              <TouchableOpacity style={styles.filterBtn} onPress={() => filterItems("breakfast")}>
                 <Image source={bfIcon} style={styles.filterBtnImg} />
               </TouchableOpacity>
               <Text style={styles.filterBtnTxt}>Breakfast</Text>
             </View>
 
             <View>
-              <TouchableOpacity style={styles.filterBtn} onPress={()=>filterItems("bev")}>
+              <TouchableOpacity style={styles.filterBtn} onPress={() => filterItems("bev")}>
                 <Image source={bevIcon} style={styles.filterBtnImg} />
               </TouchableOpacity>
               <Text style={styles.filterBtnTxt}>Beverages</Text>
             </View>
 
             <View>
-              <TouchableOpacity style={styles.filterBtn} onPress={()=>filterItems("lunch")}>
+              <TouchableOpacity style={styles.filterBtn} onPress={() => filterItems("lunch")}>
                 <Image source={lnIcon} style={styles.filterBtnImg} />
               </TouchableOpacity>
               <Text style={styles.filterBtnTxt}>Lunch</Text>
             </View>
 
             <View>
-              <TouchableOpacity style={styles.filterBtn} onPress={()=>filterItems("dinner")}>
+              <TouchableOpacity style={styles.filterBtn} onPress={() => filterItems("dinner")}>
                 <Image source={dinIcon} style={styles.filterBtnImg} />
               </TouchableOpacity>
               <Text style={styles.filterBtnTxt}>Dinner</Text>
@@ -353,23 +363,23 @@ const HomeScreen = () => {
             {items ?
               items.map((item, index) => (
                 <View style={styles.itemsCol} key={index}>
-                <View style={styles.itemsCard}>
-                  <Image source={item.itemImageUrl.stringValue ? {uri: item.itemImageUrl.stringValue} : subImg} style={styles.itemImg} />
-                  <View style={styles.cardPriceCont}>
-                    <Text style={styles.cardPrice}>{item.itemPrice.stringValue ? `R${item.itemPrice.stringValue}.00` : "R00.00"}</Text>
-                  </View>
-                  <Text style={styles.cardItem}>{item.itemName.stringValue ? `${item.itemName.stringValue}` : "Title"}</Text>
+                  <View style={styles.itemsCard}>
+                    <Image source={item.itemImageUrl.stringValue ? { uri: item.itemImageUrl.stringValue } : subImg} style={styles.itemImg} />
+                    <View style={styles.cardPriceCont}>
+                      <Text style={styles.cardPrice}>{item.itemPrice.stringValue ? `R${item.itemPrice.stringValue}.00` : "R00.00"}</Text>
+                    </View>
+                    <Text style={styles.cardItem}>{item.itemName.stringValue ? `${item.itemName.stringValue}` : "Title"}</Text>
 
-                  <View style={styles.cardPrepTimeCont}>
-                    <Image source={prepTimeIcon} style={styles.cardPrepTimeIc} />
-                    <Text style={styles.cardPrepTimeText}>10-15min</Text>
-                  </View>
+                    <View style={styles.cardPrepTimeCont}>
+                      <Image source={prepTimeIcon} style={styles.cardPrepTimeIc} />
+                      <Text style={styles.cardPrepTimeText}>10-15min</Text>
+                    </View>
 
-                  <TouchableOpacity style={styles.addToCart}>
-                  <Image source={addIcon} style={styles.prepTimeIc} />
-                  </TouchableOpacity>
+                    <TouchableOpacity style={styles.addToCart}>
+                      <Image source={addIcon} style={styles.prepTimeIc} />
+                    </TouchableOpacity>
+                  </View>
                 </View>
-              </View>
               ))
               :
               <View style={styles.itemsCol}>
@@ -386,7 +396,7 @@ const HomeScreen = () => {
                   </View>
 
                   <TouchableOpacity style={styles.addToCart}>
-                  <Image source={prepTimeIcon} style={styles.cardPrepTimeIc} />
+                    <Image source={prepTimeIcon} style={styles.cardPrepTimeIc} />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -396,6 +406,10 @@ const HomeScreen = () => {
         </>
 
       </ScrollView>
+
+
+      <SideNavComp />
+
     </View>
   )
 }
@@ -638,7 +652,7 @@ const styles = StyleSheet.create({
     // backgroundColor: "gray",
     alignItems: "center",
     justifyContent: "center",
-    marginHorizontal: 12,
+    marginHorizontal: 5,
     borderRadius: 100,
     shadowColor: "#7C9070", // IOS
     shadowOffset: { height: 3, width: 3 }, // IOS
@@ -727,16 +741,41 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "700",
   },
-  addToCart:{
-    position:"absolute",
+  addToCart: {
+    position: "absolute",
     bottom: 10,
-    right:10,
+    right: 10,
     width: 30,
     height: 30,
     backgroundColor: "#7C9070",
-    justifyContent:"center",
-    alignItems:"center"
+    justifyContent: "center",
+    alignItems: "center"
   },
+  // sideNavCont: {
+  //   backgroundColor: "rgba(0,0,0,0.5)",
+  //   // opacity: 0.5,
+  //   position: "absolute",
+  //   height: "100%",
+  //   width: "100%",
+  //   zIndex: 99,
+  //   top: 0,
+  //   left: 0,
+  //   alignItems: "center",
+  //   justifyContent: "center"
+  // },
+  // sideNavBox: {
+  //   backgroundColor: "#FFFEF5",
+  //   // opacity: 0.5,
+  //   position: "absolute",
+  //   height: "100%",
+  //   width: "85%",
+  //   zIndex: 99,
+  //   top: 0,
+  //   left: 0,
+  //   alignItems: "center",
+  //   justifyContent: "center"
+  // },
+
   loadingScreen: {
     backgroundColor: "#FFFEF5",
 
