@@ -1,0 +1,126 @@
+{
+    "documents": [
+        {
+            "name": "projects/the-hidden-inn/databases/(default)/documents/oddUsers/GTtEsSKkAm1iLzt8717F",
+            "fields": {
+                "imageUrl": {
+                    "stringValue": "https://firebasestorage.googleapis.com/v0/b/the-hidden-inn.appspot.com/o/oddUsers%2Froi%40yahoo.com1695892951092.jpeg?alt=media&token=232436bc-12e7-4bac-85b6-dd44594d8255"
+                },
+                "cardDetails": {
+                    "mapValue": {
+                        "fields": {
+                            "zipCode": {
+                                "stringValue": "0123"
+                            },
+                            "cardNum": {
+                                "stringValue": "0123456789098765"
+                            },
+                            "cardDate": {
+                                "stringValue": "02/25"
+                            },
+                            "cardName": {
+                                "stringValue": "Roi Lyn"
+                            }
+                        }
+                    }
+                },
+                "imageName": {
+                    "stringValue": "roi@yahoo.com1695892951092.jpeg"
+                },
+                "firstname": {
+                    "stringValue": "Roi"
+                },
+                "userId": {
+                    "stringValue": "VN4NAftkApVdOSKbY3kILjQBeaG2"
+                },
+                "emailAddress": {
+                    "stringValue": "roi@yahoo.com"
+                },
+                "address": {
+                    "mapValue": {
+                        "fields": {
+                            "city": {
+                                "stringValue": "Groovy"
+                            },
+                            "zipCode": {
+                                "stringValue": "0123"
+                            },
+                            "streetAddr": {
+                                "stringValue": "24th Ghost st."
+                            }
+                        }
+                    }
+                },
+                "lastname": {
+                    "stringValue": "Lyn"
+                },
+                "phoneNum": {
+                    "stringValue": "0897654321"
+                }
+            },
+            "createTime": "2023-09-28T09:22:40.906928Z",
+            "updateTime": "2023-09-28T09:22:40.906928Z"
+        },
+        {
+            "name": "projects/the-hidden-inn/databases/(default)/documents/oddUsers/VD99fnrY8FJ3IY7vBErd",
+            "fields": {
+                "userId": {
+                    "stringValue": "RItKmUrir2YPXDwrliwnQgxRMzj2"
+                },
+                "address": {
+                    "mapValue": {
+                        "fields": {
+                            "zipCode": {
+                                "stringValue": "0123"
+                            },
+                            "city": {
+                                "stringValue": "West Side"
+                            },
+                            "streetAddr": {
+                                "stringValue": "12 Jah St"
+                            }
+                        }
+                    }
+                },
+                "cardDetails": {
+                    "mapValue": {
+                        "fields": {
+                            "zipCode": {
+                                "stringValue": "0123"
+                            },
+                            "cardName": {
+                                "stringValue": "Gregg Gin"
+                            },
+                            "cardNum": {
+                                "stringValue": "098765432123456"
+                            },
+                            "cardDate": {
+                                "stringValue": "02/29"
+                            }
+                        }
+                    }
+                },
+                "emailAddress": {
+                    "stringValue": "gregg@gmail.com"
+                },
+                "lastname": {
+                    "stringValue": "Gin"
+                },
+                "imageName": {
+                    "stringValue": "gregg@gmail.com1695894256585.jpeg"
+                },
+                "phoneNum": {
+                    "stringValue": "0897654321"
+                },
+                "imageUrl": {
+                    "stringValue": "https://firebasestorage.googleapis.com/v0/b/the-hidden-inn.appspot.com/o/oddUsers%2Fgregg%40gmail.com1695894256585.jpeg?alt=media&token=a7e89b00-bdcc-492d-9678-8c5b261a5a2a"
+                },
+                "firstname": {
+                    "stringValue": "Gregg"
+                }
+            },
+            "createTime": "2023-09-28T09:44:24.068403Z",
+            "updateTime": "2023-09-28T09:44:24.068403Z"
+        }
+    ]
+}

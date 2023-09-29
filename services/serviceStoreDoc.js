@@ -1,5 +1,6 @@
 const project = "the-hidden-inn";
-import items  from "./listOfItems";
+import items from "./listOfItems";
+import users from "./listOfUsers";
 
 //Save Document
 export const storeUserDoc = async (data) => {
@@ -88,7 +89,7 @@ export const storeUserDoc = async (data) => {
 
 export const getItems = async () => {
     // console.log("items", items.documents[0].fields);
-    
+
     let myItems = [];
     const data = items;
     // console.log("data",data);
@@ -103,4 +104,50 @@ export const getItems = async () => {
     });
     // console.log("Journals", myItems);
     return myItems;
+}
+
+
+//Get Users
+// export const getUsers = async (id) => {
+//     const url = `https://firestore.googleapis.com/v1/projects/${project}/databases/(default)/documents/oddUsers`;
+//     try {
+//         const response = await fetch(url, {
+//             method: "GET",
+//         });
+//         const data = await response.json();
+//         // console.log("Done: ", data.documents[0].name);
+//         let user = [];
+
+//         data.documents.forEach(dat => {
+//             // console.log("Done: ", dat.fields.email.stringValue);
+//             if (id === dat.fields.userId.stringValue) {
+//                 const array = dat.name.split("/");
+//                 user.push({ id: array[array.length - 1], ...dat.fields })
+//                 // console.log("Id: ", array[array.length - 1]);
+//             }
+//         });
+//         // console.log("My user", user);
+//         return user;
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
+
+export const getUsers = async (id) => {
+    // console.log("items", items.documents[0].fields);
+
+    let myUsers = [];
+    const data = users;
+    // console.log("data",data);
+    let user = [];
+    data.documents.forEach(dat => {
+        // console.log("Done: ", dat.fields.email.stringValue);
+        if (id === dat.fields.userId.stringValue) {
+            const array = dat.name.split("/");
+            user.push({ id: array[array.length - 1], ...dat.fields })
+            // console.log("Id: ", array[array.length - 1]);
+        }
+    });
+    // console.log("My user", user);
+    return user;
 }
