@@ -10,6 +10,7 @@ import lnIcon from "../assets/Icons/lunch.png";
 import dinIcon from "../assets/Icons/dinner.png";
 
 import userIcon from "../assets/Icons/user2.png";
+import addIcon from "../assets/Icons/add.png";
 import subImg from "../assets/Images/1.jpg";
 import popularBtnLeft from "../assets/Icons/prev.png";
 import popularBtnRight from "../assets/Icons/next.png";
@@ -20,7 +21,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = () => {
   const [loadingStatus, setloadingStatusStatus] = useState(false);
-  const [items, setItems] = useState(null);
+  const [items, setItems] = useState([]);
+  const [storeItems, setStoreItems] = useState([]);
   const [popularItems, setPopularItems] = useState({
     id: "",
     itemImageUrl: "",
@@ -30,7 +32,7 @@ const HomeScreen = () => {
     itemPrice: "",
   });
 
-  const [storePopularItems, setStorePopularItems] = useState(null);
+  const [storePopularItems, setStorePopularItems] = useState([]);
   const [signedInUser, setSignedInUser] = useState({
     firstname: null,
     lastname: null,
@@ -60,11 +62,14 @@ const HomeScreen = () => {
       setloadingStatusStatus(true);
       await getUser().then(async () => {
         const res = await getItems();
-        // console.log("Res", res);
+        // console.log("Res", res[0]);
         setItems(res);
-
+        setStoreItems(res);
         var popular = []
         res.forEach(r => {
+          // console.log("================================");
+          // console.log("Res", r);
+          // console.log("================================");
           if (r.itemStatus.stringValue === "popular") {
 
             const popularDets = {
@@ -191,6 +196,46 @@ const HomeScreen = () => {
   }
 
 
+
+  function filterItems(type){
+    let itemsStore = [];
+    switch(type){
+      case"breakfast":
+      storeItems.forEach(item => {
+        if (item.itemCategory.stringValue === "breakfast") {
+          itemsStore.push(item);
+        }
+      });
+      break;
+      case"bev":
+      storeItems.forEach(item => {
+        if (item.itemCategory.stringValue === "beverages") {
+          itemsStore.push(item);
+        }
+      });
+      break;
+      case"lunch":
+      storeItems.forEach(item => {
+        if (item.itemCategory.stringValue === "lunch") {
+          itemsStore.push(item);
+        }
+      });
+      break;
+      case"dinner":
+      storeItems.forEach(item => {
+        if (item.itemCategory.stringValue === "dinner") {
+          itemsStore.push(item);
+        }
+      });
+      break;
+      default: 
+      console.log("None");
+    }
+
+    setItems(itemsStore);
+  }
+
+
   if (loadingStatus === true) {
     return (
       <>
@@ -273,28 +318,28 @@ const HomeScreen = () => {
 
           <View style={styles.filterBtnCont}>
             <View>
-              <TouchableOpacity style={styles.filterBtn}>
+              <TouchableOpacity style={styles.filterBtn} onPress={()=>filterItems("breakfast")}>
                 <Image source={bfIcon} style={styles.filterBtnImg} />
               </TouchableOpacity>
               <Text style={styles.filterBtnTxt}>Breakfast</Text>
             </View>
 
             <View>
-              <TouchableOpacity style={styles.filterBtn}>
+              <TouchableOpacity style={styles.filterBtn} onPress={()=>filterItems("bev")}>
                 <Image source={bevIcon} style={styles.filterBtnImg} />
               </TouchableOpacity>
               <Text style={styles.filterBtnTxt}>Beverages</Text>
             </View>
 
             <View>
-              <TouchableOpacity style={styles.filterBtn}>
+              <TouchableOpacity style={styles.filterBtn} onPress={()=>filterItems("lunch")}>
                 <Image source={lnIcon} style={styles.filterBtnImg} />
               </TouchableOpacity>
               <Text style={styles.filterBtnTxt}>Lunch</Text>
             </View>
 
             <View>
-              <TouchableOpacity style={styles.filterBtn}>
+              <TouchableOpacity style={styles.filterBtn} onPress={()=>filterItems("dinner")}>
                 <Image source={dinIcon} style={styles.filterBtnImg} />
               </TouchableOpacity>
               <Text style={styles.filterBtnTxt}>Dinner</Text>
@@ -302,7 +347,52 @@ const HomeScreen = () => {
           </View>
           <View style={[styles.line, { marginHorizontal: 25, marginTop: 20 }]} />
 
-<Text>Featured Items:</Text>
+          <Text style={styles.itemTitle}>Featured Items:</Text>
+
+          <View style={styles.itemsCont}>
+            {items ?
+              items.map((item, index) => (
+                <View style={styles.itemsCol} key={index}>
+                <View style={styles.itemsCard}>
+                  <Image source={item.itemImageUrl.stringValue ? {uri: item.itemImageUrl.stringValue} : subImg} style={styles.itemImg} />
+                  <View style={styles.cardPriceCont}>
+                    <Text style={styles.cardPrice}>{item.itemPrice.stringValue ? `R${item.itemPrice.stringValue}.00` : "R00.00"}</Text>
+                  </View>
+                  <Text style={styles.cardItem}>{item.itemName.stringValue ? `${item.itemName.stringValue}` : "Title"}</Text>
+
+                  <View style={styles.cardPrepTimeCont}>
+                    <Image source={prepTimeIcon} style={styles.cardPrepTimeIc} />
+                    <Text style={styles.cardPrepTimeText}>10-15min</Text>
+                  </View>
+
+                  <TouchableOpacity style={styles.addToCart}>
+                  <Image source={addIcon} style={styles.prepTimeIc} />
+                  </TouchableOpacity>
+                </View>
+              </View>
+              ))
+              :
+              <View style={styles.itemsCol}>
+                <View style={styles.itemsCard}>
+                  <Image source={subImg} style={styles.itemImg} />
+                  <View style={styles.cardPriceCont}>
+                    <Text style={styles.cardPrice}>R150.00</Text>
+                  </View>
+                  <Text style={styles.cardItem}>Title</Text>
+
+                  <View style={styles.cardPrepTimeCont}>
+                    <Image source={prepTimeIcon} style={styles.cardPrepTimeIc} />
+                    <Text style={styles.cardPrepTimeText}>10-15min</Text>
+                  </View>
+
+                  <TouchableOpacity style={styles.addToCart}>
+                  <Image source={prepTimeIcon} style={styles.cardPrepTimeIc} />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            }
+
+          </View>
         </>
 
       </ScrollView>
@@ -562,16 +652,94 @@ const styles = StyleSheet.create({
     height: 40
   },
   filterBtnTxt: {
-marginVertical: 10,
-textAlign:"center",
-fontWeight:"bold",
-color: "#7C9070",
-// backgroundColor:"yellow"
+    marginVertical: 10,
+    textAlign: "center",
+    fontWeight: "bold",
+    color: "#7C9070",
+    // backgroundColor:"yellow"
+  },
+  itemTitle: {
+    marginVertical: 20,
+    marginHorizontal: 30,
+    color: "#7C9070",
+    fontWeight: "bold",
+    fontSize: 16
+  },
+  itemsCont: {
+    marginVertical: 20,
+    marginHorizontal: "1%",
+    width: "98%",
+    // height: 500,
+    // backgroundColor: "yellow",
+    flexDirection: 'row',
+    flexWrap: "wrap"
+  },
+  itemsCol: {
+    // flex: "45%",
+    width: "48%",
+    height: "auto",
+    backgroundColor: "#F5F5F5",
+    marginVertical: 10,
+    marginHorizontal: "1%",
+  },
+  itemImg: {
+    width: "100%",
+    height: 200,
+    objectFit: "cover"
   },
 
-
+  cardPriceCont: {
+    backgroundColor: "#FFFEF5",
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    width: "60%",
+    position: "absolute",
+    top: 160,
+    left: 3
+  },
+  cardPrice: {
+    fontSize: 18,
+    color: "#7C9070",
+    fontWeight: "bold"
+  },
+  cardItem: {
+    marginVertical: 10,
+    marginHorizontal: 5,
+    color: "#7C9070",
+    fontWeight: "bold",
+    fontSize: 20
+  },
+  cardPrepTimeCont: {
+    marginTop: 10,
+    marginLeft: 5,
+    width: "50%",
+    // backgroundColor:"yellow",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  cardPrepTimeIc: {
+    width: 23,
+    height: 23
+  },
+  cardPrepTimeText: {
+    marginLeft: 2,
+    color: "#7C9070",
+    fontSize: 14,
+    fontWeight: "700",
+  },
+  addToCart:{
+    position:"absolute",
+    bottom: 10,
+    right:10,
+    width: 30,
+    height: 30,
+    backgroundColor: "#7C9070",
+    justifyContent:"center",
+    alignItems:"center"
+  },
   loadingScreen: {
     backgroundColor: "#FFFEF5",
+
     // opacity: 0.5,
     position: "absolute",
     height: "100%",
@@ -583,5 +751,6 @@ color: "#7C9070",
     justifyContent: "center"
 
   },
+
 
 })
