@@ -24,6 +24,7 @@ const HomeScreen = ({ navigation }) => {
   const [loadingStatus, setloadingStatusStatus] = useState(false);
   const [items, setItems] = useState([]);
   const [storeItems, setStoreItems] = useState([]);
+  const [addBtnStatus, setAddBtnStatus] = useState(true);
   const [popularItems, setPopularItems] = useState({
     id: "",
     itemImageUrl: "",
@@ -244,7 +245,8 @@ const HomeScreen = ({ navigation }) => {
     setMenuStatus(true);
   }
 
-  async function viewItem(id){
+  async function viewItem(id) {
+    console.log(id);
     const itemId = {
       id: id
     }
@@ -253,6 +255,58 @@ const HomeScreen = ({ navigation }) => {
       console.log("Success");
       navigation.navigate("Item")
     })
+  }
+
+  async function addToCart(id) {
+    const res = await checkCart(id);
+    console.log(res);
+
+    if (res === true) {
+      console.log("Item already added");
+    } else {
+      console.log("Item not added");
+
+      const jsonValue = await AsyncStorage.getItem('cartItems');
+      const res = jsonValue != null ? JSON.parse(jsonValue) : null;
+      // await AsyncStorage.removeItem('cartItems')
+
+      console.log("res", res);
+      var itemsToCart = [];
+      var itemId = {
+        id: id
+      }
+
+      res.forEach(r => {
+        itemsToCart.push(r);
+      });
+      itemsToCart.push(itemId);
+      const jsonSetValue = JSON.stringify(itemsToCart);
+      await AsyncStorage.setItem('cartItems', jsonSetValue).then(() => {
+        console.log("Success");
+      })
+    }
+  }
+
+  async function checkCart(id) {
+    const jsonValue = await AsyncStorage.getItem('cartItems');
+    const res = jsonValue != null ? JSON.parse(jsonValue) : null;
+    // console.log(res);
+    const curItem = id;
+    // console.log(curItem);
+    var status = false;
+    if (res !== null) {
+      res.forEach(r => {
+        if (r.id === curItem) {
+          console.log("found");
+          status = true;
+        } else {
+          console.log("not found");
+        }
+      });
+    }
+
+    return status;
+
   }
 
   if (loadingStatus === true) {
@@ -285,7 +339,9 @@ const HomeScreen = ({ navigation }) => {
             </View>
 
             <View style={styles.popularCont}>
-              <Image source={popularItems.itemImageUrl === "" ? subImg : { uri: popularItems.itemImageUrl }} style={styles.popularImg} />
+             
+                <Image source={popularItems.itemImageUrl === "" ? subImg : { uri: popularItems.itemImageUrl }} style={styles.popularImg} />
+              {/* </TouchableOpacity> */}
               <View style={styles.popularBg} />
 
               <TouchableOpacity style={styles.popularBtnLeftCont} onPress={() => prevPopular(popularItems.itemName)} >
@@ -297,6 +353,7 @@ const HomeScreen = ({ navigation }) => {
               </TouchableOpacity>
 
               <View style={styles.popularDetailsCont}>
+                
                 <Image source={starIcon} style={styles.starIcon} />
                 <Text style={styles.popularDetailsTitle}>{popularItems.itemName}</Text>
                 <Text style={styles.popularDetailsSub}>{popularItems.itemSub}</Text>
@@ -380,7 +437,7 @@ const HomeScreen = ({ navigation }) => {
               items.map((item, index) => (
                 <View style={styles.itemsCol} key={index}>
                   <View style={styles.itemsCard}>
-                    <TouchableOpacity onPress={()=>viewItem(item.id)}>
+                    <TouchableOpacity onPress={() => viewItem(item.id)}>
                       <Image source={item.itemImageUrl.stringValue ? { uri: item.itemImageUrl.stringValue } : subImg} style={styles.itemImg} />
                     </TouchableOpacity>
                     <View style={styles.cardPriceCont}>
@@ -390,10 +447,10 @@ const HomeScreen = ({ navigation }) => {
 
                     <View style={styles.cardPrepTimeCont}>
                       <Image source={prepTimeIcon} style={styles.cardPrepTimeIc} />
-                      <Text style={styles.cardPrepTimeText}>10-15min</Text>
+                      <Text style={styles.cardPrepTimeText}>{item.itemPrepTime.stringValue ? `${item.itemPrepTime.stringValue}` : "10 - 15min"}</Text>
                     </View>
 
-                    <TouchableOpacity style={styles.addToCart}>
+                    <TouchableOpacity style={styles.addToCart} onPress={() => addToCart(item.id)}>
                       <Image source={addIcon} style={styles.prepTimeIc} />
                     </TouchableOpacity>
                   </View>
@@ -413,10 +470,13 @@ const HomeScreen = ({ navigation }) => {
                     <Text style={styles.cardPrepTimeText}>10-15min</Text>
                   </View>
 
+
                   <TouchableOpacity style={styles.addToCart}>
                     <Image source={prepTimeIcon} style={styles.cardPrepTimeIc} />
                   </TouchableOpacity>
+
                 </View>
+
               </View>
             }
 

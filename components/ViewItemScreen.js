@@ -34,13 +34,36 @@ const ViewItemScreen = ({ navigation }) => {
             setloadingStatusStatus(true);
             await getItem().then(async () => {
                 await getUser()
-
+                // await addToCart()
                 // setStoreItems(res);
                 setloadingStatusStatus(false)
             })
         })();
 
     }, [])
+
+    const [btnStatus, setBtnStatus] = useState(true);
+    useEffect(() => {
+        (async () => {
+            const jsonValue = await AsyncStorage.getItem('cartItems');
+            const res = jsonValue != null ? JSON.parse(jsonValue) : null;
+            // console.log(res);
+            const curItem = await getItemId();
+            // console.log(curItem);
+
+
+            res.forEach(r => {
+                if (r.id === curItem.id) {
+                    console.log("found");
+                    setBtnStatus(false);
+                } else {
+                    console.log("not found");
+                }
+            });
+
+        })();
+    }, [])
+
 
     async function getUser() {
         const jsonValue = await AsyncStorage.getItem('user');
@@ -89,10 +112,38 @@ const ViewItemScreen = ({ navigation }) => {
         return res;
     }
 
+
     function backToHome() {
 
         navigation.navigate("Home");
     }
+
+    async function addToCart(id) {
+        const jsonValue = await AsyncStorage.getItem('cartItems');
+        const res = jsonValue != null ? JSON.parse(jsonValue) : null;
+        // await AsyncStorage.removeItem('cartItems')
+
+        console.log("res", res);
+        var itemsToCart = [];
+        var itemId = {
+            id: id
+        }
+
+        res.forEach(r => {
+            itemsToCart.push(r);
+        });
+        console.log("itemsToCart before", itemsToCart);
+        itemsToCart.push(itemId);
+        console.log("itemsToCart after", itemsToCart);
+        const jsonSetValue = JSON.stringify(itemsToCart);
+        await AsyncStorage.setItem('cartItems', jsonSetValue).then(() => {
+            console.log("Success 1");
+            setBtnStatus(false);
+        })
+
+        
+    }
+
 
     if (loadingStatus === true) {
         return (
@@ -139,10 +190,17 @@ const ViewItemScreen = ({ navigation }) => {
                                 <Text style={styles.cardPrepTimeText}>{item.itemPrice ? `R${item.itemPrice}.00` : "R00.00"}</Text>
                             </View>
 
-                            <TouchableOpacity style={styles.siBtn} >
-                                {/* <TouchableOpacity style={styles.siBtn}  onPress={() => navigation.navigate("Journals")}> */}
-                                <Text style={styles.siBtnTxt}>Add to cart</Text>
-                            </TouchableOpacity>
+                            {btnStatus ?
+                                <TouchableOpacity style={styles.siBtn} onPress={() => addToCart(item.id)}>
+                                    {/* <TouchableOpacity style={styles.siBtn}  onPress={() => navigation.navigate("Journals")}> */}
+                                    <Text style={styles.siBtnTxt}>Add to cart</Text>
+                                </TouchableOpacity>
+                                :
+                                <View style={styles.altBtn} onPress={() => addToCart(item.id)}>
+                                    {/* <TouchableOpacity style={styles.siBtn}  onPress={() => navigation.navigate("Journals")}> */}
+                                    <Text style={styles.altBtnTxt}>Item already added to cart</Text>
+                                </View>
+                            }
                         </View>
                     </View>
                 </>
@@ -258,6 +316,24 @@ const styles = StyleSheet.create({
         fontWeight: "bold"
     },
 
+    altBtn: {
+        width: "100%",
+        // marginHorizontal: "8%",
+        height: 60,
+        borderRadius: 50,
+        marginTop: 40,
+        // marginHorizontal: "5%",
+        backgroundColor: "#E8F5E0",
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    altBtnTxt: {
+        textAlign: "center",
+        color: "#7C9070",
+        paddingVertical: 15,
+        fontSize: 17,
+        fontWeight: "bold"
+    },
 
     loadingScreen: {
         backgroundColor: "#FFFEF5",
