@@ -13,6 +13,7 @@ import SignUpScreen from './components/SignUpScreen';
 import SignInScreen from './components/SignInScreen';
 import ProfileScreen from './components/ProfileScreen';
 import HomeScreen from './components/HomeScreen';
+import ViewItemScreen from './components/ViewItemScreen';
 
 export default function App({ navigation }) {
   const Stack = createStackNavigator();
@@ -111,6 +112,7 @@ export default function App({ navigation }) {
         {isSignedIn ? (
           <>
             <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Item" component={ViewItemScreen} />
           </>
 
         )

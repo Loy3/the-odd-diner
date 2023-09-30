@@ -20,7 +20,7 @@ import starIcon from "../assets/Icons/star.png";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SideNavComp from './SideNavComp';
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   const [loadingStatus, setloadingStatusStatus] = useState(false);
   const [items, setItems] = useState([]);
   const [storeItems, setStoreItems] = useState([]);
@@ -40,6 +40,8 @@ const HomeScreen = () => {
     imageUrl: null,
     emailAddress: null
   });
+
+  const [menuStatus, setMenuStatus] = useState(false);
 
   // popularDets = {
   //   id: "",
@@ -238,6 +240,20 @@ const HomeScreen = () => {
     setItems(itemsStore);
   }
 
+  function openMenu() {
+    setMenuStatus(true);
+  }
+
+  async function viewItem(id){
+    const itemId = {
+      id: id
+    }
+    const jsonValue = JSON.stringify(itemId);
+    await AsyncStorage.setItem('itemId', jsonValue).then(() => {
+      console.log("Success");
+      navigation.navigate("Item")
+    })
+  }
 
   if (loadingStatus === true) {
     return (
@@ -256,7 +272,7 @@ const HomeScreen = () => {
         <>
           <View style={styles.header}>
             <View style={styles.menuCont}>
-              <TouchableOpacity style={styles.menuBtn}>
+              <TouchableOpacity style={styles.menuBtn} onPress={openMenu}>
                 <Image source={menuIcon} style={styles.menu} />
               </TouchableOpacity>
             </View>
@@ -364,7 +380,9 @@ const HomeScreen = () => {
               items.map((item, index) => (
                 <View style={styles.itemsCol} key={index}>
                   <View style={styles.itemsCard}>
-                    <Image source={item.itemImageUrl.stringValue ? { uri: item.itemImageUrl.stringValue } : subImg} style={styles.itemImg} />
+                    <TouchableOpacity onPress={()=>viewItem(item.id)}>
+                      <Image source={item.itemImageUrl.stringValue ? { uri: item.itemImageUrl.stringValue } : subImg} style={styles.itemImg} />
+                    </TouchableOpacity>
                     <View style={styles.cardPriceCont}>
                       <Text style={styles.cardPrice}>{item.itemPrice.stringValue ? `R${item.itemPrice.stringValue}.00` : "R00.00"}</Text>
                     </View>
@@ -407,9 +425,9 @@ const HomeScreen = () => {
 
       </ScrollView>
 
-
-      <SideNavComp />
-
+      {menuStatus ?
+        <SideNavComp setMenuStatus={setMenuStatus} />
+        : null}
     </View>
   )
 }

@@ -4,13 +4,15 @@ import { getUsers } from "../services/serviceStoreDoc";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import userIcon from "../assets/Icons/user2.png";
 
-import homeIcon from "../assets/Icons/user2.png";
-import ordersIcon from "../assets/Icons/user2.png";
-import cartIcon from "../assets/Icons/user2.png";
+import homeIcon from "../assets/Icons/home.png";
+import ordersIcon from "../assets/Icons/order.png";
+import cartIcon from "../assets/Icons/cart.png";
 import profileIcon from "../assets/Icons/user2.png";
-import signOutIcon from "../assets/Icons/user2.png";
+import signOutIcon from "../assets/Icons/exit.png";
 
-const SideNavComp = () => {
+import closeIcon from "../assets/Icons/close.png";
+
+const SideNavComp = ({ setMenuStatus }) => {
     const [signedInUser, setSignedInUser] = useState({
         firstname: null,
         lastname: null,
@@ -39,12 +41,20 @@ const SideNavComp = () => {
         });
         // return null;
     }
+
+    function closeMenu() {
+        setMenuStatus(false);
+    }
     return (
         <View style={styles.sideNavCont}>
             <View style={styles.sideNavBox}>
+
                 <View style={styles.sideNavUser}>
+                    <TouchableOpacity onPress={closeMenu} style={{width:30, height:30, position: "absolute", top: 50, right: 10}}>
+                        <Image source={closeIcon} style={{ width: 15, height: 15 }} />
+                    </TouchableOpacity>
                     <Image source={signedInUser.imageUrl === null ? userIcon : { uri: signedInUser.imageUrl }} style={styles.headerImage} />
-                    <Text style={styles.headerUser}>{`Hello! ${signedInUser.firstname === null ? "First Name" : signedInUser.firstname} ${signedInUser.lastname === null ? "Last Name" : signedInUser.lastname}`}</Text>
+                    <Text style={styles.headerUser}>{`${signedInUser.firstname === null ? "First Name" : signedInUser.firstname} ${signedInUser.lastname === null ? "Last Name" : signedInUser.lastname}`}</Text>
                     <Text style={styles.headerDate}>{`${signedInUser.emailAddress === null ? "Email Address" : signedInUser.emailAddress}`}</Text>
                 </View>
                 <View style={styles.btnCont}>
@@ -54,20 +64,26 @@ const SideNavComp = () => {
                     </TouchableOpacity>
 
                     <TouchableOpacity style={{ flexDirection: "row" }}>
-                        <Image source={homeIcon} style={styles.btnIcon} />
-                        <Text style={styles.btnTxt}>Home</Text>
+                        <Image source={ordersIcon} style={styles.btnIcon} />
+                        <Text style={styles.btnTxt}>Orders</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity style={{ flexDirection: "row" }}>
-                        <Image source={homeIcon} style={styles.btnIcon} />
-                        <Text style={styles.btnTxt}>Home</Text>
+                        <Image source={cartIcon} style={styles.btnIcon} />
+                        <Text style={styles.btnTxt}>Cart</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity style={{ flexDirection: "row" }}>
-                        <Image source={homeIcon} style={styles.btnIcon} />
-                        <Text style={styles.btnTxt}>Home</Text>
+                        <Image source={profileIcon} style={styles.btnIcon} />
+                        <Text style={styles.btnTxt}>Profile</Text>
                     </TouchableOpacity>
+
+
                 </View>
+                <TouchableOpacity style={{ flexDirection: "row", position: "absolute", bottom: 30, left: 30 }}>
+                    <Image source={signOutIcon} style={styles.btnIcon} />
+                    <Text style={[styles.btnTxt, { color: "#B60000" }]}>Sign Out</Text>
+                </TouchableOpacity>
             </View>
         </View>
     )
@@ -95,7 +111,7 @@ const styles = StyleSheet.create({
         // opacity: 0.5,
         position: "absolute",
         height: "100%",
-        width: "85%",
+        width: "88%",
         zIndex: 99,
         top: 0,
         left: 0,
@@ -105,7 +121,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#A8C099",
         // opacity: 0.5,
         // position: "absolute",
-        height: "35%",
+        height: "31%",
         width: "100%",
         zIndex: 99,
         top: 0,
@@ -116,7 +132,7 @@ const styles = StyleSheet.create({
 
     headerDate: {
         color: "#FFFEF5",
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: "400",
         marginBottom: 5
     },
@@ -124,16 +140,17 @@ const styles = StyleSheet.create({
         color: "#FFFEF5",
         fontSize: 22,
         fontWeight: "700",
-        marginBottom: 5
+        marginBottom: 1,
+        marginTop: 20
     },
     headerImageCont: {
         position: 'absolute',
-        top: 60,
+        top: 80,
         right: 20,
 
     },
     headerImage: {
-
+        marginTop: 60,
         width: 100,
         height: 100,
         objectFit: "cover",
@@ -141,14 +158,21 @@ const styles = StyleSheet.create({
         borderWidth: 3,
         borderColor: "#FFFEF5"
     },
-    btnCont:{
-        marginTop: 30,
-        marginLeft: 20
+    btnCont: {
+        marginTop: 50,
+        marginLeft: 30
     },
     btnIcon: {
-        width: 40,
-        height: 40,
+        width: 35,
+        height: 35,
         marginBottom: 20
-    }
+    },
+    btnTxt: {
+        color: "#7C9070",
+        fontSize: 18,
+        fontWeight: "700",
+        marginLeft: 10,
+        marginTop: 5
+    },
 
 })
