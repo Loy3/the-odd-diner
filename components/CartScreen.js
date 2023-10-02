@@ -233,16 +233,19 @@ const CartScreen = ({ navigation }) => {
     }
 
     async function checkout() {
+        // await AsyncStorage.removeItem('checkout')
         const checkoutItems = {
             itemsSubTotalPrice: itemsSubTotalPrice,
             itemsTotalPrice: itemsTotalPrice,
-            items: items
+            items: items,
+            userID: signedInUser.userID
         }
         const jsonValue = JSON.stringify(checkoutItems);
         await AsyncStorage.setItem('checkout', jsonValue).then(() => {
-            console.log("Success");            
+            console.log("Success");   
+            navigation.navigate("Checkout")         
         })
-        // console.log(checkoutItems);
+        console.log(checkoutItems);
     }
 
 
