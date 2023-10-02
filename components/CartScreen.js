@@ -7,6 +7,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import backBtnIcon from "../assets/Icons/prev.png";
 import priceIcon from "../assets/Icons/money.png";
 import deleteIcon from "../assets/Icons/delete.png";
+import addIcon from "../assets/Icons/add.png";
+import subtIcon from "../assets/Icons/minus.png";
 
 const CartScreen = ({ navigation }) => {
 
@@ -26,6 +28,8 @@ const CartScreen = ({ navigation }) => {
         itemPrice: "",
         itemDescription: ""
     });
+    const [itemsTotalPrice, setItemsTotalPrice] = useState(0);
+    const [itemsSubTotalPrice, setItemsSubTotalPrice] = useState(0);
     const [storeItems, setStoreItems] = useState([]);
     const [loadingStatus, setloadingStatusStatus] = useState(false);
 
@@ -35,7 +39,7 @@ const CartScreen = ({ navigation }) => {
             await getUser().then(async () => {
                 const jsonValue = await AsyncStorage.getItem('cartItems');
                 const res = jsonValue != null ? JSON.parse(jsonValue) : null;
-                console.log(res);
+                // console.log(res);
                 if (res === null) {
                     navigation.navigate("Home")
                 } else {
@@ -48,15 +52,9 @@ const CartScreen = ({ navigation }) => {
     }, [])
 
     const [btnStatus, setBtnStatus] = useState(true);
-    // useEffect(() => {
-    //     (async () => {
-
-    //         // console.log(curItem);
-
-
-
-    //     })();
-    // }, [])
+    useEffect(() => {
+        // console.log("line 54",storeItems);
+    }, [storeItems])
 
 
     async function getUser() {
@@ -81,8 +79,10 @@ const CartScreen = ({ navigation }) => {
         const jsonValue = await AsyncStorage.getItem('user');
         const resUser = jsonValue != null ? JSON.parse(jsonValue) : null;
 
-        console.log("itemsId", itemsId);
+        // console.log("itemsId", itemsId);
         var myItems = [];
+        var totalIPrice = 0;
+        var totalISubPrice = 0;
         itemsId.forEach(id => {
             res.forEach(r => {
                 if (id.id === r.id && resUser.userID === r.userID) {
@@ -94,26 +94,21 @@ const CartScreen = ({ navigation }) => {
                         itemSub: r.itemSub.stringValue,
                         itemPrepTime: r.itemPrepTime.stringValue,
                         itemPrice: r.itemPrice.stringValue,
-                        itemDescription: r.itemDescription.stringValue
+                        itemDescription: r.itemDescription.stringValue,
+                        numOfItems: 1,
+                        totalPrice: r.itemPrice.stringValue
                     }
                     myItems.push(foundItem);
+                    totalISubPrice += parseInt(r.itemPrice.stringValue);
                 }
             });
-            // console.log(myItems);
-
-            // if (r.id === itemId.id) {
-            //     setItem({
-            //         id: r.id,
-            //         itemImageUrl: r.itemImageUrl.stringValue,
-            //         itemName: r.itemName.stringValue,
-            //         itemSub: r.itemSub.stringValue,
-            //         itemPrepTime: r.itemPrepTime.stringValue,
-            //         itemPrice: r.itemPrice.stringValue,
-            //         itemDescription: r.itemDescription.stringValue
-            //     })
-            // }
         });
+        // console.log("myItems",myItems);
+        totalIPrice = totalISubPrice + 60;
+        setItemsSubTotalPrice(totalISubPrice);
+        setItemsTotalPrice(totalIPrice)
         setItems(myItems);
+        setStoreItems(myItems);
         // setItems(res);
 
     }
@@ -141,9 +136,113 @@ const CartScreen = ({ navigation }) => {
 
     }
 
-    function backToHome() {
 
+    function addCount(itemId) {
+        setloadingStatusStatus(true);
+        var myItems = [...items];
+        // console.log(itemId);
+        // console.log(myItems);
+        var totalIPrice = 0;
+        var totalISubPrice = itemsSubTotalPrice;
+        var itemIndex = 0;
+
+        for (let i = 0; i < myItems.length; i++) {
+            if (myItems[i].id === itemId) {
+                console.log("Item Found");
+                itemIndex = i;
+            }
+        }
+
+        myItems[itemIndex].numOfItems++;
+        var totalPrice = parseInt(myItems[itemIndex].itemPrice) * myItems[itemIndex].numOfItems;
+
+        myItems[itemIndex].totalPrice = totalPrice;
+        console.log(totalISubPrice);
+        totalISubPrice += parseInt(myItems[itemIndex].itemPrice);
+        totalIPrice = totalISubPrice + 60
+        setItemsTotalPrice(totalIPrice);
+        setItemsSubTotalPrice(totalISubPrice)
+        // console.log("line 166",myItems);
+
+        setItems(myItems);
+        setloadingStatusStatus(false);
+    }
+
+    function subtCount(itemId) {
+        setloadingStatusStatus(true);
+        var myItems = [...items];
+        // console.log(itemId);
+        // console.log(myItems);
+
+        var itemIndex = 0;
+        var totalIPrice = 0;
+        var totalISubPrice = itemsSubTotalPrice;
+
+        for (let i = 0; i < myItems.length; i++) {
+            if (myItems[i].id === itemId) {
+                console.log("Item Found");
+                itemIndex = i;
+            }
+        }
+        // var currentNum = 
+        myItems[itemIndex].numOfItems--;
+        totalISubPrice -= parseInt(myItems[itemIndex].itemPrice);
+
+        console.log(myItems[itemIndex].numOfItems);
+        if (myItems[itemIndex].numOfItems < 1) {
+            myItems[itemIndex].numOfItems = 1;
+            totalISubPrice += parseInt(myItems[itemIndex].itemPrice);
+            console.log("Current num");
+        }
+
+        var totalPrice = parseInt(myItems[itemIndex].totalPrice) - parseInt(myItems[itemIndex].itemPrice);
+
+        if (totalPrice < parseInt(myItems[itemIndex].itemPrice)) {
+            totalPrice = parseInt(myItems[itemIndex].itemPrice);
+
+            console.log("Current tp");
+        }
+
+        myItems[itemIndex].totalPrice = totalPrice;
+
+
+        totalIPrice = totalISubPrice + 60
+        setItemsTotalPrice(totalIPrice);
+        setItemsSubTotalPrice(totalISubPrice)
+        // console.log(myItems[itemIndex]);
+        setItems(myItems)
+        setloadingStatusStatus(false);
+    }
+
+    // function getItemQuant(id) {
+    //     var getCurrentQuant = 0;
+    //     items.forEach(i => {
+    //         if (i.id === id) {
+    //             getCurrentQuant = i.numOfItems;
+    //         }
+    //     });
+    //     console.log("gg", getCurrentQuant);
+
+    //     return getCurrentQuant;
+
+    // }
+
+
+    function backToHome() {
         navigation.navigate("Home");
+    }
+
+    async function checkout() {
+        const checkoutItems = {
+            itemsSubTotalPrice: itemsSubTotalPrice,
+            itemsTotalPrice: itemsTotalPrice,
+            items: items
+        }
+        const jsonValue = JSON.stringify(checkoutItems);
+        await AsyncStorage.setItem('checkout', jsonValue).then(() => {
+            console.log("Success");            
+        })
+        // console.log(checkoutItems);
     }
 
 
@@ -162,6 +261,7 @@ const CartScreen = ({ navigation }) => {
         <View style={styles.container}>
             <ScrollView scrollEnabled={true} >
                 <>
+                    {/* {console.log(items)} */}
                     <View>
                         <TouchableOpacity style={styles.backBtnCont} onPress={backToHome}>
                             <Image source={backBtnIcon} style={styles.backBtn} />
@@ -179,19 +279,60 @@ const CartScreen = ({ navigation }) => {
                                         <Text style={styles.cardItemSubTitle}>{item.itemSub ? `${item.itemSub}` : "Sub Title"}</Text>
                                         <View style={styles.priceCont}>
                                             <Image source={priceIcon} style={styles.prepTimeIc} />
-                                            <Text style={styles.prepTimeText}>{`R${item.itemPrice}.00`}</Text>
+                                            <Text style={styles.prepTimeText}>{item.totalPrice ? `R${item.totalPrice}.00` : "R00.00"}</Text>
                                         </View>
                                     </View>
+                                    <View style={styles.numOfItemsCont}>
+                                        <TouchableOpacity style={styles.countBtnCont} onPress={() => addCount(item.id)}>
+                                            <Image source={addIcon} style={styles.countBtn} />
+                                        </TouchableOpacity>
+                                        <View style={styles.counterCont}>
+                                            <Text style={styles.counter}>{item.numOfItems ? `${item.numOfItems}` : "1"}</Text>
+                                        </View>
+                                        <TouchableOpacity style={styles.countBtnCont} onPress={() => subtCount(item.id)}>
+                                            <Image source={subtIcon} style={styles.countBtn} />
+                                        </TouchableOpacity>
+                                    </View>
+
 
                                     <TouchableOpacity style={styles.deleteButnCont} onPress={() => deleteFromCart(item.id)}>
                                         <Image source={deleteIcon} style={styles.deleteButn} />
                                     </TouchableOpacity>
                                 </View>
                             ))}
+
+
+                        </View>
+
+
+                        <View style={styles.pricingCont}>
+                            <Text style={styles.pricingTitle}>Pricing</Text>
+                            <View style={{ flexDirection: "row", marginTop: 15 }}>
+                                <Text style={styles.subTotalLeft}>Sub Total</Text>
+                                <Text style={styles.subTotalRight}>R{itemsSubTotalPrice}.00</Text>
+                            </View>
+                            <View style={{ flexDirection: "row", marginTop: 10 }}>
+                                <Text style={styles.subTotalLeft}>Delivery Fee:</Text>
+                                <Text style={styles.subTotalRight}>R60.00</Text>
+                            </View>
+                            <View style={styles.pLine} />
+                            <View style={{ flexDirection: "row" }}>
+                                <Text style={styles.totalLeft}>Total</Text>
+                                <Text style={styles.totalRight}>R{itemsTotalPrice}.00</Text>
+                            </View>
+
+                            <TouchableOpacity style={styles.siBtn} onPress={checkout}>
+                                {/* <TouchableOpacity style={styles.siBtn}  onPress={() => navigation.navigate("Journals")}> */}
+                                <Text style={styles.siBtnTxt}>Checkout</Text>
+                            </TouchableOpacity>
+
                         </View>
                     </View>
+                    {/* {console.log(items)} */}
+
                 </>
             </ScrollView>
+
         </View>
     )
 
@@ -253,19 +394,20 @@ const styles = StyleSheet.create({
         height: "auto",
         // backgroundColor: "yellow",
         marginHorizontal: "4%",
-        marginTop: 50
+        marginTop: 100,
+        marginBottom: 350
     },
     cartCard: {
-        height: 140,
+        height: 105,
         width: "100%",
-        backgroundColor: "#E8F5E0",
-        marginBottom: 10,
-        borderColor: "#7C9070",
-        borderWidth: 3,
+        // backgroundColor: "#E8F5E0",
+        marginBottom: 35,
+        // borderColor: "#7C9070",
+        // borderWidth: 3,
         flexDirection: "row"
     },
     itemImgCont: {
-        width: "40%",
+        width: "25%",
         height: "100%"
     },
     itemImg: {
@@ -309,13 +451,97 @@ const styles = StyleSheet.create({
     },
     deleteButnCont: {
         position: "absolute",
-        top: 10,
-        right: 10
+        top: 5,
+        right: 5
     },
     deleteButn: {
-        height: 40,
-        width: 40
+        height: 30,
+        width: 30
     },
+    numOfItemsCont: {
+        flexDirection: "row",
+        // backgroundColor: "yellow",
+        width: 105,
+        height: 35,
+        position: "absolute",
+        bottom: 5,
+        right: 5
+    },
+    countBtnCont: {
+        height: 35,
+        width: 35,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#7C9070"
+    },
+    countBtn: {
+        width: 20,
+        height: 20
+    },
+    counterCont: {
+        height: 35,
+        width: 35,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#FFFEF5"
+    },
+    counter: {
+        fontSize: 18,
+        fontWeight: "bold",
+        color: "#7C9070"
+    },
+    pricingCont: {
+        marginTop: 130,
+        marginHorizontal: "3%",
+        backgroundColor: "#FFFEF5",
+        height: "auto",
+        width: "94%",
+        position: "absolute",
+        bottom: 0,
+        zIndex: 99
+    },
+    pricingTitle: {
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "#7C9070",
+        marginTop: 10
+    },
+    subTotalLeft: {
+        width: "50%",
+        textAlign: "left",
+        fontSize: 16,
+        fontWeight: "bold",
+        color: "#969696"
+    },
+    subTotalRight: {
+        width: "50%",
+        textAlign: "right",
+        fontSize: 16,
+        fontWeight: "bold",
+        color: "#969696"
+    },
+    pLine: {
+        width: "100%",
+        borderWidth: 1,
+        borderColor: "#7C9070",
+        borderStyle: "dashed",
+        marginVertical: 20
+    },
+    totalLeft: {
+        width: "50%",
+        textAlign: "left",
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "#7C9070"
+    },
+    totalRight: {
+        width: "50%",
+        textAlign: "right",
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "#7C9070"
+    },
+
 
 
     cartBtnCont: {
@@ -368,6 +594,7 @@ const styles = StyleSheet.create({
     siBtn: {
         width: "100%",
         // marginHorizontal: "8%",
+        marginBottom: 30,
         height: 60,
         borderRadius: 50,
         marginTop: 40,
