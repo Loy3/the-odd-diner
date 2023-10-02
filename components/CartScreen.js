@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import backBtnIcon from "../assets/Icons/prev.png";
 import priceIcon from "../assets/Icons/money.png";
+import deleteIcon from "../assets/Icons/delete.png";
 
 const CartScreen = ({ navigation }) => {
 
@@ -35,7 +36,11 @@ const CartScreen = ({ navigation }) => {
                 const jsonValue = await AsyncStorage.getItem('cartItems');
                 const res = jsonValue != null ? JSON.parse(jsonValue) : null;
                 console.log(res);
-                await getCartItems(res);
+                if (res === null) {
+                    navigation.navigate("Home")
+                } else {
+                    await getCartItems(res);
+                }
                 setloadingStatusStatus(false)
             })
         })();
@@ -59,24 +64,28 @@ const CartScreen = ({ navigation }) => {
         const res = jsonValue != null ? JSON.parse(jsonValue) : null;
         // console.log("Ress", user[0]);
         const user = await getUsers(res.localId)
-        // console.log("signed in user", user[0].lastname.stringValue);
+        // console.log("signed in user", res.localId);
         setSignedInUser({
             firstname: user[0].firstname.stringValue,
             lastname: user[0].lastname.stringValue,
             imageUrl: user[0].imageUrl.stringValue,
-            emailAddress: res.email
+            emailAddress: res.email,
+            userID: res.localId
         });
         // return null;
     }
 
     async function getCartItems(itemsId) {
         const res = await getItems();
+        //Get USer
+        const jsonValue = await AsyncStorage.getItem('user');
+        const resUser = jsonValue != null ? JSON.parse(jsonValue) : null;
 
-        // console.log("itemsId", itemsId);
+        console.log("itemsId", itemsId);
         var myItems = [];
         itemsId.forEach(id => {
             res.forEach(r => {
-                if (id.id === r.id) {
+                if (id.id === r.id && resUser.userID === r.userID) {
                     console.log("Item found");
                     const foundItem = {
                         id: r.id,
@@ -91,7 +100,7 @@ const CartScreen = ({ navigation }) => {
                 }
             });
             // console.log(myItems);
-            setItems(myItems);
+
             // if (r.id === itemId.id) {
             //     setItem({
             //         id: r.id,
@@ -104,8 +113,31 @@ const CartScreen = ({ navigation }) => {
             //     })
             // }
         });
-
+        setItems(myItems);
         // setItems(res);
+
+    }
+
+    async function deleteFromCart(id) {
+        const jsonValue = await AsyncStorage.getItem('cartItems');
+        const res = jsonValue != null ? JSON.parse(jsonValue) : null;
+
+        var remainingItems = [];
+        res.forEach(r => {
+            if (r.id === id && signedInUser.userID === r.userID) {
+                console.log("Found the item");
+            } else {
+                remainingItems.push(r);
+            }
+        });
+
+        // console.log("Remaining items", remainingItems);
+
+        const jsonSetValue = JSON.stringify(remainingItems);
+        await AsyncStorage.setItem('cartItems', jsonSetValue).then(async () => {
+            console.log("Success");
+            await getCartItems(remainingItems);
+        })
 
     }
 
@@ -150,6 +182,10 @@ const CartScreen = ({ navigation }) => {
                                             <Text style={styles.prepTimeText}>{`R${item.itemPrice}.00`}</Text>
                                         </View>
                                     </View>
+
+                                    <TouchableOpacity style={styles.deleteButnCont} onPress={() => deleteFromCart(item.id)}>
+                                        <Image source={deleteIcon} style={styles.deleteButn} />
+                                    </TouchableOpacity>
                                 </View>
                             ))}
                         </View>
@@ -220,7 +256,7 @@ const styles = StyleSheet.create({
         marginTop: 50
     },
     cartCard: {
-        height: 150,
+        height: 140,
         width: "100%",
         backgroundColor: "#E8F5E0",
         marginBottom: 10,
@@ -257,21 +293,29 @@ const styles = StyleSheet.create({
     prepTimeIc: {
         width: 25,
         height: 25
-      },
-      prepTimeText: {
+    },
+    prepTimeText: {
         marginLeft: 10,
         color: "#7C9070",
         fontSize: 16,
         fontWeight: "700",
-      },
-      priceCont: {
+    },
+    priceCont: {
         // width: "30%",
         // backgroundColor:"green",
-        marginTop:10,
+        marginTop: 10,
         flexDirection: "row",
         alignItems: "center",
-      },
-
+    },
+    deleteButnCont: {
+        position: "absolute",
+        top: 10,
+        right: 10
+    },
+    deleteButn: {
+        height: 40,
+        width: 40
+    },
 
 
     cartBtnCont: {

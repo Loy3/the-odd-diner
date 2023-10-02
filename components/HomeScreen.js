@@ -107,14 +107,16 @@ const HomeScreen = ({ navigation }) => {
   async function getUser() {
     const jsonValue = await AsyncStorage.getItem('user');
     const res = jsonValue != null ? JSON.parse(jsonValue) : null;
-    // console.log("Ress", user[0]);
+
     const user = await getUsers(res.localId)
+    // console.log("Ress", res);
     console.log("signed in user", user[0].lastname.stringValue);
     setSignedInUser({
       firstname: user[0].firstname.stringValue,
       lastname: user[0].lastname.stringValue,
       imageUrl: user[0].imageUrl.stringValue,
-      emailAddress: res.email
+      emailAddress: res.email,
+      userID: res.localId
     });
     // return null;
   }
@@ -273,17 +275,27 @@ const HomeScreen = ({ navigation }) => {
       console.log("res", res);
       var itemsToCart = [];
       var itemId = {
-        id: id
+        id: id,
+        userID: signedInUser.userID
       }
 
-      res.forEach(r => {
-        itemsToCart.push(r);
-      });
-      itemsToCart.push(itemId);
-      const jsonSetValue = JSON.stringify(itemsToCart);
-      await AsyncStorage.setItem('cartItems', jsonSetValue).then(() => {
-        console.log("Success");
-      })
+      console.log(itemId);
+      if (res === null) {
+        itemsToCart.push(itemId);
+        const jsonSetValue = JSON.stringify(itemsToCart);
+        await AsyncStorage.setItem('cartItems', jsonSetValue).then(() => {
+          console.log("Success");
+        })
+      } else {
+        res.forEach(r => {
+          itemsToCart.push(r);
+        });
+        itemsToCart.push(itemId);
+        const jsonSetValue = JSON.stringify(itemsToCart);
+        await AsyncStorage.setItem('cartItems', jsonSetValue).then(() => {
+          console.log("Success");
+        })
+      }
     }
   }
 
@@ -339,8 +351,8 @@ const HomeScreen = ({ navigation }) => {
             </View>
 
             <View style={styles.popularCont}>
-             
-                <Image source={popularItems.itemImageUrl === "" ? subImg : { uri: popularItems.itemImageUrl }} style={styles.popularImg} />
+
+              <Image source={popularItems.itemImageUrl === "" ? subImg : { uri: popularItems.itemImageUrl }} style={styles.popularImg} />
               {/* </TouchableOpacity> */}
               <View style={styles.popularBg} />
 
@@ -353,7 +365,7 @@ const HomeScreen = ({ navigation }) => {
               </TouchableOpacity>
 
               <View style={styles.popularDetailsCont}>
-                
+
                 <Image source={starIcon} style={styles.starIcon} />
                 <Text style={styles.popularDetailsTitle}>{popularItems.itemName}</Text>
                 <Text style={styles.popularDetailsSub}>{popularItems.itemSub}</Text>

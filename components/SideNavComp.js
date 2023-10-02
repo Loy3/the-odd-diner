@@ -11,8 +11,10 @@ import profileIcon from "../assets/Icons/user2.png";
 import signOutIcon from "../assets/Icons/exit.png";
 
 import closeIcon from "../assets/Icons/close.png";
+import { useNavigation } from '@react-navigation/native';
 
 const SideNavComp = ({ setMenuStatus }) => {
+    const navigation = useNavigation();
     const [signedInUser, setSignedInUser] = useState({
         firstname: null,
         lastname: null,
@@ -42,6 +44,31 @@ const SideNavComp = ({ setMenuStatus }) => {
         // return null;
     }
 
+    function handleNav(type) {
+        switch (type) {
+            case "home":
+                navigation.navigate("Home");
+                setMenuStatus(false);
+                break;
+            case "orders":
+                // navigation.navigate("Home");
+                setMenuStatus(false);
+                console.log("Orders");
+                break;
+            case "cart":
+                navigation.navigate("Cart");
+                setMenuStatus(false);
+                break;
+            case "profile":
+                // navigation.navigate("Home");
+                setMenuStatus(false);
+                console.log("Profile");
+                break;
+            default:
+                console.log("Sign Out");
+        }
+    }
+
     function closeMenu() {
         setMenuStatus(false);
     }
@@ -50,7 +77,7 @@ const SideNavComp = ({ setMenuStatus }) => {
             <View style={styles.sideNavBox}>
 
                 <View style={styles.sideNavUser}>
-                    <TouchableOpacity onPress={closeMenu} style={{width:30, height:30, position: "absolute", top: 50, right: 10}}>
+                    <TouchableOpacity onPress={closeMenu} style={{ width: 30, height: 30, position: "absolute", top: 50, right: 10 }}>
                         <Image source={closeIcon} style={{ width: 15, height: 15 }} />
                     </TouchableOpacity>
                     <Image source={signedInUser.imageUrl === null ? userIcon : { uri: signedInUser.imageUrl }} style={styles.headerImage} />
@@ -58,29 +85,29 @@ const SideNavComp = ({ setMenuStatus }) => {
                     <Text style={styles.headerDate}>{`${signedInUser.emailAddress === null ? "Email Address" : signedInUser.emailAddress}`}</Text>
                 </View>
                 <View style={styles.btnCont}>
-                    <TouchableOpacity style={{ flexDirection: "row" }}>
+                    <TouchableOpacity style={{ flexDirection: "row" }} onPress={() => handleNav("home")}>
                         <Image source={homeIcon} style={styles.btnIcon} />
                         <Text style={styles.btnTxt}>Home</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={{ flexDirection: "row" }}>
+                    <TouchableOpacity style={{ flexDirection: "row" }} onPress={() => handleNav("orders")}>
                         <Image source={ordersIcon} style={styles.btnIcon} />
                         <Text style={styles.btnTxt}>Orders</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={{ flexDirection: "row" }}>
+                    <TouchableOpacity style={{ flexDirection: "row" }} onPress={() => handleNav("cart")}>
                         <Image source={cartIcon} style={styles.btnIcon} />
                         <Text style={styles.btnTxt}>Cart</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={{ flexDirection: "row" }}>
+                    <TouchableOpacity style={{ flexDirection: "row" }} onPress={() => handleNav("profile")}>
                         <Image source={profileIcon} style={styles.btnIcon} />
                         <Text style={styles.btnTxt}>Profile</Text>
                     </TouchableOpacity>
 
 
                 </View>
-                <TouchableOpacity style={{ flexDirection: "row", position: "absolute", bottom: 30, left: 30 }}>
+                <TouchableOpacity style={{ flexDirection: "row", position: "absolute", bottom: 30, left: 30 }} onPress={() => handleNav("signOut")}>
                     <Image source={signOutIcon} style={styles.btnIcon} />
                     <Text style={[styles.btnTxt, { color: "#B60000" }]}>Sign Out</Text>
                 </TouchableOpacity>

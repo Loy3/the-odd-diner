@@ -51,9 +51,12 @@ const ViewItemScreen = ({ navigation }) => {
             const curItem = await getItemId();
             // console.log(curItem);
 
+            //Get user 
+            const jsonUserValue = await AsyncStorage.getItem('user');
+            const resUser = jsonValue != null ? JSON.parse(jsonUserValue) : null;
 
             res.forEach(r => {
-                if (r.id === curItem.id) {
+                if (r.id === curItem.id && r.userID === resUser.localId) {
                     console.log("found");
                     setBtnStatus(false);
                 } else {
@@ -75,7 +78,8 @@ const ViewItemScreen = ({ navigation }) => {
             firstname: user[0].firstname.stringValue,
             lastname: user[0].lastname.stringValue,
             imageUrl: user[0].imageUrl.stringValue,
-            emailAddress: res.email
+            emailAddress: res.email,
+            userID: res.localId
         });
         // return null;
     }
@@ -126,22 +130,37 @@ const ViewItemScreen = ({ navigation }) => {
         console.log("res", res);
         var itemsToCart = [];
         var itemId = {
-            id: id
+            id: id,
+            userID: signedInUser.userID
         }
 
-        res.forEach(r => {
-            itemsToCart.push(r);
-        });
-        console.log("itemsToCart before", itemsToCart);
-        itemsToCart.push(itemId);
-        console.log("itemsToCart after", itemsToCart);
-        const jsonSetValue = JSON.stringify(itemsToCart);
-        await AsyncStorage.setItem('cartItems', jsonSetValue).then(() => {
-            console.log("Success 1");
-            setBtnStatus(false);
-        })
+        if (res === null) {
+            // res.forEach(r => {
+            //     itemsToCart.push(r);
+            // });
+            console.log("itemsToCart before", itemsToCart);
+            itemsToCart.push(itemId);
+            console.log("itemsToCart after", itemsToCart);
+            const jsonSetValue = JSON.stringify(itemsToCart);
+            await AsyncStorage.setItem('cartItems', jsonSetValue).then(() => {
+                console.log("Success 1");
+                setBtnStatus(false);
+            })
+        } else {
+            res.forEach(r => {
+                itemsToCart.push(r);
+            });
+            console.log("itemsToCart before", itemsToCart);
+            itemsToCart.push(itemId);
+            console.log("itemsToCart after", itemsToCart);
+            const jsonSetValue = JSON.stringify(itemsToCart);
+            await AsyncStorage.setItem('cartItems', jsonSetValue).then(() => {
+                console.log("Success 1");
+                setBtnStatus(false);
+            })
+        }
 
-        
+
     }
 
 
@@ -168,13 +187,14 @@ const ViewItemScreen = ({ navigation }) => {
                             <TouchableOpacity style={styles.backBtnCont} onPress={backToHome}>
                                 <Image source={backBtnIcon} style={styles.backBtn} />
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.cartBtnCont} >
+                            <TouchableOpacity style={styles.cartBtnCont} onPress={() => navigation.navigate("Cart")}>
                                 <Image source={cartIcon} style={styles.cartBtn} />
                             </TouchableOpacity>
                         </View>
 
                         <View style={{ marginHorizontal: 20, paddingVertical: 20 }}>
                             <Text style={styles.itemTitle}>{item.itemName ? `${item.itemName}` : "Title"}</Text>
+                            <Text style={styles.itemSubTitle}>{item.itemName ? `${item.itemSub}` : "Sub Title"}</Text>
 
                             <View style={styles.cardPrepTimeCont}>
                                 <Image source={prepTimeIcon} style={styles.cardPrepTimeIc} />
@@ -274,7 +294,13 @@ const styles = StyleSheet.create({
         // marginLeft: 10,
         marginTop: 0
     },
-
+    itemSubTitle: {
+        fontSize: 20,
+        color: "#A8C099",
+        fontWeight: "bold",
+        // marginLeft: 10,
+        marginTop: 5
+    },
     cardPrepTimeCont: {
         marginTop: 20,
         marginLeft: -5,
