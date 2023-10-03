@@ -108,46 +108,89 @@ export const getItems = async () => {
 
 
 //Get Users
-// export const getUsers = async (id) => {
-//     const url = `https://firestore.googleapis.com/v1/projects/${project}/databases/(default)/documents/oddUsers`;
-//     try {
-//         const response = await fetch(url, {
-//             method: "GET",
-//         });
-//         const data = await response.json();
-//         // console.log("Done: ", data.documents[0].name);
-//         let user = [];
+export const getUsers = async (id) => {
+    const url = `https://firestore.googleapis.com/v1/projects/${project}/databases/(default)/documents/oddUsers`;
+    try {
+        const response = await fetch(url, {
+            method: "GET",
+        });
+        const data = await response.json();
+        // console.log("Done: ", data.documents[0].name);
+        let user = [];
 
-//         data.documents.forEach(dat => {
-//             // console.log("Done: ", dat.fields.email.stringValue);
-//             if (id === dat.fields.userId.stringValue) {
-//                 const array = dat.name.split("/");
-//                 user.push({ id: array[array.length - 1], ...dat.fields })
-//                 // console.log("Id: ", array[array.length - 1]);
-//             }
-//         });
-//         // console.log("My user", user);
-//         return user;
-//     } catch (error) {
-//         console.log(error);
-//     }
+        data.documents.forEach(dat => {
+            // console.log("Done: ", dat.fields.email.stringValue);
+            if (id === dat.fields.userId.stringValue) {
+                const array = dat.name.split("/");
+                user.push({ id: array[array.length - 1], ...dat.fields })
+                // console.log("Id: ", array[array.length - 1]);
+            }
+        });
+        // console.log("My user", user);
+        return user;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+// export const getUsers = async (id) => {
+//     // console.log("items", items.documents[0].fields);
+
+//     let myUsers = [];
+//     const data = users;
+//     // console.log("data",data);
+//     let user = [];
+//     data.documents.forEach(dat => {
+//         // console.log("Done: ", dat.fields.email.stringValue);
+//         if (id === dat.fields.userId.stringValue) {
+//             const array = dat.name.split("/");
+//             user.push({ id: array[array.length - 1], ...dat.fields })
+//             // console.log("Id: ", array[array.length - 1]);
+//         }
+//     });
+//     // console.log("My user", user);
+//     return user;
 // }
 
-export const getUsers = async (id) => {
-    // console.log("items", items.documents[0].fields);
 
-    let myUsers = [];
-    const data = users;
-    // console.log("data",data);
-    let user = [];
-    data.documents.forEach(dat => {
-        // console.log("Done: ", dat.fields.email.stringValue);
-        if (id === dat.fields.userId.stringValue) {
-            const array = dat.name.split("/");
-            user.push({ id: array[array.length - 1], ...dat.fields })
-            // console.log("Id: ", array[array.length - 1]);
+export const updateUserAddress = async (data) => {
+
+
+    const user = {
+        fields: {
+            address: {
+                mapValue: {
+                    fields: {
+                        streetAddr: {
+                            stringValue: data.streetAddr
+                        },
+                        city: {
+                            stringValue: data.city
+                        },
+                        zipCode: {
+                            stringValue: data.zipCode
+                        }
+                    }
+                }
+            }
         }
-    });
-    // console.log("My user", user);
-    return user;
+    }
+
+    const url = `https://firestore.googleapis.com/v1/projects/${project}/databases/(default)/documents/oddUsers/${data.id}?currentDocument.exists=true&updateMask.fieldPaths=address&alt=json`;
+    try {
+        await fetch(url, {
+            method: "PATCH",
+            headers: { 'ContentType': 'application/json' },
+            body: JSON.stringify(user),
+        }).then(() => {
+            console.log("Done");
+        }).catch((error) => {
+            console.log(error);
+        })
+        // const data = await response.json();
+
+        // return data;
+    } catch (error) {
+        console.log(error);
+    }
 }

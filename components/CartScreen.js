@@ -86,7 +86,7 @@ const CartScreen = ({ navigation }) => {
         itemsId.forEach(id => {
             res.forEach(r => {
                 if (id.id === r.id && resUser.userID === r.userID) {
-                    console.log("Item found");
+                    // console.log("Item found");
                     const foundItem = {
                         id: r.id,
                         itemImageUrl: r.itemImageUrl.stringValue,
@@ -148,7 +148,7 @@ const CartScreen = ({ navigation }) => {
 
         for (let i = 0; i < myItems.length; i++) {
             if (myItems[i].id === itemId) {
-                console.log("Item Found");
+                // console.log("Item Found");
                 itemIndex = i;
             }
         }
@@ -157,7 +157,7 @@ const CartScreen = ({ navigation }) => {
         var totalPrice = parseInt(myItems[itemIndex].itemPrice) * myItems[itemIndex].numOfItems;
 
         myItems[itemIndex].totalPrice = totalPrice;
-        console.log(totalISubPrice);
+        // console.log(totalISubPrice);
         totalISubPrice += parseInt(myItems[itemIndex].itemPrice);
         totalIPrice = totalISubPrice + 60
         setItemsTotalPrice(totalIPrice);
@@ -180,7 +180,7 @@ const CartScreen = ({ navigation }) => {
 
         for (let i = 0; i < myItems.length; i++) {
             if (myItems[i].id === itemId) {
-                console.log("Item Found");
+                // console.log("Item Found");
                 itemIndex = i;
             }
         }
