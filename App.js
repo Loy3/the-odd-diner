@@ -16,6 +16,7 @@ import HomeScreen from './components/HomeScreen';
 import ViewItemScreen from './components/ViewItemScreen';
 import CartScreen from './components/CartScreen';
 import CheckOutScreen from './components/CheckOutScreen';
+import ViewProfileScreen from './components/ViewProfileScreen';
 
 export default function App({ navigation }) {
   const Stack = createStackNavigator();
@@ -115,8 +116,9 @@ export default function App({ navigation }) {
           <>
             {/* <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Item" component={ViewItemScreen} /> */}
-            <Stack.Screen name="Cart" component={CartScreen} />
-            <Stack.Screen name="Checkout" component={CheckOutScreen} />
+            {/* <Stack.Screen name="Cart" component={CartScreen} />
+            <Stack.Screen name="Checkout" component={CheckOutScreen} /> */}
+            <Stack.Screen name="ViewProfile" component={ViewProfileScreen} /> 
           </>
 
         )

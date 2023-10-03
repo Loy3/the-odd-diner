@@ -107,7 +107,7 @@ export const getItems = async () => {
 }
 
 
-//Get Users
+// Get Users
 export const getUsers = async (id) => {
     const url = `https://firestore.googleapis.com/v1/projects/${project}/databases/(default)/documents/oddUsers`;
     try {
@@ -177,6 +177,46 @@ export const updateUserAddress = async (data) => {
     }
 
     const url = `https://firestore.googleapis.com/v1/projects/${project}/databases/(default)/documents/oddUsers/${data.id}?currentDocument.exists=true&updateMask.fieldPaths=address&alt=json`;
+    try {
+        await fetch(url, {
+            method: "PATCH",
+            headers: { 'ContentType': 'application/json' },
+            body: JSON.stringify(user),
+        }).then(() => {
+            console.log("Done");
+        }).catch((error) => {
+            console.log(error);
+        })
+        // const data = await response.json();
+
+        // return data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+export const updateUserCardDetails = async (data) => {
+
+
+    const user = {
+        fields: {
+            cardDetails: {
+                mapValue: {
+                    fields: {
+                        cardName: { stringValue: data.cardName },
+                        cardNum: { stringValue: data.cardNum },
+                        zipCode: { stringValue: data.zipCode },
+                        cardDate: { stringValue: data.cardDate }
+                    }
+                }
+            }
+        }
+    }
+
+    // console.log(data);
+
+    const url = `https://firestore.googleapis.com/v1/projects/${project}/databases/(default)/documents/oddUsers/${data.id}?currentDocument.exists=true&updateMask.fieldPaths=cardDetails&alt=json`;
     try {
         await fetch(url, {
             method: "PATCH",

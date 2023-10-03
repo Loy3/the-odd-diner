@@ -6,20 +6,32 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import backBtnIcon from "../assets/Icons/prev.png";
 import masterCardIcon from "../assets/Icons/card.png";
-import cardChipIcon from "../assets/Icons/card.png";
+import cardChipIcon from "../assets/Icons/chip.png";
 import locationIcon from "../assets/Icons/location2.png";
 import UpdateAddressComp from './UpdateAddressComp';
+import UpdateCardDetailsComp from './UpdateCardDetailsComp';
 
 const CheckOutScreen = ({ navigation }) => {
     const [signedInUser, setSignedInUser] = useState({
         firstname: null,
         lastname: null,
         imageUrl: null,
-        emailAddress: null
+        emailAddress: null,
+        address: null,
+        addressZip: null,
+        city: null,
+        cardName: null,
+        cardNum: null,
+        cardDate: null,
+        zipCode: null
     });
     const [items, setItems] = useState([]);
     const [loadingStatus, setloadingStatusStatus] = useState(false);
-    const [popUpStatus, setpopUpStatus] = useState(false)
+    const [popUpStatus, setpopUpStatus] = useState(false);
+    const [popUpCardStatus, setpopUpCardStatus] = useState(false);
+    const [itemsTotalPrice, setItemsTotalPrice] = useState("");
+    const [itemsSubTotalPrice, setItemsSubTotalPrice] = useState("");
+    const [checkoutItems, setCheckoutItems] = useState(null);
     // useEffect(()=>{
     //     navigation.navigate("Cart")
     // },[])
@@ -46,7 +58,7 @@ const CheckOutScreen = ({ navigation }) => {
         const res = jsonValue != null ? JSON.parse(jsonValue) : null;
         // console.log("Ress", user[0]);
         const user = await getUsers(res.localId)
-        // console.log("signed in user", user[0].address.mapValue.fields.zipCode.stringValue);
+        // console.log("signed in user", user[0].cardDetails.mapValue.fields.cardDate.stringValue);
         const address = await getAddressonSave();
         if (address === null) {
             setSignedInUser({
@@ -57,7 +69,11 @@ const CheckOutScreen = ({ navigation }) => {
                 userID: res.localId,
                 address: `${user[0].address.mapValue.fields.streetAddr.stringValue} `,
                 addressZip: `${user[0].address.mapValue.fields.zipCode.stringValue}`,
-                city: `${user[0].address.mapValue.fields.city.stringValue}`
+                city: `${user[0].address.mapValue.fields.city.stringValue}`,
+                cardName: user[0].cardDetails.mapValue.fields.cardName.stringValue,
+                cardNum: user[0].cardDetails.mapValue.fields.cardNum.stringValue,
+                cardDate: user[0].cardDetails.mapValue.fields.cardDate.stringValue,
+                zipCode: user[0].cardDetails.mapValue.fields.zipCode.stringValue
             });
         } else {
             setSignedInUser({
@@ -68,7 +84,11 @@ const CheckOutScreen = ({ navigation }) => {
                 userID: res.localId,
                 address: `${address.streetAddr} `,
                 addressZip: `${address.zipCode}`,
-                city: `${address.city}`
+                city: `${address.city}`,
+                cardName: user[0].cardDetails.mapValue.fields.cardName.stringValue,
+                cardNum: user[0].cardDetails.mapValue.fields.cardNum.stringValue,
+                cardDate: user[0].cardDetails.mapValue.fields.cardDate.stringValue,
+                zipCode: user[0].cardDetails.mapValue.fields.zipCode.stringValue
             });
         }
 
@@ -78,9 +98,11 @@ const CheckOutScreen = ({ navigation }) => {
     async function getCheckoutItems() {
         const jsonValue = await AsyncStorage.getItem('checkout');
         const res = jsonValue != null ? JSON.parse(jsonValue) : null;
-        // console.log("Ress", res.items[0]);
+        // console.log("Ress", res.itemsSubTotalPrice);
+        setItemsSubTotalPrice(res.itemsSubTotalPrice);
+        setItemsTotalPrice(res.itemsTotalPrice)
+        setCheckoutItems(res)
     }
-
 
     async function getAddressonSave() {
         var myAddress = null;
@@ -115,6 +137,20 @@ const CheckOutScreen = ({ navigation }) => {
         setpopUpStatus(true)
     }
 
+
+    function openCardPopup() {
+        setpopUpCardStatus(true)
+    }
+
+    function cardNumberChanger(cardNum) {
+        const word = cardNum;
+        const lastFourLetters = word.slice(-4);
+        // console.log(lastFourLetters);
+        const returnValue = `*** *** *** *** ${lastFourLetters}`
+        return returnValue;
+    }
+
+
     if (loadingStatus === true) {
         return (
             <>
@@ -129,13 +165,39 @@ const CheckOutScreen = ({ navigation }) => {
         <View style={styles.container}>
             <ScrollView scrollEnabled={true} >
                 <>
-                    <View>
+                    <View >
                         <TouchableOpacity style={styles.backBtnCont} onPress={backToHome}>
                             <Image source={backBtnIcon} style={styles.backBtn} />
                         </TouchableOpacity>
                         <Text style={styles.pageTitle}>Checkout</Text>
+                        <View style={{ marginTop: 30 }}>
+                            <TouchableOpacity style={styles.editBtn2} onPress={openCardPopup}>
+                                <Text style={styles.editBtnTxt}>Edit</Text>
+                            </TouchableOpacity>
+                            <Text style={[styles.paymentTitle, { marginLeft: "5%" }]}>Payment Method</Text>
+                            <View style={styles.masterCardCont}>
+                                <Image source={cardChipIcon} style={styles.chip} />
+                                <Image source={masterCardIcon} style={styles.cardMaster} />
+                                <Text style={styles.cardNum}>{signedInUser.cardNum ? cardNumberChanger(signedInUser.cardNum) : signedInUser.cardNum}</Text>
 
-                        <Text style={[styles.paymentTitle, { marginTop: 80 }]}>Delivery Address:</Text>
+                                <View style={styles.cardDetailsCont}>
+                                    <View style={styles.cardNameCont}>
+                                        <Text style={styles.cardTitles}>Card Name:</Text>
+                                        <Text style={styles.cardSubTitles}>{signedInUser.cardName}</Text>
+                                    </View>
+                                    <View style={styles.cardRestCont}>
+                                        <Text style={styles.cardTitles}>Expires:</Text>
+                                        <Text style={styles.cardSubTitles}>{signedInUser.cardDate}</Text>
+                                    </View>
+                                    <View style={styles.cardRestCont}>
+                                        <Text style={styles.cardTitles}>cvv</Text>
+                                        <Text style={styles.cardSubTitles}>{signedInUser.zipCode}</Text>
+                                    </View>
+                                </View>
+                            </View>
+                        </View>
+                        <View style={styles.pLine} />
+                        <Text style={[styles.paymentTitle, { marginTop: 30 }]}>Delivery Address:</Text>
 
                         <View style={styles.addressCont}>
                             <Image source={locationIcon} style={styles.backBtn} />
@@ -150,20 +212,42 @@ const CheckOutScreen = ({ navigation }) => {
                             </TouchableOpacity>
                         </View>
 
+                        <View style={styles.pricingCont}>
+                            <Text style={styles.pricingTitle}>Pricing</Text>
+                            <View style={{ flexDirection: "row", marginTop: 15 }}>
+                                <Text style={styles.subTotalLeft}>Sub Total</Text>
+                                <Text style={styles.subTotalRight}>R{itemsSubTotalPrice}.00</Text>
+                            </View>
+                            <View style={{ flexDirection: "row", marginTop: 10 }}>
+                                <Text style={styles.subTotalLeft}>Delivery Fee:</Text>
+                                <Text style={styles.subTotalRight}>R60.00</Text>
+                            </View>
+                            <View style={styles.pLine2} />
+                            <View style={{ flexDirection: "row" }}>
+                                <Text style={styles.totalLeft}>Total</Text>
+                                <Text style={styles.totalRight}>R{itemsTotalPrice}.00</Text>
+                            </View>
 
-
-                        <Text style={styles.paymentTitle}>Payment Method</Text>
-                        <View style={styles.masterCardCont}>
+                            <TouchableOpacity style={styles.siBtn} >
+                                <Text style={styles.siBtnTxt}>Confirm Payment</Text>
+                            </TouchableOpacity>
 
                         </View>
                     </View>
-
                 </>
             </ScrollView>
+
             {popUpStatus ?
                 <View style={styles.popUp}>
                     <View style={styles.popUpBox}>
                         <UpdateAddressComp setpopUpStatus={setpopUpStatus} />
+                    </View>
+                </View>
+                : null}
+            {popUpCardStatus ?
+                <View style={styles.popUp}>
+                    <View style={styles.popUpBox}>
+                        <UpdateCardDetailsComp setpopUpCardStatus={setpopUpCardStatus} />
                     </View>
                 </View>
                 : null}
@@ -214,14 +298,6 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: "#7C9070"
     },
-    masterCardCont: {
-        marginTop: 20,
-        width: "94%",
-        height: 300,
-        marginHorizontal: "3%",
-        backgroundColor: "black",
-
-    },
     addressCont: {
         marginHorizontal: 20,
         marginTop: 10,
@@ -239,6 +315,19 @@ const styles = StyleSheet.create({
         color: "#969696",
         marginLeft: 7
     },
+    editBtn2: {
+        position: "absolute",
+        right: 20,
+        top: 40,
+        width: 80,
+        height: 40,
+        backgroundColor: "#FFFEF5",
+        borderColor: "#7C9070",
+        borderWidth: 3,
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 8
+    },
     editBtn: {
         position: "absolute",
         right: 0,
@@ -249,7 +338,8 @@ const styles = StyleSheet.create({
         borderColor: "#7C9070",
         borderWidth: 3,
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        borderRadius: 8
     },
     editBtnTxt: {
         fontSize: 17,
@@ -257,10 +347,144 @@ const styles = StyleSheet.create({
         color: "#7C9070",
         marginLeft: 7,
     },
+    pLine: {
+        width: "90%",
+        marginHorizontal: "5%",
+        borderWidth: 1,
+        borderColor: "#7C9070",
+        borderStyle: "dashed",
+        marginVertical: 20,
+        marginTop: 30
+    },
+    masterCardCont: {
+        marginTop: 20,
+        width: "90%",
+        height: 250,
+        marginHorizontal: "5%",
+        backgroundColor: "#7C9070",
+        borderRadius: 15
 
+    },
+    chip: {
+        width: 40,
+        height: 40,
+        position: "absolute",
+        top: 20,
+        left: 20
+    },
+    cardMaster: {
+        width: 64,
+        height: 40,
+        position: "absolute",
+        right: 20,
+        top: 20
+    },
+    cardNum: {
+        width: "100%",
+        textAlign: "center",
+        marginTop: 110,
+        fontSize: 18,
+        // fontWeight: "bold",
+        color: "#FFFEF5",
+        letterSpacing: 7
+    },
+    cardDetailsCont: {
+        position: "absolute",
+        bottom: 20,
+        left: 0,
+        width: "100%",
+        flexDirection: "row"
+    },
+    cardNameCont: {
+        width: "40%",
+        // alignItems: "flex-start",
+        marginLeft: 20,
+        justifyContent: "center"
+    },
+    cardRestCont: {
+        width: "30%",
+        alignItems: "flex-start",
+        justifyContent: "center"
+    },
+    cardTitles: {
+        fontSize: 14,
+        color: "#FFFEF5",
+        textAlign: "left",
+    },
+    cardSubTitles: {
+        fontSize: 14,
+        color: "#FFFEF5",
+        fontWeight: "bold"
+    },
 
-
-
+    pricingCont: {
+        width: "90%",
+        height: 300,
+        marginHorizontal: "5%",
+        // backgroundColor: "yellow",
+        marginTop: 130,
+        marginBottom: 30
+    },
+    pricingTitle: {
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "#7C9070",
+        marginTop: 10
+    },
+    subTotalLeft: {
+        width: "50%",
+        textAlign: "left",
+        fontSize: 16,
+        fontWeight: "bold",
+        color: "#969696"
+    },
+    subTotalRight: {
+        width: "50%",
+        textAlign: "right",
+        fontSize: 16,
+        fontWeight: "bold",
+        color: "#969696"
+    },
+    pLine2: {
+        width: "100%",
+        borderWidth: 1,
+        borderColor: "#7C9070",
+        borderStyle: "dashed",
+        marginVertical: 20
+    },
+    totalLeft: {
+        width: "50%",
+        textAlign: "left",
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "#7C9070"
+    },
+    totalRight: {
+        width: "50%",
+        textAlign: "right",
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "#7C9070"
+    },
+    siBtn: {
+        width: "100%",
+        // marginHorizontal: "8%",
+        marginBottom: 30,
+        height: 60,
+        borderRadius: 50,
+        marginTop: 40,
+        // marginHorizontal: "5%",
+        backgroundColor: "#7C9070",
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    siBtnTxt: {
+        textAlign: "center",
+        color: "#FFFEF5",
+        paddingVertical: 15,
+        fontSize: 17,
+        fontWeight: "bold"
+    },
 
     popUp: {
         backgroundColor: "rgba(0,0,0,0.8)",

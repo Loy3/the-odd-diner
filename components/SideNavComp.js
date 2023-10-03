@@ -60,7 +60,7 @@ const SideNavComp = ({ setMenuStatus }) => {
                 setMenuStatus(false);
                 break;
             case "profile":
-                // navigation.navigate("Home");
+                navigation.navigate("ViewProfile");
                 setMenuStatus(false);
                 console.log("Profile");
                 break;
