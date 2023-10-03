@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
         fontSize: 17,
         fontWeight: "bold",
         color: "#7C9070",
-        marginLeft: 7,
+        // marginLeft: 7,
     },
     pLine: {
         width: "90%",
@@ -423,7 +423,7 @@ const styles = StyleSheet.create({
         marginHorizontal: "5%",
         // backgroundColor: "yellow",
         marginTop: 130,
-        marginBottom: 30
+        marginBottom: 20
     },
     pricingTitle: {
         fontSize: 20,
@@ -469,7 +469,7 @@ const styles = StyleSheet.create({
     siBtn: {
         width: "100%",
         // marginHorizontal: "8%",
-        marginBottom: 30,
+        marginBottom: 0,
         height: 60,
         borderRadius: 50,
         marginTop: 40,

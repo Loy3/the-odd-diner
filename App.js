@@ -114,10 +114,10 @@ export default function App({ navigation }) {
 
         {isSignedIn ? (
           <>
-            {/* <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="Item" component={ViewItemScreen} /> */}
-            {/* <Stack.Screen name="Cart" component={CartScreen} />
-            <Stack.Screen name="Checkout" component={CheckOutScreen} /> */}
+             <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Item" component={ViewItemScreen} />
+             <Stack.Screen name="Cart" component={CartScreen} />
+            <Stack.Screen name="Checkout" component={CheckOutScreen} /> 
             <Stack.Screen name="ViewProfile" component={ViewProfileScreen} /> 
           </>
 

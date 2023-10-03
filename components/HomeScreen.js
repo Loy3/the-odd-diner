@@ -336,6 +336,14 @@ const HomeScreen = ({ navigation }) => {
 
       <ScrollView scrollEnabled={true} >
         <>
+        {/* <View style={{
+          position:"fixed", 
+        top:0,
+        width:"100%",
+        height:35,
+        backgroundColor: '#FFFEF5',
+        zIndex:99
+      }}/> */}
           <View style={styles.header}>
             <View style={styles.menuCont}>
               <TouchableOpacity style={styles.menuBtn} onPress={openMenu}>
