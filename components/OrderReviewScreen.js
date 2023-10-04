@@ -49,7 +49,7 @@ const OrderReviewScreen = ({ navigation }) => {
 
                 // console.log(res);
                 if (user === null) {
-                    navigation.navigate("Home")
+                    navigation.navigate("Cart")
                 } else {
                     await getCheckoutItems();
                 }
@@ -144,7 +144,7 @@ const OrderReviewScreen = ({ navigation }) => {
     }
 
     function toCheckout(){
-        console.log("ch");
+        // console.log("ch");
         navigation.navigate("Checkout")
     }
 
@@ -244,8 +244,8 @@ const OrderReviewScreen = ({ navigation }) => {
                     </View>
                 </>
             </ScrollView>
-            <View style={styles.siBtnCont} onPress={toCheckout}>
-                <TouchableOpacity style={styles.siBtn} >
+            <View style={styles.siBtnCont} >
+                <TouchableOpacity style={styles.siBtn} onPress={toCheckout}>
                     <Text style={styles.siBtnTxt}>Checkout</Text>
                 </TouchableOpacity>
             </View>

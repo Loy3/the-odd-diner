@@ -1,7 +1,19 @@
 const project = "the-hidden-inn";
 import items from "./listOfItems";
 import users from "./listOfUsers";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
+async function getUser() {
+    // var token = null;
+    const jsonValue = await AsyncStorage.getItem('user');
+
+    const user = await JSON.parse(jsonValue);
+    const token = user.idToken;
+    // console.log("user", token);
+
+    return token;
+}
 //Save Document
 export const storeUserDoc = async (data) => {
     console.log("Data res", data);
@@ -230,6 +242,76 @@ export const updateUserCardDetails = async (data) => {
         // const data = await response.json();
 
         // return data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+//Save item
+export const storeOrders = async (data) => {
+    console.log("Data res", data.items.numOfItems);
+    const token = await getUser()
+    // const dataToStore = {
+    //     fields: {
+    //         useID: { stringValue: data.useID },
+    //         itemID: {
+    //             stringValue: data.itemID
+    //         },
+    //         numOfItems: {
+    //             stringValue: data.numOfItems
+    //         },
+    //         totalPrice: {
+    //             stringValue: data.totalPrice
+    //         },
+    //         orderStatus: {
+    //             stringValue: "Placed"
+    //         }
+    //     }
+    // }
+
+
+    const dataToStore = {
+        fields: {
+            // Map each object in the array to a document in Firestore
+            useID: { stringValue: data.useID },
+            items: {
+                arrayValue: {
+                    values: data.items.map((dat) => ({
+                        mapValue: {
+                            fields: {
+                                itemID: { stringValue: dat.itemID },
+                                numOfItems: { stringValue: dat.numOfItems },
+                                totalPrice: { stringValue: dat.totalPrice },
+                                orderStatus: { stringValue: "Placed" }
+                            },
+                        },
+                    })),
+                }
+            }
+        }
+    }
+
+
+    console.log("Json", dataToStore.fields.items.arrayValue.values[0].mapValue.fields);
+    const url = `https://firestore.googleapis.com/v1/projects/${project}/databases/(default)/documents/oddOrders`;
+    try {
+        // console.log("Data to store", dataToStore.fields);
+        await fetch(url, {
+            method: "POST",
+            headers: {
+                "Authorization": `Firebase ${token}`,
+                'ContentType': 'application/json'
+            },
+            body: JSON.stringify(dataToStore),
+        }).then(() => {
+            console.log("Done");
+        }).catch((error) => {
+            console.log(error);
+        })
+        // const dataRes = await response.json();
+
+        // return dataRes;
     } catch (error) {
         console.log(error);
     }

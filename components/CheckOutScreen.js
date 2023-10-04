@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Image, Button, TextInput, ScrollView } from 'react-native';
 
-import { getItems, getUsers } from "../services/serviceStoreDoc";
+import { getItems, getUsers, storeOrders } from "../services/serviceStoreDoc";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import backBtnIcon from "../assets/Icons/prev.png";
@@ -102,10 +102,10 @@ const CheckOutScreen = ({ navigation }) => {
     async function getCheckoutItems() {
         const jsonValue = await AsyncStorage.getItem('checkout');
         const res = jsonValue != null ? JSON.parse(jsonValue) : null;
-        // console.log("Ress", res.itemsSubTotalPrice);
+        // console.log("Ress", res.items[0]); 
         setItemsSubTotalPrice(res.itemsSubTotalPrice);
         setItemsTotalPrice(res.itemsTotalPrice)
-        setCheckoutItems(res)
+        setCheckoutItems(res.items)
     }
 
     async function getAddressonSave() {
@@ -137,9 +137,9 @@ const CheckOutScreen = ({ navigation }) => {
         navigation.navigate("Review");
     }
 
-    function editAddress() {
-        setpopUpStatus(true)
-    }
+    // function editAddress() {
+    //     setpopUpStatus(true)
+    // }
 
 
     function openCardPopup() {
@@ -187,6 +187,71 @@ const CheckOutScreen = ({ navigation }) => {
         }
     }
 
+    async function confirmPament() {
+        // console.log(checkoutItems[0].totalPrice);
+
+        try {
+            //  checkoutItems.forEach(async (item) => {
+            //     const data = {
+            //         useID: signedInUser.userID,
+            //         itemID: item.id,
+            //         numOfItems: item.numOfItems,
+            //         totalPrice: item.totalPrice
+            //     }
+
+            //     await storeOrders(data);
+            //     // console.log("save data", data);
+            // })
+            setloadingStatusStatus(true);
+            var myItems = [];
+            for (let c = 0; c < checkoutItems.length; c++) {
+                const data = {
+                    itemID: checkoutItems[c].id,
+                    numOfItems: checkoutItems[c].numOfItems.toString(),
+                    totalPrice: checkoutItems[c].totalPrice.toString()
+                };
+
+                myItems.push(data);
+            }
+
+            const data = {
+                useID: signedInUser.userID,
+                items: myItems
+            };
+            // console.log(data);
+            await storeOrders(data);
+
+            await AsyncStorage.removeItem('cartItems').then(async () => {
+                await AsyncStorage.removeItem('checkout').then(async () => {
+                    await AsyncStorage.removeItem('physicalAddress');
+                    await AsyncStorage.removeItem('cardDetails').then(() => {
+                        console.log("success");
+                        setloadingStatusStatus(false);
+                        navigation.navigate("Home");
+
+                    }).catch((error) => {
+                        console.log("Error", error);
+                    })
+
+                })
+            })
+        } catch (error) {
+            console.log("Error:", error);
+        }
+
+
+        //const jsonValue = await AsyncStorage.getItem('physicalAddress');
+        //const jsonValue = await AsyncStorage.getItem('physicalAddress');
+        // await AsyncStorage.setItem('cardDetails', jsonValue).then(() => {
+
+        /*
+item id,
+user id,
+"numOfItems": 1,
+"totalPrice": "250"
+*/
+    }
+
 
     if (loadingStatus === true) {
         return (
@@ -203,11 +268,16 @@ const CheckOutScreen = ({ navigation }) => {
             <ScrollView scrollEnabled={true} >
                 <>
                     <View >
-                        <TouchableOpacity style={styles.backBtnCont} onPress={backToHome}>
-                            <Image source={backBtnIcon} style={styles.backBtn} />
-                        </TouchableOpacity>
-                        <Text style={styles.pageTitle}>Checkout</Text>
-
+                        <View style={{
+                            height: 150,
+                            width: "100%",
+                            backgroundColor: "#7C9070"
+                        }}>
+                            <TouchableOpacity style={styles.backBtnCont} onPress={backToHome}>
+                                <Image source={backBtnIcon} style={styles.backBtn} />
+                            </TouchableOpacity>
+                            <Text style={styles.pageTitle}>Checkout</Text>
+                        </View>
 
                         {!paymentStatus ?
                             <View style={{ marginTop: 30 }}>
@@ -267,18 +337,18 @@ const CheckOutScreen = ({ navigation }) => {
                         }
 
                         <View style={{ width: "100%", flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: 30 }}>
-                            <TouchableOpacity style={styles.editBtn3} onPress={()=>handlePaymentType("card")}>
+                            <TouchableOpacity style={styles.editBtn3} onPress={() => handlePaymentType("card")}>
                                 <Text style={styles.editBtnTxt}>Card</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.editBtn3} onPress={()=>handlePaymentType("eft")}>
+                            <TouchableOpacity style={styles.editBtn3} onPress={() => handlePaymentType("eft")}>
                                 <Text style={styles.editBtnTxt}>eft</Text>
                             </TouchableOpacity>
                         </View>
 
-                        <View style={styles.pLine} />
-                        <Text style={[styles.paymentTitle, { marginTop: 30 }]}>Delivery Address:</Text>
+                        {/* <View style={styles.pLine} /> */}
+                        {/* <Text style={[styles.paymentTitle, { marginTop: 30 }]}>Delivery Address:</Text> */}
 
-                        <View style={styles.addressCont}>
+                        {/* <View style={styles.addressCont}>
                             <Image source={locationIcon} style={styles.backBtn} />
                             <View>
                                 <Text style={styles.addressTxtMain}>{signedInUser.address}</Text>
@@ -289,7 +359,7 @@ const CheckOutScreen = ({ navigation }) => {
                             <TouchableOpacity style={styles.editBtn} onPress={editAddress}>
                                 <Text style={styles.editBtnTxt}>Edit</Text>
                             </TouchableOpacity>
-                        </View>
+                        </View> */}
 
                         <View style={styles.pricingCont}>
                             <Text style={styles.pricingTitle}>Pricing</Text>
@@ -307,7 +377,7 @@ const CheckOutScreen = ({ navigation }) => {
                                 <Text style={styles.totalRight}>R{itemsTotalPrice}.00</Text>
                             </View>
 
-                            <TouchableOpacity style={styles.siBtn} >
+                            <TouchableOpacity style={styles.siBtn} onPress={confirmPament}>
                                 <Text style={styles.siBtnTxt}>Confirm Payment</Text>
                             </TouchableOpacity>
 
@@ -366,12 +436,12 @@ const styles = StyleSheet.create({
         position: "absolute",
         top: 50,
         right: 20,
-        fontSize: 40,
+        fontSize: 35,
         fontWeight: "bold",
-        color: "#7C9070"
+        color: "#FFFEF5"
     },
     paymentTitle: {
-        marginTop: 50,
+        marginTop: 20,
         marginLeft: 20,
         fontSize: 21,
         fontWeight: "bold",
@@ -397,7 +467,7 @@ const styles = StyleSheet.create({
     editBtn2: {
         position: "absolute",
         right: 20,
-        top: 40,
+        top: 20,
         width: 80,
         height: 40,
         backgroundColor: "#FFFEF5",

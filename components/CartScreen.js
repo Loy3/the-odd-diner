@@ -36,6 +36,7 @@ const CartScreen = ({ navigation }) => {
     const [itemsSubTotalPrice, setItemsSubTotalPrice] = useState(0);
     const [storeItems, setStoreItems] = useState([]);
     const [loadingStatus, setloadingStatusStatus] = useState(false);
+    const [itemsStatus, setitemsStatus] = useState(false);
 
     useEffect(() => {
         (async () => {
@@ -45,8 +46,10 @@ const CartScreen = ({ navigation }) => {
                 const res = jsonValue != null ? JSON.parse(jsonValue) : null;
                 // console.log(res);
                 if (res === null) {
-                    navigation.navigate("Home")
+                    // navigation.navigate("Home")
+                    setitemsStatus(true);
                 } else {
+                    setitemsStatus(false);
                     await getCartItems(res);
                 }
                 setloadingStatusStatus(false)
@@ -257,7 +260,7 @@ const CartScreen = ({ navigation }) => {
             console.log("Success");
             navigation.navigate("Review")
         })
-        console.log(checkoutItems);
+        // console.log(checkoutItems);
     }
 
 
@@ -331,77 +334,88 @@ const CartScreen = ({ navigation }) => {
 
                         <Text style={styles.pageTitle}>Cart</Text>
 
-                        <Text style={[styles.paymentTitle, { marginTop: 30 }]}>Items:</Text>
-                        <View style={styles.cartCont}>
-                            {items.map((item, index) => (
-                                <View style={styles.cartCard} key={index}>
-                                    <View style={styles.itemImgCont}>
-                                        <Image source={item.itemImageUrl ? { uri: item.itemImageUrl } : subImg} style={styles.itemImg} />
-                                    </View>
-                                    <View style={styles.cardDetailsCont}>
-                                        <Text style={styles.cardItemTitle}>{item.itemName ? `${item.itemName}` : "Title"}</Text>
-                                        <Text style={styles.cardItemSubTitle}>{item.itemSub ? `${item.itemSub}` : "Sub Title"}</Text>
-                                        <View style={styles.priceCont}>
-                                            <Image source={priceIcon} style={styles.prepTimeIc} />
-                                            <Text style={styles.prepTimeText}>{item.totalPrice ? `R${item.totalPrice}.00` : "R00.00"}</Text>
-                                        </View>
-                                    </View>
-                                    <View style={styles.numOfItemsCont}>
-                                        <TouchableOpacity style={styles.countBtnCont} onPress={() => addCount(item.id)}>
-                                            <Image source={addIcon} style={styles.countBtn} />
-                                        </TouchableOpacity>
-                                        <View style={styles.counterCont}>
-                                            <Text style={styles.counter}>{item.numOfItems ? `${item.numOfItems}` : "1"}</Text>
-                                        </View>
-                                        <TouchableOpacity style={styles.countBtnCont} onPress={() => subtCount(item.id)}>
-                                            <Image source={subtIcon} style={styles.countBtn} />
-                                        </TouchableOpacity>
-                                    </View>
+                        {itemsStatus ?
+                            <View style={{ height: 400, width: "100%", alignItems: "center", justifyContent: "center" }}>
+                                <Text style={{ fontSize: 18, color: "#7C9070", fontWeight: "bold" }}>No items...</Text>
+                            </View>
+                            :
+                            <>
+                                <Text style={[styles.paymentTitle, { marginTop: 30 }]}>Items:</Text>
+                                <View style={styles.cartCont}>
+                                    {items.map((item, index) => (
+                                        <View style={styles.cartCard} key={index}>
+                                            <View style={styles.itemImgCont}>
+                                                <Image source={item.itemImageUrl ? { uri: item.itemImageUrl } : subImg} style={styles.itemImg} />
+                                            </View>
+                                            <View style={styles.cardDetailsCont}>
+                                                <Text style={styles.cardItemTitle}>{item.itemName ? `${item.itemName}` : "Title"}</Text>
+                                                <Text style={styles.cardItemSubTitle}>{item.itemSub ? `${item.itemSub}` : "Sub Title"}</Text>
+                                                <View style={styles.priceCont}>
+                                                    <Image source={priceIcon} style={styles.prepTimeIc} />
+                                                    <Text style={styles.prepTimeText}>{item.totalPrice ? `R${item.totalPrice}.00` : "R00.00"}</Text>
+                                                </View>
+                                            </View>
+                                            <View style={styles.numOfItemsCont}>
+                                                <TouchableOpacity style={styles.countBtnCont} onPress={() => addCount(item.id)}>
+                                                    <Image source={addIcon} style={styles.countBtn} />
+                                                </TouchableOpacity>
+                                                <View style={styles.counterCont}>
+                                                    <Text style={styles.counter}>{item.numOfItems ? `${item.numOfItems}` : "1"}</Text>
+                                                </View>
+                                                <TouchableOpacity style={styles.countBtnCont} onPress={() => subtCount(item.id)}>
+                                                    <Image source={subtIcon} style={styles.countBtn} />
+                                                </TouchableOpacity>
+                                            </View>
 
 
-                                    <TouchableOpacity style={styles.deleteButnCont} onPress={() => deleteFromCart(item.id, item.totalPrice)}>
-                                        <Image source={deleteIcon} style={styles.deleteButn} />
-                                    </TouchableOpacity>
+                                            <TouchableOpacity style={styles.deleteButnCont} onPress={() => deleteFromCart(item.id, item.totalPrice)}>
+                                                <Image source={deleteIcon} style={styles.deleteButn} />
+                                            </TouchableOpacity>
+                                        </View>
+                                    ))}
+
+
                                 </View>
-                            ))}
 
 
-                        </View>
+                                <View style={styles.pricingCont}>
+                                    <Text style={styles.pricingTitle}>Pricing</Text>
+                                    <View style={{ flexDirection: "row", marginTop: 15 }}>
+                                        <Text style={styles.subTotalLeft}>Sub Total</Text>
+                                        <Text style={styles.subTotalRight}>R{itemsSubTotalPrice}.00</Text>
+                                    </View>
+                                    <View style={{ flexDirection: "row", marginTop: 10 }}>
+                                        <Text style={styles.subTotalLeft}>Delivery Fee:</Text>
+                                        <Text style={styles.subTotalRight}>R60.00</Text>
+                                    </View>
+                                    <View style={styles.pLine} />
+                                    <View style={{ flexDirection: "row" }}>
+                                        <Text style={styles.totalLeft}>Total</Text>
+                                        <Text style={styles.totalRight}>R{itemsTotalPrice}.00</Text>
+                                    </View>
 
-
-                        <View style={styles.pricingCont}>
-                            <Text style={styles.pricingTitle}>Pricing</Text>
-                            <View style={{ flexDirection: "row", marginTop: 15 }}>
-                                <Text style={styles.subTotalLeft}>Sub Total</Text>
-                                <Text style={styles.subTotalRight}>R{itemsSubTotalPrice}.00</Text>
-                            </View>
-                            <View style={{ flexDirection: "row", marginTop: 10 }}>
-                                <Text style={styles.subTotalLeft}>Delivery Fee:</Text>
-                                <Text style={styles.subTotalRight}>R60.00</Text>
-                            </View>
-                            <View style={styles.pLine} />
-                            <View style={{ flexDirection: "row" }}>
-                                <Text style={styles.totalLeft}>Total</Text>
-                                <Text style={styles.totalRight}>R{itemsTotalPrice}.00</Text>
-                            </View>
-
-                            {/* <TouchableOpacity style={styles.siBtn} onPress={checkout}>
+                                    {/* <TouchableOpacity style={styles.siBtn} onPress={checkout}>
                                 {/* <TouchableOpacity style={styles.siBtn}  onPress={() => navigation.navigate("Journals")}> /}
                                 <Text style={styles.siBtnTxt}>Review</Text>
                             </TouchableOpacity> */}
 
-                        </View>
+                                </View>
+                            </>
+                        }
                     </View>
                     {/* {console.log(items)} */}
 
                 </>
             </ScrollView>
-            <View style={styles.siBtnCont}>
-                <TouchableOpacity style={styles.siBtn} onPress={checkout}>
-                    {/* <TouchableOpacity style={styles.siBtn}  onPress={() => navigation.navigate("Journals")}> */}
-                    <Text style={styles.siBtnTxt}>Review</Text>
-                </TouchableOpacity>
-            </View>
+            {itemsStatus ?
+                null :
+                <View style={styles.siBtnCont}>
+                    <TouchableOpacity style={styles.siBtn} onPress={checkout}>
+                        {/* <TouchableOpacity style={styles.siBtn}  onPress={() => navigation.navigate("Journals")}> */}
+                        <Text style={styles.siBtnTxt}>Review</Text>
+                    </TouchableOpacity>
+                </View>
+            }
 
 
         </View>
