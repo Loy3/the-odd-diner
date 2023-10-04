@@ -9,6 +9,10 @@ import priceIcon from "../assets/Icons/money.png";
 import deleteIcon from "../assets/Icons/delete.png";
 import addIcon from "../assets/Icons/add.png";
 import subtIcon from "../assets/Icons/minus.png";
+import cartIcon from "../assets/Icons/cart.png";
+import reviewIcon from "../assets/Icons/review.png";
+import checkoutIcon from "../assets/Icons/checkout.png";
+
 
 const CartScreen = ({ navigation }) => {
 
@@ -54,7 +58,7 @@ const CartScreen = ({ navigation }) => {
     const [btnStatus, setBtnStatus] = useState(true);
     useEffect(() => {
         // console.log("line 54",storeItems);
-    }, [storeItems])
+    }, [items])
 
 
     async function getUser() {
@@ -113,10 +117,14 @@ const CartScreen = ({ navigation }) => {
 
     }
 
-    async function deleteFromCart(id) {
+    async function deleteFromCart(id, iPrice) {
+// await AsyncStorage.removeItem('checkout')
         const jsonValue = await AsyncStorage.getItem('cartItems');
         const res = jsonValue != null ? JSON.parse(jsonValue) : null;
-
+        console.log("before", res);
+        var price = iPrice;
+        var suTotal = itemsSubTotalPrice;
+        var totalIPrice = itemsTotalPrice;
         var remainingItems = [];
         res.forEach(r => {
             if (r.id === id && signedInUser.userID === r.userID) {
@@ -126,7 +134,11 @@ const CartScreen = ({ navigation }) => {
             }
         });
 
-        // console.log("Remaining items", remainingItems);
+        suTotal = suTotal - parseInt(price);
+        totalIPrice = suTotal + 60;
+        setItemsSubTotalPrice(suTotal);
+        setItemsTotalPrice(totalIPrice);
+        console.log("Remaining items", remainingItems);
 
         const jsonSetValue = JSON.stringify(remainingItems);
         await AsyncStorage.setItem('cartItems', jsonSetValue).then(async () => {
@@ -242,8 +254,8 @@ const CartScreen = ({ navigation }) => {
         }
         const jsonValue = JSON.stringify(checkoutItems);
         await AsyncStorage.setItem('checkout', jsonValue).then(() => {
-            console.log("Success");   
-            navigation.navigate("Checkout")         
+            console.log("Success");
+            navigation.navigate("Review")
         })
         console.log(checkoutItems);
     }
@@ -266,9 +278,57 @@ const CartScreen = ({ navigation }) => {
                 <>
                     {/* {console.log(items)} */}
                     <View>
-                        <TouchableOpacity style={styles.backBtnCont} onPress={backToHome}>
-                            <Image source={backBtnIcon} style={styles.backBtn} />
-                        </TouchableOpacity>
+                        <View style={{
+                            height: 150,
+                            width: "100%",
+                            backgroundColor: "#7C9070"
+                        }}>
+                            <TouchableOpacity style={styles.backBtnCont} onPress={backToHome}>
+                                <Image source={backBtnIcon} style={styles.backBtn} />
+                            </TouchableOpacity>
+
+                            {/* <View style={{ marginTop: 60 }}>
+                                <View style={{ flexDirection: "row" }}>
+                                    <View style={{ borderColor: "#A8C099", backgroundColor: "#A8C099", borderWidth: 2, width: "30%" }} />
+                                    <View style={{ borderColor: "#FFFEF5", backgroundColor: "#FFFEF5", borderWidth: 2, width: "40%" }} />
+                                    <View style={{ borderColor: "#FFFEF5", backgroundColor: "#FFFEF5", borderWidth: 2, width: "30%" }} />
+                                </View>
+
+                                <View style={{ flexDirection: "row" }}>
+                                    <View style={{ width: "30%", alignItems: "center", justifyContent: "center" }}>
+                                        <View style={{ marginTop: -30, alignItems: "center", justifyContent: "center" }}>
+                                            <View style={{ backgroundColor: "#A8C099", width: 50, height: 50, borderRadius: 50, justifyContent: "center", alignItems: "center" }}>
+                                                {/* <Image source={cartIcon} style={{width: 25, height:25}}/> /}
+                                                <Text style={{ fontSize: 24, fontWeight: "bold", color: "#7C9070" }}>1</Text>
+                                            </View>
+                                            <Text style={{ color: "#FFFEF5", marginTop: 10, textAlign: "center", fontSize: 14, fontWeight: "bold" }}>Cart</Text>
+                                        </View>
+                                    </View>
+                                    <View style={{ width: "40%", alignItems: "center", justifyContent: "center" }}>
+                                        <View style={{ marginTop: -30, alignItems: "center", justifyContent: "center" }}>
+                                            <View style={{ backgroundColor: "#FFFEF5", width: 50, height: 50, borderRadius: 50, justifyContent: "center", alignItems: "center" }}>
+                                                {/* <Image source={reviewIcon} style={{width: 30, height:30}}/> /}
+                                                <Text style={{ fontSize: 24, fontWeight: "bold", color: "#7C9070" }}>2</Text>
+                                            </View>
+                                            <Text style={{ color: "#FFFEF5", marginTop: 10, textAlign: "center", fontSize: 14, fontWeight: "bold" }}>Review</Text>
+                                        </View>
+                                    </View>
+                                    <View style={{ width: "30%", alignItems: "center", justifyContent: "center" }}>
+                                        <View style={{ marginTop: -30, alignItems: "center", justifyContent: "center" }} >
+                                            <View style={{ backgroundColor: "#FFFEF5", width: 50, height: 50, borderRadius: 50, justifyContent: "center", alignItems: "center" }}>
+                                                {/* <Image source={checkoutIcon} style={{width: 25, height:25}}/> /}
+                                                <Text style={{ fontSize: 24, fontWeight: "bold", color: "#7C9070" }}>3</Text>
+                                            </View>
+                                            <Text style={{ color: "#FFFEF5", marginTop: 10, textAlign: "center", fontSize: 14, fontWeight: "bold", width: "100%" }}>Checkout</Text>
+                                        </View>
+                                    </View>
+                                </View>
+                            </View> */}
+                        </View>
+
+
+
+
                         <Text style={styles.pageTitle}>Cart</Text>
 
                         <View style={styles.cartCont}>
@@ -298,7 +358,7 @@ const CartScreen = ({ navigation }) => {
                                     </View>
 
 
-                                    <TouchableOpacity style={styles.deleteButnCont} onPress={() => deleteFromCart(item.id)}>
+                                    <TouchableOpacity style={styles.deleteButnCont} onPress={() => deleteFromCart(item.id, item.totalPrice)}>
                                         <Image source={deleteIcon} style={styles.deleteButn} />
                                     </TouchableOpacity>
                                 </View>
@@ -390,15 +450,15 @@ const styles = StyleSheet.create({
         right: 20,
         fontSize: 40,
         fontWeight: "bold",
-        color: "#7C9070"
+        color: "#FFFEF5"
     },
     cartCont: {
         width: "92%",
         height: "auto",
         // backgroundColor: "yellow",
         marginHorizontal: "4%",
-        marginTop: 100,
-        marginBottom: 350
+        marginTop: 60,
+        marginBottom: 150
     },
     cartCard: {
         height: 105,
@@ -494,12 +554,12 @@ const styles = StyleSheet.create({
         color: "#7C9070"
     },
     pricingCont: {
-        marginTop: 130,
+        // marginTop: 130,
         marginHorizontal: "3%",
         backgroundColor: "#FFFEF5",
         height: "auto",
         width: "94%",
-        position: "absolute",
+        position: "fixed",
         bottom: 0,
         zIndex: 99
     },

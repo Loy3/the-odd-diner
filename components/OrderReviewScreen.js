@@ -7,14 +7,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import backBtnIcon from "../assets/Icons/prev.png";
 import masterCardIcon from "../assets/Icons/card.png";
 import cardChipIcon from "../assets/Icons/chip.png";
+import priceIcon from "../assets/Icons/money.png";
 import locationIcon from "../assets/Icons/location2.png";
 import UpdateAddressComp from './UpdateAddressComp';
 import UpdateCardDetailsComp from './UpdateCardDetailsComp';
 
+
 import { CardField, useStripe } from '@stripe/stripe-react-native';
 
 
-const CheckOutScreen = ({ navigation }) => {
+const OrderReviewScreen = ({ navigation }) => {
     const { confirmPaymentMethod } = useStripe();
     const [signedInUser, setSignedInUser] = useState({
         firstname: null,
@@ -35,7 +37,7 @@ const CheckOutScreen = ({ navigation }) => {
     const [popUpCardStatus, setpopUpCardStatus] = useState(false);
     const [itemsTotalPrice, setItemsTotalPrice] = useState("");
     const [itemsSubTotalPrice, setItemsSubTotalPrice] = useState("");
-    const [checkoutItems, setCheckoutItems] = useState(null);
+    const [checkoutItems, setCheckoutItems] = useState([]);
     // useEffect(()=>{
     //     navigation.navigate("Cart")
     // },[])
@@ -102,10 +104,10 @@ const CheckOutScreen = ({ navigation }) => {
     async function getCheckoutItems() {
         const jsonValue = await AsyncStorage.getItem('checkout');
         const res = jsonValue != null ? JSON.parse(jsonValue) : null;
-        // console.log("Ress", res.itemsSubTotalPrice);
+        // console.log("Ress", res.items);
         setItemsSubTotalPrice(res.itemsSubTotalPrice);
         setItemsTotalPrice(res.itemsTotalPrice)
-        setCheckoutItems(res)
+        setCheckoutItems(res.items)
     }
 
     async function getAddressonSave() {
@@ -141,53 +143,6 @@ const CheckOutScreen = ({ navigation }) => {
         setpopUpStatus(true)
     }
 
-
-    function openCardPopup() {
-        setpopUpCardStatus(true)
-    }
-
-    function cardNumberChanger(cardNum) {
-        const word = cardNum;
-        const lastFourLetters = word.slice(-4);
-        // console.log(lastFourLetters);
-        const returnValue = `*** *** *** *** ${lastFourLetters}`
-        return returnValue;
-    }
-
-
-
-    const handlePayment = async () => {
-        const { paymentMethod, error } = await confirmPaymentMethod({
-            type: 'Card',
-            billingDetails: {
-                email: 'test@example.com',
-            },
-        });
-
-        if (error) {
-            console.log('Error:', error.message);
-        } else {
-            console.log('Payment method:', paymentMethod);
-            // Handle successful payment
-        }
-    };
-
-    const [paymentStatus, setPaymentStatus] = useState(false);
-
-    function handlePaymentType(type) {
-        switch (type) {
-            case "card":
-                setPaymentStatus(false);
-                break;
-            case "eft":
-                setPaymentStatus(true);
-                break;
-            default:
-                console.log("nothing to choose");
-        }
-    }
-
-
     if (loadingStatus === true) {
         return (
             <>
@@ -203,79 +158,18 @@ const CheckOutScreen = ({ navigation }) => {
             <ScrollView scrollEnabled={true} >
                 <>
                     <View >
-                        <TouchableOpacity style={styles.backBtnCont} onPress={backToHome}>
-                            <Image source={backBtnIcon} style={styles.backBtn} />
-                        </TouchableOpacity>
-                        <Text style={styles.pageTitle}>Checkout</Text>
-
-
-                        {!paymentStatus ?
-                            <View style={{ marginTop: 30 }}>
-                                <TouchableOpacity style={styles.editBtn2} onPress={openCardPopup}>
-                                    <Text style={styles.editBtnTxt}>Edit</Text>
-                                </TouchableOpacity>
-                                <Text style={[styles.paymentTitle, { marginLeft: "5%" }]}>Payment Method</Text>
-                                <View style={styles.masterCardCont}>
-                                    <Image source={cardChipIcon} style={styles.chip} />
-                                    <Image source={masterCardIcon} style={styles.cardMaster} />
-                                    <Text style={styles.cardNum}>{signedInUser.cardNum ? cardNumberChanger(signedInUser.cardNum) : signedInUser.cardNum}</Text>
-
-                                    <View style={styles.cardDetailsCont}>
-                                        <View style={styles.cardNameCont}>
-                                            <Text style={styles.cardTitles}>Card Name:</Text>
-                                            <Text style={styles.cardSubTitles}>{signedInUser.cardName}</Text>
-                                        </View>
-                                        <View style={styles.cardRestCont}>
-                                            <Text style={styles.cardTitles}>Expires:</Text>
-                                            <Text style={styles.cardSubTitles}>{signedInUser.cardDate}</Text>
-                                        </View>
-                                        <View style={styles.cardRestCont}>
-                                            <Text style={styles.cardTitles}>cvv</Text>
-                                            <Text style={styles.cardSubTitles}>{signedInUser.zipCode}</Text>
-                                        </View>
-                                    </View>
-                                </View>
-                            </View>
-
-                            :
-                            <View style={{ marginTop: 30 }}>
-                                <TouchableOpacity style={styles.editBtn2} onPress={openCardPopup}>
-                                    <Text style={styles.editBtnTxt}>Edit</Text>
-                                </TouchableOpacity>
-                                <Text style={[styles.paymentTitle, { marginLeft: "5%" }]}>Payment Method 2</Text>
-                                <View style={styles.masterCardCont}>
-                                    <Image source={cardChipIcon} style={styles.chip} />
-                                    <Image source={masterCardIcon} style={styles.cardMaster} />
-                                    <Text style={styles.cardNum}>{signedInUser.cardNum ? cardNumberChanger(signedInUser.cardNum) : signedInUser.cardNum}</Text>
-
-                                    <View style={styles.cardDetailsCont}>
-                                        <View style={styles.cardNameCont}>
-                                            <Text style={styles.cardTitles}>Card Name:</Text>
-                                            <Text style={styles.cardSubTitles}>{signedInUser.cardName}</Text>
-                                        </View>
-                                        <View style={styles.cardRestCont}>
-                                            <Text style={styles.cardTitles}>Expires:</Text>
-                                            <Text style={styles.cardSubTitles}>{signedInUser.cardDate}</Text>
-                                        </View>
-                                        <View style={styles.cardRestCont}>
-                                            <Text style={styles.cardTitles}>cvv</Text>
-                                            <Text style={styles.cardSubTitles}>{signedInUser.zipCode}</Text>
-                                        </View>
-                                    </View>
-                                </View>
-                            </View>
-                        }
-
-                        <View style={{ width: "100%", flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: 30 }}>
-                            <TouchableOpacity style={styles.editBtn3} onPress={()=>handlePaymentType("card")}>
-                                <Text style={styles.editBtnTxt}>Card</Text>
+                        <View style={{
+                            height: 150,
+                            width: "100%",
+                            backgroundColor: "#7C9070"
+                        }}>
+                            <TouchableOpacity style={styles.backBtnCont} onPress={backToHome}>
+                                <Image source={backBtnIcon} style={styles.backBtn} />
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.editBtn3} onPress={()=>handlePaymentType("eft")}>
-                                <Text style={styles.editBtnTxt}>eft</Text>
-                            </TouchableOpacity>
+                            <Text style={styles.pageTitle}>Review</Text>
                         </View>
 
-                        <View style={styles.pLine} />
+
                         <Text style={[styles.paymentTitle, { marginTop: 30 }]}>Delivery Address:</Text>
 
                         <View style={styles.addressCont}>
@@ -289,6 +183,36 @@ const CheckOutScreen = ({ navigation }) => {
                             <TouchableOpacity style={styles.editBtn} onPress={editAddress}>
                                 <Text style={styles.editBtnTxt}>Edit</Text>
                             </TouchableOpacity>
+                        </View>
+
+                        <View style={{marginTop: 30}}>
+                        <Text style={[styles.paymentTitle, { marginTop: 30 }]}>Order Summary:</Text>
+
+                        <View style={styles.cartCont}>
+                            {checkoutItems.map((item, index) => (
+                                <View style={styles.cartCard} key={index}>
+                                    <View style={styles.itemImgCont}>
+                                        <Image source={item.itemImageUrl ? { uri: item.itemImageUrl } : subImg} style={styles.itemImg} />
+                                    </View>
+                                    <View style={styles.cardDetailsCont}>
+                                        <Text style={styles.cardItemTitle}>{item.itemName ? `${item.itemName}` : "Title"}</Text>
+                                        <Text style={styles.cardItemSubTitle}>{item.itemSub ? `${item.itemSub}` : "Sub Title"}</Text>
+                                        <View style={styles.priceCont}>
+                                            <Image source={priceIcon} style={styles.prepTimeIc} />
+                                            <Text style={styles.prepTimeText}>{item.totalPrice ? `R${item.totalPrice}.00` : "R00.00"}</Text>
+                                        </View>
+                                        
+                                    </View>
+                                    <View style={{position: "absolute", top: 10,right: 10}}>
+                                            <Text>{item.numOfItems ? `${item.numOfItems}` : "1"}</Text>
+                                            </View>
+                                </View>
+                            ))}
+
+
+                        </View>
+
+
                         </View>
 
                         <View style={styles.pricingCont}>
@@ -334,7 +258,7 @@ const CheckOutScreen = ({ navigation }) => {
     )
 }
 
-export default CheckOutScreen
+export default OrderReviewScreen
 
 const styles = StyleSheet.create({
     container: {
@@ -368,7 +292,7 @@ const styles = StyleSheet.create({
         right: 20,
         fontSize: 40,
         fontWeight: "bold",
-        color: "#7C9070"
+        color: "#FFFEF5"
     },
     paymentTitle: {
         marginTop: 50,
@@ -574,6 +498,108 @@ const styles = StyleSheet.create({
         paddingVertical: 15,
         fontSize: 17,
         fontWeight: "bold"
+    },
+
+    cartCont: {
+        width: "92%",
+        height: "auto",
+        // backgroundColor: "yellow",
+        marginHorizontal: "4%",
+        marginTop: 20,
+        marginBottom: 150
+    },
+    cartCard: {
+        height: 105,
+        width: "100%",
+        // backgroundColor: "#E8F5E0",
+        marginBottom: 10,
+        // borderColor: "#7C9070",
+        // borderWidth: 3,
+        flexDirection: "row"
+    },
+    itemImgCont: {
+        width: "25%",
+        height: "100%"
+    },
+    itemImg: {
+        margin: "3%",
+        width: "94%",
+        height: "94%",
+        objectFit: "cover"
+    },
+    cardDetailsCont: {
+        margin: 5
+    },
+    cardItemTitle: {
+        fontSize: 16,
+        fontWeight: "bold",
+        color: "#7C9070",
+        marginTop: 10
+    },
+    cardItemSubTitle: {
+        fontSize: 12,
+        // fontWeight:"bold",
+        color: "#7C9070",
+        marginTop: 3,
+        marginLeft: 5
+    },
+    prepTimeIc: {
+        width: 25,
+        height: 25
+    },
+    prepTimeText: {
+        marginLeft: 10,
+        color: "#7C9070",
+        fontSize: 16,
+        fontWeight: "700",
+    },
+    priceCont: {
+        // width: "30%",
+        // backgroundColor:"green",
+        marginTop: 10,
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    deleteButnCont: {
+        position: "absolute",
+        top: 5,
+        right: 5
+    },
+    deleteButn: {
+        height: 30,
+        width: 30
+    },
+    numOfItemsCont: {
+        flexDirection: "row",
+        // backgroundColor: "yellow",
+        width: 105,
+        height: 35,
+        position: "absolute",
+        bottom: 5,
+        right: 5
+    },
+    countBtnCont: {
+        height: 35,
+        width: 35,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#7C9070"
+    },
+    countBtn: {
+        width: 20,
+        height: 20
+    },
+    counterCont: {
+        height: 35,
+        width: 35,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#FFFEF5"
+    },
+    counter: {
+        fontSize: 18,
+        fontWeight: "bold",
+        color: "#7C9070"
     },
 
     popUp: {
