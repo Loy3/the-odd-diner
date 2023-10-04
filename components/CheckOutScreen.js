@@ -134,7 +134,7 @@ const CheckOutScreen = ({ navigation }) => {
 
 
     function backToHome() {
-        navigation.navigate("Cart");
+        navigation.navigate("Review");
     }
 
     function editAddress() {

@@ -143,6 +143,11 @@ const OrderReviewScreen = ({ navigation }) => {
         setpopUpStatus(true)
     }
 
+    function toCheckout(){
+        console.log("ch");
+        navigation.navigate("Checkout")
+    }
+
     if (loadingStatus === true) {
         return (
             <>
@@ -185,32 +190,32 @@ const OrderReviewScreen = ({ navigation }) => {
                             </TouchableOpacity>
                         </View>
 
-                        <View style={{marginTop: 30}}>
-                        <Text style={[styles.paymentTitle, { marginTop: 30 }]}>Order Summary:</Text>
+                        <View style={{ marginTop: 30 }}>
+                            <Text style={[styles.paymentTitle, { marginTop: 30 }]}>Order Summary:</Text>
 
-                        <View style={styles.cartCont}>
-                            {checkoutItems.map((item, index) => (
-                                <View style={styles.cartCard} key={index}>
-                                    <View style={styles.itemImgCont}>
-                                        <Image source={item.itemImageUrl ? { uri: item.itemImageUrl } : subImg} style={styles.itemImg} />
-                                    </View>
-                                    <View style={styles.cardDetailsCont}>
-                                        <Text style={styles.cardItemTitle}>{item.itemName ? `${item.itemName}` : "Title"}</Text>
-                                        <Text style={styles.cardItemSubTitle}>{item.itemSub ? `${item.itemSub}` : "Sub Title"}</Text>
-                                        <View style={styles.priceCont}>
-                                            <Image source={priceIcon} style={styles.prepTimeIc} />
-                                            <Text style={styles.prepTimeText}>{item.totalPrice ? `R${item.totalPrice}.00` : "R00.00"}</Text>
+                            <View style={styles.cartCont}>
+                                {checkoutItems.map((item, index) => (
+                                    <View style={styles.cartCard} key={index}>
+                                        <View style={styles.itemImgCont}>
+                                            <Image source={item.itemImageUrl ? { uri: item.itemImageUrl } : subImg} style={styles.itemImg} />
                                         </View>
-                                        
-                                    </View>
-                                    <View style={{position: "absolute", top: 10,right: 10}}>
-                                            <Text>{item.numOfItems ? `${item.numOfItems}` : "1"}</Text>
+                                        <View style={styles.cardDetailsCont}>
+                                            <Text style={styles.cardItemTitle}>{item.itemName ? `${item.itemName}` : "Title"}</Text>
+                                            <Text style={styles.cardItemSubTitle}>{item.itemSub ? `${item.itemSub}` : "Sub Title"}</Text>
+                                            <View style={styles.priceCont}>
+                                                <Image source={priceIcon} style={styles.prepTimeIc} />
+                                                <Text style={styles.prepTimeText}>{item.totalPrice ? `R${item.totalPrice}.00` : "R00.00"}</Text>
                                             </View>
-                                </View>
-                            ))}
+
+                                        </View>
+                                        <View style={[styles.countBtnCont, { position: "absolute", top: 15, right: 10 }]}>
+                                            <Text style={styles.counter}>{item.numOfItems ? `${item.numOfItems}` : "1"}</Text>
+                                        </View>
+                                    </View>
+                                ))}
 
 
-                        </View>
+                            </View>
 
 
                         </View>
@@ -231,14 +236,19 @@ const OrderReviewScreen = ({ navigation }) => {
                                 <Text style={styles.totalRight}>R{itemsTotalPrice}.00</Text>
                             </View>
 
-                            <TouchableOpacity style={styles.siBtn} >
+                            {/* <TouchableOpacity style={styles.siBtn} >
                                 <Text style={styles.siBtnTxt}>Confirm Payment</Text>
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
 
                         </View>
                     </View>
                 </>
             </ScrollView>
+            <View style={styles.siBtnCont} onPress={toCheckout}>
+                <TouchableOpacity style={styles.siBtn} >
+                    <Text style={styles.siBtnTxt}>Checkout</Text>
+                </TouchableOpacity>
+            </View>
 
             {popUpStatus ?
                 <View style={styles.popUp}>
@@ -296,13 +306,14 @@ const styles = StyleSheet.create({
     },
     paymentTitle: {
         marginTop: 50,
-        marginLeft: 20,
+        marginLeft: "5%",
         fontSize: 21,
         fontWeight: "bold",
         color: "#7C9070"
     },
     addressCont: {
-        marginHorizontal: 20,
+        width: "90%",
+        marginHorizontal: "5%",
         marginTop: 10,
         flexDirection: "row"
     },
@@ -433,11 +444,14 @@ const styles = StyleSheet.create({
 
     pricingCont: {
         width: "90%",
-        height: 300,
+        height: 200,
         marginHorizontal: "5%",
         // backgroundColor: "yellow",
-        marginTop: 130,
-        marginBottom: 20
+        marginTop: 100,
+        marginBottom: 20,
+        position: "fixed",
+        zIndex: 99,
+        bottom: 0
     },
     pricingTitle: {
         fontSize: 20,
@@ -480,17 +494,29 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: "#7C9070"
     },
+    siBtnCont:{
+        width: "90%",
+        // height: 300,
+        marginHorizontal: "5%",
+        // backgroundColor: "yellow",
+        // marginTop: 100,
+        marginBottom: 20,
+        position: "fixed",
+        zIndex: 99,
+        bottom: 0
+    },
     siBtn: {
         width: "100%",
         // marginHorizontal: "8%",
         marginBottom: 0,
         height: 60,
         borderRadius: 50,
-        marginTop: 40,
+        // marginTop: 40,
         // marginHorizontal: "5%",
         backgroundColor: "#7C9070",
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+
     },
     siBtnTxt: {
         textAlign: "center",
@@ -501,12 +527,12 @@ const styles = StyleSheet.create({
     },
 
     cartCont: {
-        width: "92%",
+        width: "90%",
         height: "auto",
         // backgroundColor: "yellow",
-        marginHorizontal: "4%",
-        marginTop: 20,
-        marginBottom: 150
+        marginHorizontal: "5%",
+        marginTop: 5,
+        marginBottom: 0
     },
     cartCard: {
         height: 105,
@@ -519,7 +545,8 @@ const styles = StyleSheet.create({
     },
     itemImgCont: {
         width: "25%",
-        height: "100%"
+        height: "94%",
+        marginVertical: "3%"
     },
     itemImg: {
         margin: "3%",
@@ -579,11 +606,12 @@ const styles = StyleSheet.create({
         right: 5
     },
     countBtnCont: {
-        height: 35,
-        width: 35,
+        height: 30,
+        width: 30,
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#7C9070"
+        backgroundColor: "#7C9070",
+        // borderRadius:100
     },
     countBtn: {
         width: 20,
@@ -597,9 +625,9 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFFEF5"
     },
     counter: {
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: "bold",
-        color: "#7C9070"
+        color: "#FFFEF5"
     },
 
     popUp: {

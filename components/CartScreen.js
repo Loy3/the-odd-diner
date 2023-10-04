@@ -118,7 +118,7 @@ const CartScreen = ({ navigation }) => {
     }
 
     async function deleteFromCart(id, iPrice) {
-// await AsyncStorage.removeItem('checkout')
+        // await AsyncStorage.removeItem('checkout')
         const jsonValue = await AsyncStorage.getItem('cartItems');
         const res = jsonValue != null ? JSON.parse(jsonValue) : null;
         console.log("before", res);
@@ -331,6 +331,7 @@ const CartScreen = ({ navigation }) => {
 
                         <Text style={styles.pageTitle}>Cart</Text>
 
+                        <Text style={[styles.paymentTitle, { marginTop: 30 }]}>Items:</Text>
                         <View style={styles.cartCont}>
                             {items.map((item, index) => (
                                 <View style={styles.cartCard} key={index}>
@@ -384,10 +385,10 @@ const CartScreen = ({ navigation }) => {
                                 <Text style={styles.totalRight}>R{itemsTotalPrice}.00</Text>
                             </View>
 
-                            <TouchableOpacity style={styles.siBtn} onPress={checkout}>
-                                {/* <TouchableOpacity style={styles.siBtn}  onPress={() => navigation.navigate("Journals")}> */}
-                                <Text style={styles.siBtnTxt}>Checkout</Text>
-                            </TouchableOpacity>
+                            {/* <TouchableOpacity style={styles.siBtn} onPress={checkout}>
+                                {/* <TouchableOpacity style={styles.siBtn}  onPress={() => navigation.navigate("Journals")}> /}
+                                <Text style={styles.siBtnTxt}>Review</Text>
+                            </TouchableOpacity> */}
 
                         </View>
                     </View>
@@ -395,6 +396,13 @@ const CartScreen = ({ navigation }) => {
 
                 </>
             </ScrollView>
+            <View style={styles.siBtnCont}>
+                <TouchableOpacity style={styles.siBtn} onPress={checkout}>
+                    {/* <TouchableOpacity style={styles.siBtn}  onPress={() => navigation.navigate("Journals")}> */}
+                    <Text style={styles.siBtnTxt}>Review</Text>
+                </TouchableOpacity>
+            </View>
+
 
         </View>
     )
@@ -452,19 +460,26 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: "#FFFEF5"
     },
+    paymentTitle: {
+        marginTop: 50,
+        marginLeft: "5%",
+        fontSize: 21,
+        fontWeight: "bold",
+        color: "#7C9070"
+    },
     cartCont: {
         width: "92%",
         height: "auto",
         // backgroundColor: "yellow",
         marginHorizontal: "4%",
-        marginTop: 60,
-        marginBottom: 150
+        marginTop: 20,
+        marginBottom: 0
     },
     cartCard: {
         height: 105,
         width: "100%",
         // backgroundColor: "#E8F5E0",
-        marginBottom: 35,
+        marginBottom: 20,
         // borderColor: "#7C9070",
         // borderWidth: 3,
         flexDirection: "row"
@@ -553,15 +568,28 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: "#7C9070"
     },
+    // pricingCont: {
+    //     pricingCont: {
+    //     width: "90%",
+    //     height: 200,
+    //     marginHorizontal: "5%",
+    //     // backgroundColor: "yellow",
+    //     marginTop: 100,
+    //     marginBottom: 20,
+    //     position: "fixed",
+    //     zIndex: 99,
+    //     bottom: 0
+    // },
     pricingCont: {
-        // marginTop: 130,
-        marginHorizontal: "3%",
-        backgroundColor: "#FFFEF5",
-        height: "auto",
-        width: "94%",
+        width: "90%",
+        height: 200,
+        marginHorizontal: "5%",
+        // backgroundColor: "yellow",
+        marginTop: 100,
+        marginBottom: 20,
         position: "fixed",
-        bottom: 0,
-        zIndex: 99
+        zIndex: 99,
+        bottom: 0
     },
     pricingTitle: {
         fontSize: 20,
@@ -653,6 +681,17 @@ const styles = StyleSheet.create({
     itemDescip: {
         marginTop: 20,
         fontSize: 14
+    },
+    siBtnCont: {
+        width: "90%",
+        // height: 300,
+        marginHorizontal: "5%",
+        // backgroundColor: "yellow",
+        // marginTop: 100,
+        // marginBottom: 20,
+        position: "fixed",
+        zIndex: 99,
+        bottom: 0
     },
     siBtn: {
         width: "100%",
