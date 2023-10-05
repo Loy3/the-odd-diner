@@ -51,7 +51,7 @@ const SideNavComp = ({ setMenuStatus }) => {
                 setMenuStatus(false);
                 break;
             case "orders":
-                // navigation.navigate("Home");
+                navigation.navigate("Orders");
                 setMenuStatus(false);
                 console.log("Orders");
                 break;

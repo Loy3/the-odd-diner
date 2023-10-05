@@ -282,7 +282,7 @@ const CartScreen = ({ navigation }) => {
                     {/* {console.log(items)} */}
                     <View>
                         <View style={{
-                            height: 150,
+                            height: 130,
                             width: "100%",
                             backgroundColor: "#7C9070"
                         }}>
@@ -470,7 +470,7 @@ const styles = StyleSheet.create({
         position: "absolute",
         top: 50,
         right: 20,
-        fontSize: 40,
+        fontSize: 33,
         fontWeight: "bold",
         color: "#FFFEF5"
     },

@@ -249,6 +249,15 @@ export const updateUserCardDetails = async (data) => {
 
 
 //Save item
+const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const monthsOfYear = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+const today = new Date();
+const dayOfWeek = daysOfWeek[today.getDay()];
+const dayOfMonth = today.getDate();
+const monthOfYear = monthsOfYear[today.getMonth()];
+const formattedDate = `${dayOfWeek}, ${dayOfMonth} ${monthOfYear}`;
+
 export const storeOrders = async (data) => {
     console.log("Data res", data.items.numOfItems);
     const token = await getUser()
@@ -275,6 +284,7 @@ export const storeOrders = async (data) => {
         fields: {
             // Map each object in the array to a document in Firestore
             useID: { stringValue: data.useID },
+            date: { stringValue: formattedDate },
             items: {
                 arrayValue: {
                     values: data.items.map((dat) => ({
