@@ -1,6 +1,7 @@
 const project = "the-hidden-inn";
 import items from "./listOfItems";
 import users from "./listOfUsers";
+import orders from "./listOfOrders";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -283,7 +284,7 @@ export const storeOrders = async (data) => {
     const dataToStore = {
         fields: {
             // Map each object in the array to a document in Firestore
-            useID: { stringValue: data.useID },
+            userID: { stringValue: data.useID },
             date: { stringValue: formattedDate },
             items: {
                 arrayValue: {
@@ -325,4 +326,49 @@ export const storeOrders = async (data) => {
     } catch (error) {
         console.log(error);
     }
+}
+
+
+//Get Orders
+// export const getOrders = async (id) => {
+//     const url = `https://firestore.googleapis.com/v1/projects/${project}/databases/(default)/documents/oddOrders`;
+//     try {
+//         const response = await fetch(url, {
+//             method: "GET",
+//         });
+//         const data = await response.json();
+//         // console.log("Done: ", data);
+//         let orders = [];
+
+//         data.documents.forEach(dat => {
+//             // console.log("Done: ", dat.fields.userID.stringValue);
+//             if (id === dat.fields.userID.stringValue) {
+//                 const array = dat.name.split("/");
+//                 orders.push({ id: array[array.length - 1], ...dat.fields })
+//                 // console.log("Id: ", array[array.length - 1]);
+//             }
+//         });
+//         // console.log("My orders", orders);
+//         return orders;
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
+export const getOrders = async (id) => {
+    // console.log("items", items.documents[0].fields);
+
+    let myOrders = [];
+    const data = orders;
+    // console.log("data",data);
+
+    data.documents.forEach(dat => {
+        // console.log("Done: ", dat.fields.userID.stringValue);
+        if (id === dat.fields.userID.stringValue) {
+            const array = dat.name.split("/");
+            myOrders.push({ id: array[array.length - 1], ...dat.fields })
+            // console.log("Id: ", array[array.length - 1]);
+        }
+    });
+    // console.log("My orders", myOrders);
+    return myOrders;
 }
