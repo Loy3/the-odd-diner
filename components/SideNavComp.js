@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
         // opacity: 0.5,
         position: "absolute",
         height: "100%",
-        width: "88%",
+        width: "90%",
         zIndex: 99,
         top: 0,
         left: 0,
@@ -159,27 +159,28 @@ const styles = StyleSheet.create({
         backgroundColor: "#A8C099",
         // opacity: 0.5,
         // position: "absolute",
-        height: "31%",
+        height: "26%",
         width: "100%",
         zIndex: 99,
         top: 0,
         left: 0,
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        borderBottomRightRadius:60
     },
 
     headerDate: {
         color: "#FFFEF5",
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: "400",
         marginBottom: 5
     },
     headerUser: {
         color: "#FFFEF5",
-        fontSize: 22,
+        fontSize: 20,
         fontWeight: "700",
         marginBottom: 1,
-        marginTop: 20
+        marginTop: 10
     },
     headerImageCont: {
         position: 'absolute',
@@ -188,16 +189,16 @@ const styles = StyleSheet.create({
 
     },
     headerImage: {
-        marginTop: 60,
-        width: 100,
-        height: 100,
+        marginTop: 30,
+        width: 90,
+        height: 90,
         objectFit: "cover",
         borderRadius: 100,
         borderWidth: 3,
         borderColor: "#FFFEF5"
     },
     btnCont: {
-        marginTop: 50,
+        marginTop: 60,
         marginLeft: 30
     },
     btnIcon: {
@@ -207,7 +208,7 @@ const styles = StyleSheet.create({
     },
     btnTxt: {
         color: "#7C9070",
-        fontSize: 18,
+        fontSize: 19,
         fontWeight: "700",
         marginLeft: 10,
         marginTop: 5

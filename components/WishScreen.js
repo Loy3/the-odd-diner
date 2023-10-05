@@ -248,10 +248,10 @@ const styles = StyleSheet.create({
         position: "relative",
         width: "100%",
         paddingTop: 50,
-        height: 210,
+        height: 200,
         backgroundColor: "#7C9070",
-        // borderBottomLeftRadius: 150,
-        // borderBottomRightRadius: 150,
+        // borderBottomLeftRadius: 70,
+        // borderBottomRightRadius: 50,
     },
     menuCont: {
         marginHorizontal: 30,
@@ -259,12 +259,12 @@ const styles = StyleSheet.create({
     },
     menuBtn: {},
     menu: {
-        width: 30,
-        height: 30
+        width: 25,
+        height: 25
     },
     headerTextCont: {
         marginHorizontal: 30,
-        marginTop: 30,
+        marginTop: 20,
     },
     headerDate: {
         color: "#FFFEF5",
@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
     },
     headerUser: {
         color: "#FFFEF5",
-        fontSize: 20,
+        fontSize: 24,
         fontWeight: "700",
         marginBottom: 5
     },
@@ -286,8 +286,8 @@ const styles = StyleSheet.create({
     },
     headerImage: {
 
-        width: 90,
-        height: 90,
+        width: 80,
+        height: 80,
         objectFit: "cover",
         borderRadius: 100,
         borderWidth: 3,

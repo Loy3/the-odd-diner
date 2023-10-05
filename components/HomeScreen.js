@@ -336,7 +336,7 @@ const HomeScreen = ({ navigation }) => {
 
       <ScrollView scrollEnabled={true} >
         <>
-        {/* <View style={{
+          {/* <View style={{
           position:"fixed", 
         top:0,
         width:"100%",
@@ -382,7 +382,8 @@ const HomeScreen = ({ navigation }) => {
                 <View style={{ marginHorizontal: 10, flexDirection: "row", width: "95%" }}>
 
                   <View style={styles.mostPopCont}>
-                    <Text style={styles.mostPop}>Most Popular</Text>
+                    <Text style={[styles.mostPop, { marginLeft: 15 }]}>Most</Text>
+                    <Text style={[styles.mostPop, { marginLeft: 10 }]}>Popular</Text>
                   </View>
 
                   <View style={styles.prepTimeCont}>
@@ -391,7 +392,7 @@ const HomeScreen = ({ navigation }) => {
                   </View>
 
                   <View style={styles.priceCont}>
-                    <Image source={priceIcon} style={styles.prepTimeIc} />
+                    <Image source={priceIcon} style={styles.prepTimeIc2} />
                     <Text style={styles.prepTimeText}>{`R${popularItems.itemPrice}.00`}</Text>
                   </View>
 
@@ -471,7 +472,7 @@ const HomeScreen = ({ navigation }) => {
                     </View>
 
                     <TouchableOpacity style={styles.addToCart} onPress={() => addToCart(item.id)}>
-                      <Image source={addIcon} style={styles.prepTimeIc} />
+                      <Image source={addIcon} style={styles.addToCartImg} />
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -516,10 +517,10 @@ export default HomeScreen
 
 const styles = StyleSheet.create({
   line: {
-    borderWidth: 0.5,
+    borderWidth: 1,
     borderRadius: 10,
     borderColor: "#7C9070",
-    marginHorizontal: 10,
+    marginHorizontal: "4%",
     marginVertical: 10
   },
   container: {
@@ -590,7 +591,8 @@ const styles = StyleSheet.create({
   popularImg: {
     width: "100%",
     height: "100%",
-    objectFit: "cover"
+    objectFit: "cover",
+    borderRadius: 30
   },
   popularBg: {
     position: "absolute",
@@ -600,16 +602,17 @@ const styles = StyleSheet.create({
     height: "100%",
     backgroundColor: "gray",
     zIndex: 10,
-    opacity: 0.05
+    opacity: 0.05,
+    borderRadius: 30
   },
 
   popularBtnLeftCont: {
     position: "absolute",
-    top: "30%",
+    top: "37%",
     left: -13,
     backgroundColor: "#FFFEF5",
-    height: 60,
-    width: 60,
+    height: 50,
+    width: 50,
     zIndex: 20,
     borderRadius: 100,
     alignItems: "center",
@@ -624,11 +627,11 @@ const styles = StyleSheet.create({
 
   popularBtnRightCont: {
     position: "absolute",
-    top: "30%",
+    top: "37%",
     right: -13,
     backgroundColor: "#FFFEF5",
-    height: 60,
-    width: 60,
+    height: 50,
+    width: 50,
     zIndex: 20,
     borderRadius: 100,
     alignItems: "center",
@@ -642,47 +645,48 @@ const styles = StyleSheet.create({
   },
   popularDetailsCont: {
     position: "absolute",
-    bottom: "2%",
+    bottom: "3%",
     left: 0,
-    marginHorizontal: "2%",
+    marginHorizontal: "3%",
     backgroundColor: "#FFFEF5",
-    height: 145,
-    width: "96%",
+    height: 150,
+    width: "94%",
     zIndex: 30,
-
+    borderRadius: 30
     // alignItems:"center",
     // justifyContent:"center"
   },
   starIcon: {
-    width: 30,
-    height: 30,
+    width: 25,
+    height: 25,
     position: "absolute",
-    top: 10,
-    right: 10
+    top: 15,
+    right: 15
   },
   popularDetailsTitle: {
     fontSize: 24,
     color: "#7C9070",
     fontWeight: "bold",
-    marginLeft: 10,
-    marginTop: 10
+    marginLeft: 20,
+    marginTop: 15
   },
   popularDetailsSub: {
-    fontSize: 18,
+    fontSize: 17,
     color: "#A8C099",
     fontWeight: "bold",
-    marginLeft: 10,
-    marginTop: 5
+    marginLeft: 20,
+    marginTop: 1
   },
 
   mostPopCont: {
     width: "30%",
-    justifyContent: "center"
+    justifyContent: "center",
+    marginTop: -6
   },
   mostPop: {
     color: "#A8C099",
-    fontSize: 13,
-    fontWeight: "700",
+    fontSize: 14,
+    fontWeight: "bold",
 
   },
   prepTimeCont: {
@@ -690,15 +694,23 @@ const styles = StyleSheet.create({
     // backgroundColor:"yellow",
     flexDirection: "row",
     alignItems: "center",
+    
   },
   prepTimeIc: {
-    width: 20,
-    height: 20
+    width: 25,
+    height: 25,
+    marginLeft:-5
+  },
+  prepTimeIc2: {
+    width: 25,
+    height: 25,
+    marginLeft:-5,
+    marginRight:7
   },
   prepTimeText: {
     marginLeft: 2,
     color: "#7C9070",
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: "700",
   },
   priceCont: {
@@ -720,9 +732,9 @@ const styles = StyleSheet.create({
     // zIndex: 40
   },
   dots: {
-    height: 15,
-    width: 15,
-    backgroundColor: "#F5F5F5",
+    height: 13,
+    width: 13,
+    backgroundColor: "#E0E0E0",
     borderRadius: 10,
     margin: 2
   },
@@ -745,8 +757,8 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   filterBtn: {
-    width: 70,
-    height: 70,
+    width: 65,
+    height: 65,
     // backgroundColor: "gray",
     alignItems: "center",
     justifyContent: "center",
@@ -760,25 +772,26 @@ const styles = StyleSheet.create({
     elevation: 5, // Android
   },
   filterBtnImg: {
-    width: 40,
-    height: 40
+    width: 35,
+    height: 35
   },
   filterBtnTxt: {
     marginVertical: 10,
     textAlign: "center",
     fontWeight: "bold",
     color: "#7C9070",
+    fontSize:12
     // backgroundColor:"yellow"
   },
   itemTitle: {
-    marginVertical: 20,
-    marginHorizontal: 30,
+    marginVertical: 10,
+    marginHorizontal: 20,
     color: "#7C9070",
     fontWeight: "bold",
-    fontSize: 16
+    fontSize: 18
   },
   itemsCont: {
-    marginVertical: 20,
+    marginVertical: 10,
     marginHorizontal: "1%",
     width: "98%",
     // height: 500,
@@ -790,36 +803,40 @@ const styles = StyleSheet.create({
     // flex: "45%",
     width: "48%",
     height: "auto",
-    backgroundColor: "#F5F5F5",
+    backgroundColor: "#F5F6F3",
     marginVertical: 10,
     marginHorizontal: "1%",
+    borderRadius:20
   },
   itemImg: {
     width: "100%",
     height: 200,
-    objectFit: "cover"
+    objectFit: "cover",
+    borderTopRightRadius:20,
+    borderTopLeftRadius:20
   },
 
   cardPriceCont: {
     backgroundColor: "#FFFEF5",
     paddingHorizontal: 10,
     paddingVertical: 5,
-    width: "60%",
+    // width: "60%",
     position: "absolute",
-    top: 160,
-    left: 3
+    top: 158,
+    left: 7,
+    borderRadius:10
   },
   cardPrice: {
-    fontSize: 18,
+    fontSize: 16,
     color: "#7C9070",
     fontWeight: "bold"
   },
   cardItem: {
     marginVertical: 10,
-    marginHorizontal: 5,
+    marginHorizontal: 10,
     color: "#7C9070",
     fontWeight: "bold",
-    fontSize: 20
+    fontSize: 18
   },
   cardPrepTimeCont: {
     marginTop: 10,
@@ -831,12 +848,15 @@ const styles = StyleSheet.create({
   },
   cardPrepTimeIc: {
     width: 23,
-    height: 23
+    height: 23,
+    marginLeft: 5,
+    marginBottom:10
   },
   cardPrepTimeText: {
     marginLeft: 2,
+    marginBottom:10,
     color: "#7C9070",
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: "700",
   },
   addToCart: {
@@ -848,6 +868,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#7C9070",
     justifyContent: "center",
     alignItems: "center"
+  },
+  addToCartImg:{
+    width:20,
+    height:20
   },
   // sideNavCont: {
   //   backgroundColor: "rgba(0,0,0,0.5)",

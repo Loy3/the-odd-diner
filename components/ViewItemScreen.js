@@ -269,9 +269,11 @@ const ViewItemScreen = ({ navigation }) => {
                                 {item.itemDescription ? `${item.itemDescription}` : "none"}
                             </Text>
 
-                            <View style={styles.cardPrepTimeCont}>
+                            <View style={{ marginTop: 20, flexDirection: "row" }}>
                                 <Image source={moneyIcon} style={styles.cardPrepTimeIc} />
-                                <Text style={styles.cardPrepTimeText}>{item.itemPrice ? `R${item.itemPrice}.00` : "R00.00"}</Text>
+                                <Text style={{
+                                    marginLeft: 5, color: "#7C9070", fontSize: 20, fontWeight: "700",
+                                }}>{item.itemPrice ? `R${item.itemPrice}.00` : "R00.00"}</Text>
                             </View>
 
 
@@ -283,7 +285,7 @@ const ViewItemScreen = ({ navigation }) => {
             {btnStatus ?
                 <View style={[styles.siBtnCont, { flexDirection: "row" }]} >
                     <TouchableOpacity style={styles.wishBtn} onPress={() => addToWish(item.id)}>
-                        <Image source={wishIcon} style={{width: 30, height:30}}/>
+                        <Image source={wishIcon} style={{ width: 30, height: 30 }} />
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.siBtn} onPress={() => addToCart(item.id)}>
                         {/* <TouchableOpacity style={styles.siBtn}  onPress={() => navigation.navigate("Journals")}> */}
@@ -294,7 +296,7 @@ const ViewItemScreen = ({ navigation }) => {
                 <View style={[styles.siBtnCont, { flexDirection: "row" }]} >
                     {/* <View style={{ flexDirection: "row", width: "100%", backgroundColor: "green" }}> */}
                     <TouchableOpacity style={styles.wishBtn} onPress={() => addToWish(item.id)}>
-                    <Image source={wishIcon} style={{width: 30, height:30}}/>
+                        <Image source={wishIcon} style={{ width: 30, height: 30 }} />
                     </TouchableOpacity>
 
                     <View style={styles.altBtn} onPress={() => addToCart(item.id)}>
@@ -328,8 +330,8 @@ const styles = StyleSheet.create({
     },
     mainImage: {
         width: "100%",
-        height: 550,
-        objectFit: "cover"
+        height: 510,
+        objectFit: "cover",
     },
 
     backBtnCont: {
@@ -337,15 +339,15 @@ const styles = StyleSheet.create({
         top: 50,
         left: 15,
         backgroundColor: "#FFFEF5",
-        width: 50,
-        height: 50,
+        width: 40,
+        height: 40,
         borderRadius: 100,
         alignItems: "center",
         justifyContent: "center"
     },
     backBtn: {
-        width: 25,
-        height: 25,
+        width: 20,
+        height: 20,
         marginLeft: -2
     },
 
@@ -354,49 +356,53 @@ const styles = StyleSheet.create({
         top: 50,
         right: 15,
         backgroundColor: "#FFFEF5",
-        width: 50,
-        height: 50,
+        width: 45,
+        height: 45,
         borderRadius: 100,
         alignItems: "center",
         justifyContent: "center"
     },
     cartBtn: {
-        width: 25,
-        height: 25,
-        marginLeft: -2
+        width: 23,
+        height: 23,
+        marginLeft: -1
     },
 
     itemTitle: {
-        fontSize: 24,
+        fontSize: 20,
         color: "#7C9070",
         fontWeight: "bold",
         // marginLeft: 10,
         marginTop: 0
     },
     itemSubTitle: {
-        fontSize: 20,
+        fontSize: 18,
         color: "#A8C099",
         fontWeight: "bold",
         // marginLeft: 10,
-        marginTop: 5
+        marginTop: 2
     },
     cardPrepTimeCont: {
-        marginTop: 20,
+        marginTop: 12,
         marginLeft: -5,
         width: "50%",
         // backgroundColor:"yellow",
         flexDirection: "row",
         alignItems: "center",
+        position: "absolute",
+        top: 10,
+        right: -60
     },
     cardPrepTimeIc: {
-        width: 30,
-        height: 30
+        width: 25,
+        height: 25
     },
     cardPrepTimeText: {
         marginLeft: 5,
         color: "#7C9070",
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: "700",
+        // textAlign:"right"
     },
     itemDescip: {
         marginTop: 20,
