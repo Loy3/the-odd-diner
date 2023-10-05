@@ -4,32 +4,29 @@ import { View, StyleSheet, Text, TouchableOpacity, Image, Button, TextInput, Scr
 import { getItems, getUsers } from "../services/serviceStoreDoc";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import backBtnIcon from "../assets/Icons/prev.png";
+import prepTimeIcon from "../assets/Icons/stopwatch2.png";
 import masterCardIcon from "../assets/Icons/card.png";
 import cardChipIcon from "../assets/Icons/chip.png";
+
+import menuIcon from "../assets/Icons/menu.png";
+import userIcon from "../assets/Icons/user2.png";
 import priceIcon from "../assets/Icons/money.png";
-import locationIcon from "../assets/Icons/location2.png";
+import wishIcon from "../assets/Icons/favourite.png";
 import UpdateAddressComp from './UpdateAddressComp';
 import UpdateCardDetailsComp from './UpdateCardDetailsComp';
 
 
 import { CardField, useStripe } from '@stripe/stripe-react-native';
+import SideNavComp from './SideNavComp';
 
 
-const OrderReviewScreen = ({ navigation }) => {
-    const { confirmPaymentMethod } = useStripe();
+const WishScreen = ({ navigation }) => {
     const [signedInUser, setSignedInUser] = useState({
         firstname: null,
         lastname: null,
         imageUrl: null,
         emailAddress: null,
-        address: null,
-        addressZip: null,
-        city: null,
-        cardName: null,
-        cardNum: null,
-        cardDate: null,
-        zipCode: null
+
     });
     const [items, setItems] = useState([]);
     const [loadingStatus, setloadingStatusStatus] = useState(false);
@@ -38,9 +35,15 @@ const OrderReviewScreen = ({ navigation }) => {
     const [itemsTotalPrice, setItemsTotalPrice] = useState("");
     const [itemsSubTotalPrice, setItemsSubTotalPrice] = useState("");
     const [checkoutItems, setCheckoutItems] = useState([]);
-    // useEffect(()=>{
-    //     navigation.navigate("Cart")
-    // },[])
+    const [menuStatus, setMenuStatus] = useState(false);
+    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const monthsOfYear = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    const today = new Date();
+    const dayOfWeek = daysOfWeek[today.getDay()];
+    const dayOfMonth = today.getDate();
+    const monthOfYear = monthsOfYear[today.getMonth()];
+    const formattedDate = `${dayOfWeek}, ${dayOfMonth} ${monthOfYear}`;
 
     useEffect(() => {
         (async () => {
@@ -51,7 +54,7 @@ const OrderReviewScreen = ({ navigation }) => {
                 if (user === null) {
                     navigation.navigate("Cart")
                 } else {
-                    await getCheckoutItems();
+                    await getWishItems();
                 }
                 setloadingStatusStatus(false);
             })
@@ -66,48 +69,55 @@ const OrderReviewScreen = ({ navigation }) => {
         const user = await getUsers(res.localId)
         // console.log("signed in user", user[0].cardDetails.mapValue.fields.cardDate.stringValue);
         const address = await getAddressonSave();
-        if (address === null) {
-            setSignedInUser({
-                firstname: user[0].firstname.stringValue,
-                lastname: user[0].lastname.stringValue,
-                imageUrl: user[0].imageUrl.stringValue,
-                emailAddress: res.email,
-                userID: res.localId,
-                address: `${user[0].address.mapValue.fields.streetAddr.stringValue} `,
-                addressZip: `${user[0].address.mapValue.fields.zipCode.stringValue}`,
-                city: `${user[0].address.mapValue.fields.city.stringValue}`,
-                cardName: user[0].cardDetails.mapValue.fields.cardName.stringValue,
-                cardNum: user[0].cardDetails.mapValue.fields.cardNum.stringValue,
-                cardDate: user[0].cardDetails.mapValue.fields.cardDate.stringValue,
-                zipCode: user[0].cardDetails.mapValue.fields.zipCode.stringValue
-            });
-        } else {
-            setSignedInUser({
-                firstname: user[0].firstname.stringValue,
-                lastname: user[0].lastname.stringValue,
-                imageUrl: user[0].imageUrl.stringValue,
-                emailAddress: res.email,
-                userID: res.localId,
-                address: `${address.streetAddr} `,
-                addressZip: `${address.zipCode}`,
-                city: `${address.city}`,
-                cardName: user[0].cardDetails.mapValue.fields.cardName.stringValue,
-                cardNum: user[0].cardDetails.mapValue.fields.cardNum.stringValue,
-                cardDate: user[0].cardDetails.mapValue.fields.cardDate.stringValue,
-                zipCode: user[0].cardDetails.mapValue.fields.zipCode.stringValue
-            });
-        }
+
+        setSignedInUser({
+            firstname: user[0].firstname.stringValue,
+            lastname: user[0].lastname.stringValue,
+            imageUrl: user[0].imageUrl.stringValue,
+            emailAddress: res.email,
+            userID: res.localId,
+        });
 
         return res;
     }
 
-    async function getCheckoutItems() {
-        const jsonValue = await AsyncStorage.getItem('checkout');
-        const res = jsonValue != null ? JSON.parse(jsonValue) : null;
+    async function getWishItems() {
+        // const jsonValue = await AsyncStorage.getItem('checkout');
+        // const res = jsonValue != null ? JSON.parse(jsonValue) : null;
         // console.log("Ress", res.items);
-        setItemsSubTotalPrice(res.itemsSubTotalPrice);
-        setItemsTotalPrice(res.itemsTotalPrice)
-        setCheckoutItems(res.items)
+        const res = await getItems();
+        //Get USer
+        const jsonValue = await AsyncStorage.getItem('user');
+        const resUser = jsonValue != null ? JSON.parse(jsonValue) : null;
+        const jsonItemsValue = await AsyncStorage.getItem('wishItems');
+        const itemsId = jsonItemsValue != null ? JSON.parse(jsonItemsValue) : null;
+        // console.log("itemsId", itemsId);
+        var myItems = [];
+        var totalIPrice = 0;
+        var totalISubPrice = 0;
+
+
+        itemsId.forEach(id => {
+            res.forEach(r => {
+                if (id.id === r.id && resUser.userID === r.userID) {
+                    // console.log("Item found");
+                    const foundItem = {
+                        id: r.id,
+                        itemImageUrl: r.itemImageUrl.stringValue,
+                        itemName: r.itemName.stringValue,
+                        itemSub: r.itemSub.stringValue,
+                        itemPrepTime: r.itemPrepTime.stringValue,
+                        itemPrice: r.itemPrice.stringValue,
+                        itemDescription: r.itemDescription.stringValue,
+                    }
+                    myItems.push(foundItem);
+                    totalISubPrice += parseInt(r.itemPrice.stringValue);
+                }
+            });
+        });
+
+        setItems(myItems);
+
     }
 
     async function getAddressonSave() {
@@ -143,10 +153,14 @@ const OrderReviewScreen = ({ navigation }) => {
         setpopUpStatus(true)
     }
 
-    function toCheckout(){
+    function toCheckout() {
         // console.log("ch");
         navigation.navigate("Checkout")
     }
+    function openMenu() {
+        setMenuStatus(true);
+    }
+
 
     if (loadingStatus === true) {
         return (
@@ -160,42 +174,30 @@ const OrderReviewScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <View style={{
-                            height: 130,
-                            width: "100%",
-                            backgroundColor: "#7C9070"
-                        }}>
-                            <TouchableOpacity style={styles.backBtnCont} onPress={backToHome}>
-                                <Image source={backBtnIcon} style={styles.backBtn} />
-                            </TouchableOpacity>
-                            <Text style={styles.pageTitle}>Review</Text>
-                        </View>
+            <View style={styles.header}>
+                <View style={styles.menuCont}>
+                    <TouchableOpacity style={styles.menuBtn} onPress={openMenu}>
+                        <Image source={menuIcon} style={styles.menu} />
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.headerTextCont}>
+                    <Text style={styles.headerDate}>{formattedDate}</Text>
+                    <Text style={styles.headerUser}>Wish List</Text>
+                </View>
+                <View style={styles.headerImageCont}>
+                    <Image source={signedInUser.imageUrl === null ? userIcon : { uri: signedInUser.imageUrl }} style={styles.headerImage} />
+                </View>
+            </View>
             <ScrollView scrollEnabled={true} >
                 <>
                     <View >
-                        
 
-
-                        <Text style={[styles.paymentTitle, { marginTop: 30 }]}>Delivery Address:</Text>
-
-                        <View style={styles.addressCont}>
-                            <Image source={locationIcon} style={styles.backBtn} />
-                            <View>
-                                <Text style={styles.addressTxtMain}>{signedInUser.address}</Text>
-                                <Text style={styles.addressTxtMain}>{signedInUser.city}</Text>
-                                <Text style={styles.addressTxtMain}>{signedInUser.addressZip}</Text>
-                            </View>
-
-                            <TouchableOpacity style={styles.editBtn} onPress={editAddress}>
-                                <Text style={styles.editBtnTxt}>Edit</Text>
-                            </TouchableOpacity>
-                        </View>
 
                         <View style={{ marginTop: 30 }}>
-                            <Text style={[styles.paymentTitle, { marginTop: 30 }]}>Order Summary:</Text>
+                            <Text style={[styles.paymentTitle, { marginTop: 0 }]}>Wish Items:</Text>
 
                             <View style={styles.cartCont}>
-                                {checkoutItems.map((item, index) => (
+                                {items.map((item, index) => (
                                     <View style={styles.cartCard} key={index}>
                                         <View style={styles.itemImgCont}>
                                             <Image source={item.itemImageUrl ? { uri: item.itemImageUrl } : subImg} style={styles.itemImg} />
@@ -204,13 +206,13 @@ const OrderReviewScreen = ({ navigation }) => {
                                             <Text style={styles.cardItemTitle}>{item.itemName ? `${item.itemName}` : "Title"}</Text>
                                             <Text style={styles.cardItemSubTitle}>{item.itemSub ? `${item.itemSub}` : "Sub Title"}</Text>
                                             <View style={styles.priceCont}>
-                                                <Image source={priceIcon} style={styles.prepTimeIc} />
-                                                <Text style={styles.prepTimeText}>{item.totalPrice ? `R${item.totalPrice}.00` : "R00.00"}</Text>
+                                                <Image source={prepTimeIcon} style={styles.prepTimeIc} />
+                                                <Text style={styles.prepTimeText}>{item.itemPrepTime ? `${item.itemPrepTime}` : "10 - 20 min"}</Text>
                                             </View>
 
                                         </View>
                                         <View style={[styles.countBtnCont, { position: "absolute", top: 15, right: 10 }]}>
-                                            <Text style={styles.counter}>{item.numOfItems ? `${item.numOfItems}` : "1"}</Text>
+                                            <Image source={wishIcon} style={{width:20,height:20}}/>
                                         </View>
                                     </View>
                                 ))}
@@ -221,55 +223,18 @@ const OrderReviewScreen = ({ navigation }) => {
 
                         </View>
 
-                        <View style={styles.pricingCont}>
-                            <Text style={styles.pricingTitle}>Pricing</Text>
-                            <View style={{ flexDirection: "row", marginTop: 15 }}>
-                                <Text style={styles.subTotalLeft}>Sub Total</Text>
-                                <Text style={styles.subTotalRight}>R{itemsSubTotalPrice}.00</Text>
-                            </View>
-                            <View style={{ flexDirection: "row", marginTop: 10 }}>
-                                <Text style={styles.subTotalLeft}>Delivery Fee:</Text>
-                                <Text style={styles.subTotalRight}>R60.00</Text>
-                            </View>
-                            <View style={styles.pLine2} />
-                            <View style={{ flexDirection: "row" }}>
-                                <Text style={styles.totalLeft}>Total</Text>
-                                <Text style={styles.totalRight}>R{itemsTotalPrice}.00</Text>
-                            </View>
-
-                            {/* <TouchableOpacity style={styles.siBtn} >
-                                <Text style={styles.siBtnTxt}>Confirm Payment</Text>
-                            </TouchableOpacity> */}
-
-                        </View>
+                        
                     </View>
                 </>
             </ScrollView>
-            <View style={styles.siBtnCont} >
-                <TouchableOpacity style={styles.siBtn} onPress={toCheckout}>
-                    <Text style={styles.siBtnTxt}>Checkout</Text>
-                </TouchableOpacity>
-            </View>
-
-            {popUpStatus ?
-                <View style={styles.popUp}>
-                    <View style={styles.popUpBox}>
-                        <UpdateAddressComp setpopUpStatus={setpopUpStatus} />
-                    </View>
-                </View>
-                : null}
-            {popUpCardStatus ?
-                <View style={styles.popUp}>
-                    <View style={styles.popUpBox}>
-                        <UpdateCardDetailsComp setpopUpCardStatus={setpopUpCardStatus} />
-                    </View>
-                </View>
-                : null}
+            {menuStatus ?
+        <SideNavComp setMenuStatus={setMenuStatus} />
+        : null}
         </View>
     )
 }
 
-export default OrderReviewScreen
+export default WishScreen
 
 const styles = StyleSheet.create({
     container: {
@@ -278,6 +243,55 @@ const styles = StyleSheet.create({
         // justifyContent: "center",
         backgroundColor: '#FFFEF5',
         width: "100%",
+    },
+    header: {
+        position: "relative",
+        width: "100%",
+        paddingTop: 50,
+        height: 210,
+        backgroundColor: "#7C9070",
+        // borderBottomLeftRadius: 150,
+        // borderBottomRightRadius: 150,
+    },
+    menuCont: {
+        marginHorizontal: 30,
+        marginTop: 10
+    },
+    menuBtn: {},
+    menu: {
+        width: 30,
+        height: 30
+    },
+    headerTextCont: {
+        marginHorizontal: 30,
+        marginTop: 30,
+    },
+    headerDate: {
+        color: "#FFFEF5",
+        fontSize: 16,
+        fontWeight: "400",
+        marginBottom: 2
+    },
+    headerUser: {
+        color: "#FFFEF5",
+        fontSize: 20,
+        fontWeight: "700",
+        marginBottom: 5
+    },
+    headerImageCont: {
+        position: 'absolute',
+        top: 70,
+        right: 20,
+
+    },
+    headerImage: {
+
+        width: 90,
+        height: 90,
+        objectFit: "cover",
+        borderRadius: 100,
+        borderWidth: 3,
+        borderColor: "#FFFEF5"
     },
     backBtnCont: {
         // position: "absolute",
@@ -495,7 +509,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: "#7C9070"
     },
-    siBtnCont:{
+    siBtnCont: {
         width: "90%",
         // height: 300,
         marginHorizontal: "5%",
@@ -577,7 +591,7 @@ const styles = StyleSheet.create({
         height: 25
     },
     prepTimeText: {
-        marginLeft: 10,
+        marginLeft: 5,
         color: "#7C9070",
         fontSize: 16,
         fontWeight: "700",
@@ -612,8 +626,8 @@ const styles = StyleSheet.create({
         width: 30,
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#7C9070",
-        // borderRadius:100
+        backgroundColor: "#E8F5E0",
+        borderRadius:30
     },
     countBtn: {
         width: 20,

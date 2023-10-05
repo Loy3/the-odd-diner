@@ -19,6 +19,7 @@ import CheckOutScreen from './components/CheckOutScreen';
 import ViewProfileScreen from './components/ViewProfileScreen';
 import OrderReviewScreen from './components/OrderReviewScreen';
 import OrdersScreen from './components/OrdersScreen';
+import WishScreen from './components/WishScreen';
 
 export default function App({ navigation }) {
   const Stack = createStackNavigator();
@@ -121,6 +122,7 @@ export default function App({ navigation }) {
             <Stack.Screen name="Checkout" component={CheckOutScreen} /> 
             <Stack.Screen name="ViewProfile" component={ViewProfileScreen} /> 
             <Stack.Screen name="Orders" component={OrdersScreen} /> 
+            <Stack.Screen name="Wish" component={WishScreen} /> 
           </>
 
         )

@@ -8,6 +8,8 @@ import backBtnIcon from "../assets/Icons/prev.png";
 import cartIcon from "../assets/Icons/cart.png";
 import moneyIcon from "../assets/Icons/money.png";
 import prepTimeIcon from "../assets/Icons/stopwatch2.png";
+import wishIcon from "../assets/Icons/wish2.png";
+
 const ViewItemScreen = ({ navigation }) => {
 
     const [signedInUser, setSignedInUser] = useState({
@@ -163,6 +165,68 @@ const ViewItemScreen = ({ navigation }) => {
 
     }
 
+    async function addToWish(id) {
+        const res = await checkWish(id);
+        console.log(res);
+
+        if (res === true) {
+            console.log("Item already added");
+        } else {
+            console.log("Item not added");
+
+            const jsonValue = await AsyncStorage.getItem('wishItems');
+            const res = jsonValue != null ? JSON.parse(jsonValue) : null;
+            // await AsyncStorage.removeItem('cartItems')
+
+            console.log("res", res);
+            var itemsToWish = [];
+            var itemId = {
+                id: id,
+                userID: signedInUser.userID
+            }
+
+            console.log(itemId);
+            if (res === null) {
+                itemsToWish.push(itemId);
+                const jsonSetValue = JSON.stringify(itemsToWish);
+                await AsyncStorage.setItem('wishItems', jsonSetValue).then(() => {
+                    console.log("Success");
+                })
+            } else {
+                res.forEach(r => {
+                    itemsToWish.push(r);
+                });
+                itemsToWish.push(itemId);
+                const jsonSetValue = JSON.stringify(itemsToWish);
+                await AsyncStorage.setItem('wishItems', jsonSetValue).then(() => {
+                    console.log("Success");
+                })
+            }
+        }
+    }
+
+    async function checkWish(id) {
+        const jsonValue = await AsyncStorage.getItem('wishItems');
+        const res = jsonValue != null ? JSON.parse(jsonValue) : null;
+        // console.log(res);
+        const curItem = id;
+        // console.log(curItem);
+        var status = false;
+        if (res !== null) {
+            res.forEach(r => {
+                if (r.id === curItem) {
+                    console.log("found");
+                    status = true;
+                } else {
+                    console.log("not found");
+                }
+            });
+        }
+
+        return status;
+
+    }
+
 
     if (loadingStatus === true) {
         return (
@@ -192,7 +256,7 @@ const ViewItemScreen = ({ navigation }) => {
                             </TouchableOpacity>
                         </View>
 
-                        <View style={{ marginHorizontal: 20, paddingVertical: 20 }}>
+                        <View style={{ marginHorizontal: "6%", paddingVertical: 20 }}>
                             <Text style={styles.itemTitle}>{item.itemName ? `${item.itemName}` : "Title"}</Text>
                             <Text style={styles.itemSubTitle}>{item.itemName ? `${item.itemSub}` : "Sub Title"}</Text>
 
@@ -210,21 +274,36 @@ const ViewItemScreen = ({ navigation }) => {
                                 <Text style={styles.cardPrepTimeText}>{item.itemPrice ? `R${item.itemPrice}.00` : "R00.00"}</Text>
                             </View>
 
-                            {btnStatus ?
-                                <TouchableOpacity style={styles.siBtn} onPress={() => addToCart(item.id)}>
-                                    {/* <TouchableOpacity style={styles.siBtn}  onPress={() => navigation.navigate("Journals")}> */}
-                                    <Text style={styles.siBtnTxt}>Add to cart</Text>
-                                </TouchableOpacity>
-                                :
-                                <View style={styles.altBtn} onPress={() => addToCart(item.id)}>
-                                    {/* <TouchableOpacity style={styles.siBtn}  onPress={() => navigation.navigate("Journals")}> */}
-                                    <Text style={styles.altBtnTxt}>Item already added to cart</Text>
-                                </View>
-                            }
+
                         </View>
                     </View>
                 </>
+
             </ScrollView>
+            {btnStatus ?
+                <View style={[styles.siBtnCont, { flexDirection: "row" }]} >
+                    <TouchableOpacity style={styles.wishBtn} onPress={() => addToWish(item.id)}>
+                        <Image source={wishIcon} style={{width: 30, height:30}}/>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.siBtn} onPress={() => addToCart(item.id)}>
+                        {/* <TouchableOpacity style={styles.siBtn}  onPress={() => navigation.navigate("Journals")}> */}
+                        <Text style={styles.siBtnTxt}>Add to cart</Text>
+                    </TouchableOpacity>
+                </View>
+                :
+                <View style={[styles.siBtnCont, { flexDirection: "row" }]} >
+                    {/* <View style={{ flexDirection: "row", width: "100%", backgroundColor: "green" }}> */}
+                    <TouchableOpacity style={styles.wishBtn} onPress={() => addToWish(item.id)}>
+                    <Image source={wishIcon} style={{width: 30, height:30}}/>
+                    </TouchableOpacity>
+
+                    <View style={styles.altBtn} onPress={() => addToCart(item.id)}>
+                        {/* <TouchableOpacity style={styles.siBtn}  onPress={() => navigation.navigate("Journals")}> */}
+                        <Text style={styles.altBtnTxt}>Item already added to cart</Text>
+                    </View>
+                    {/* </View> */}
+                </View>
+            }
         </View>
     )
 }
@@ -323,8 +402,20 @@ const styles = StyleSheet.create({
         marginTop: 20,
         fontSize: 14
     },
+    siBtnCont: {
+        width: "90%",
+        // height: 300,
+        marginHorizontal: "5%",
+        // backgroundColor: "yellow",
+        // marginTop: 100,
+        marginBottom: 20,
+        position: "fixed",
+        zIndex: 99,
+        bottom: 0,
+
+    },
     siBtn: {
-        width: "100%",
+        width: "79%",
         // marginHorizontal: "8%",
         height: 60,
         borderRadius: 50,
@@ -332,7 +423,8 @@ const styles = StyleSheet.create({
         // marginHorizontal: "5%",
         backgroundColor: "#7C9070",
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        marginLeft: "1%"
     },
     siBtnTxt: {
         textAlign: "center",
@@ -343,7 +435,7 @@ const styles = StyleSheet.create({
     },
 
     altBtn: {
-        width: "100%",
+        width: "79%",
         // marginHorizontal: "8%",
         height: 60,
         borderRadius: 50,
@@ -351,7 +443,8 @@ const styles = StyleSheet.create({
         // marginHorizontal: "5%",
         backgroundColor: "#E8F5E0",
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        marginLeft: "1%"
     },
     altBtnTxt: {
         textAlign: "center",
@@ -359,6 +452,24 @@ const styles = StyleSheet.create({
         paddingVertical: 15,
         fontSize: 17,
         fontWeight: "bold"
+    },
+    wishBtn: {
+        width: "20%",
+        height: 60,
+        backgroundColor: "#7C9070",
+        borderRadius: 50,
+        marginTop: 40,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    wishBtn2: {
+        width: "27%",
+        height: 62,
+        backgroundColor: "#7C9070",
+        borderRadius: 50,
+        marginTop: 38,
+        justifyContent: "center",
+        alignItems: "center"
     },
 
     loadingScreen: {

@@ -7,6 +7,7 @@ import userIcon from "../assets/Icons/user2.png";
 import homeIcon from "../assets/Icons/home.png";
 import ordersIcon from "../assets/Icons/order.png";
 import cartIcon from "../assets/Icons/cart.png";
+import wishIcon from "../assets/Icons/wish.png";
 import profileIcon from "../assets/Icons/user2.png";
 import signOutIcon from "../assets/Icons/exit.png";
 
@@ -64,6 +65,11 @@ const SideNavComp = ({ setMenuStatus }) => {
                 setMenuStatus(false);
                 console.log("Profile");
                 break;
+            case "wish":
+                navigation.navigate("Wish");
+                setMenuStatus(false);
+                console.log("Wish");
+                break;
             default:
                 console.log("Sign Out");
         }
@@ -98,6 +104,11 @@ const SideNavComp = ({ setMenuStatus }) => {
                     <TouchableOpacity style={{ flexDirection: "row" }} onPress={() => handleNav("cart")}>
                         <Image source={cartIcon} style={styles.btnIcon} />
                         <Text style={styles.btnTxt}>Cart</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={{ flexDirection: "row" }} onPress={() => handleNav("wish")}>
+                        <Image source={wishIcon} style={styles.btnIcon} />
+                        <Text style={styles.btnTxt}>Wish</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity style={{ flexDirection: "row" }} onPress={() => handleNav("profile")}>

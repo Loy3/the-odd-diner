@@ -38,22 +38,22 @@
             "name": "projects/the-hidden-inn/databases/(default)/documents/oddItems/FrvEExUp7mzbB8V0my1f",
             "fields": {
                 "itemImageName": {
-                    "stringValue": "19.jpg"
+                    "stringValue": "48.jpg"
                 },
                 "itemImageUrl": {
-                    "stringValue": "https://firebasestorage.googleapis.com/v0/b/the-hidden-inn.appspot.com/o/oddItems%2F19.jpg?alt=media&token=cbcd3468-38fc-44a6-b7c3-f8a0809b34e0&_gl=1*1lw7o8l*_ga*ODg2OTc1OTQ1LjE2OTE3NTQ0NDk.*_ga_CW55HF8NVT*MTY5NTg5NTQwNi4xMC4xLjE2OTU4OTc3NzUuMzIuMC4w."
+                    "stringValue": "https://firebasestorage.googleapis.com/v0/b/the-hidden-inn.appspot.com/o/oddItems%2F48.jpg?alt=media&token=7a2502f3-489f-4849-813f-19acc150cebf"
                 },
                 "itemPrepTime": {
                     "stringValue": "15 - 20 min"
                 },
                 "itemName": {
-                    "stringValue": "Two In Two Pizza"
+                    "stringValue": "Yeh Wena Pizza"
                 },
                 "itemDescription": {
                     "stringValue": "Indulge in the irresistible allure of our handcrafted pizzas, where every bite is a symphony of flavors. From the perfectly crisp crust to the melty cheese and fresh toppings, each slice is a work of art. Experience pizza perfection like never before and let your taste buds embark on a journey of pure delight."
                 },
                 "itemSub": {
-                    "stringValue": "Two topings pizza"
+                    "stringValue": "Tasty topings pizza"
                 },
                 "itemStatus": {
                     "stringValue": "not"
@@ -93,7 +93,7 @@
                     "stringValue": "33.jpg"
                 },
                 "itemDescription": {
-                    "stringValue": "Indulge in the crisp, effervescent delight of Coca-Cola, a timeless beverage that brings joy with every sip. From its iconic red label to its refreshing taste, this beloved fizzy drink has been bringing people together for generations. Raise a glass and experience the simple pleasure of Coca-Cola."
+                    "stringValue": "Indulge in its velvety texture and savor the rich, wholesome taste that brings comfort and satisfaction with every sip. Discover the goodness of milk, a timeless beverage that fuels your body and uplifts your senses."
                 },
                 "itemPrice": {
                     "stringValue": "30"
@@ -347,7 +347,7 @@
                     "stringValue": "Mix of sea food."
                 },
                 "itemImageUrl": {
-                    "stringValue": "https://firebasestorage.googleapis.com/v0/b/the-hidden-inn.appspot.com/o/oddItems%2F41.jpg?alt=media&token=0d0ba880-8121-4f27-9f57-e7637d424a97&_gl=1*13zebo6*_ga*ODg2OTc1OTQ1LjE2OTE3NTQ0NDk.*_ga_CW55HF8NVT*MTY5NTg5NTQwNi4xMC4xLjE2OTU4OTc4MjQuNDMuMC4w"
+                    "stringValue": "https://firebasestorage.googleapis.com/v0/b/the-hidden-inn.appspot.com/o/oddItems%2F49.jpg?alt=media&token=1c8f2f2d-1476-4bf9-b957-3e749bc2baa3"
                 },
                 "itemDescription": {
                     "stringValue": "Indulge in the ocean's bounty with our exquisite selection of seafood. From succulent shrimp to mouthwatering lobster, each dish is crafted with care to bring you a taste of the sea's finest treasures. Dive into a culinary adventure and savor the flavors that will transport your taste buds to coastal bliss."
@@ -359,7 +359,7 @@
                     "stringValue": "dinner"
                 },
                 "itemImageName": {
-                    "stringValue": "41.jpg"
+                    "stringValue": "49.jpg"
                 },
                 "itemStatus": {
                     "stringValue": "popular"

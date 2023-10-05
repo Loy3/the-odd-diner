@@ -5,6 +5,8 @@ import { getItems, getUsers } from "../services/serviceStoreDoc";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import backBtnIcon from "../assets/Icons/prev.png";
+import menuIcon from "../assets/Icons/menu.png";
+import userIcon from "../assets/Icons/user2.png";
 import priceIcon from "../assets/Icons/money.png";
 import deleteIcon from "../assets/Icons/delete.png";
 import addIcon from "../assets/Icons/add.png";
@@ -12,10 +14,11 @@ import subtIcon from "../assets/Icons/minus.png";
 import cartIcon from "../assets/Icons/cart.png";
 import reviewIcon from "../assets/Icons/review.png";
 import checkoutIcon from "../assets/Icons/checkout.png";
+import SideNavComp from './SideNavComp';
 
 
 const CartScreen = ({ navigation }) => {
-
+    const [menuStatus, setMenuStatus] = useState(false);
     const [signedInUser, setSignedInUser] = useState({
         firstname: null,
         lastname: null,
@@ -37,6 +40,14 @@ const CartScreen = ({ navigation }) => {
     const [storeItems, setStoreItems] = useState([]);
     const [loadingStatus, setloadingStatusStatus] = useState(false);
     const [itemsStatus, setitemsStatus] = useState(false);
+    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const monthsOfYear = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    const today = new Date();
+    const dayOfWeek = daysOfWeek[today.getDay()];
+    const dayOfMonth = today.getDate();
+    const monthOfYear = monthsOfYear[today.getMonth()];
+    const formattedDate = `${dayOfWeek}, ${dayOfMonth} ${monthOfYear}`;
 
     useEffect(() => {
         (async () => {
@@ -262,7 +273,9 @@ const CartScreen = ({ navigation }) => {
         })
         // console.log(checkoutItems);
     }
-
+    function openMenu() {
+        setMenuStatus(true);
+    }
 
     if (loadingStatus === true) {
         return (
@@ -277,20 +290,31 @@ const CartScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <ScrollView scrollEnabled={true} >
-                <>
-                    {/* {console.log(items)} */}
-                    <View>
-                        <View style={{
-                            height: 130,
-                            width: "100%",
-                            backgroundColor: "#7C9070"
-                        }}>
-                            <TouchableOpacity style={styles.backBtnCont} onPress={backToHome}>
-                                <Image source={backBtnIcon} style={styles.backBtn} />
-                            </TouchableOpacity>
+            <View style={styles.header}>
+                <View style={styles.menuCont}>
+                    <TouchableOpacity style={styles.menuBtn} onPress={openMenu}>
+                        <Image source={menuIcon} style={styles.menu} />
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.headerTextCont}>
+                    <Text style={styles.headerDate}>{formattedDate}</Text>
+                    <Text style={styles.headerUser}>Cart</Text>
+                </View>
+                <View style={styles.headerImageCont}>
+                    <Image source={signedInUser.imageUrl === null ? userIcon : { uri: signedInUser.imageUrl }} style={styles.headerImage} />
+                </View>
+            </View>
+            {/* <View style={{
+                height: 130,
+                width: "100%",
+                backgroundColor: "#7C9070"
+            }}>
+                <TouchableOpacity style={styles.backBtnCont} onPress={backToHome}>
+                    <Image source={backBtnIcon} style={styles.backBtn} />
+                </TouchableOpacity>
+                <Text style={styles.pageTitle}>Cart</Text> */}
 
-                            {/* <View style={{ marginTop: 60 }}>
+            {/* <View style={{ marginTop: 60 }}>
                                 <View style={{ flexDirection: "row" }}>
                                     <View style={{ borderColor: "#A8C099", backgroundColor: "#A8C099", borderWidth: 2, width: "30%" }} />
                                     <View style={{ borderColor: "#FFFEF5", backgroundColor: "#FFFEF5", borderWidth: 2, width: "40%" }} />
@@ -327,12 +351,17 @@ const CartScreen = ({ navigation }) => {
                                     </View>
                                 </View>
                             </View> */}
-                        </View>
+            {/* </View> */}
+            <ScrollView scrollEnabled={true} >
+                <>
+                    {/* {console.log(items)} */}
+                    <View>
 
 
 
 
-                        <Text style={styles.pageTitle}>Cart</Text>
+
+
 
                         {itemsStatus ?
                             <View style={{ height: 400, width: "100%", alignItems: "center", justifyContent: "center" }}>
@@ -394,10 +423,7 @@ const CartScreen = ({ navigation }) => {
                                         <Text style={styles.totalRight}>R{itemsTotalPrice}.00</Text>
                                     </View>
 
-                                    {/* <TouchableOpacity style={styles.siBtn} onPress={checkout}>
-                                {/* <TouchableOpacity style={styles.siBtn}  onPress={() => navigation.navigate("Journals")}> /}
-                                <Text style={styles.siBtnTxt}>Review</Text>
-                            </TouchableOpacity> */}
+
 
                                 </View>
                             </>
@@ -410,6 +436,25 @@ const CartScreen = ({ navigation }) => {
             {itemsStatus ?
                 null :
                 <View style={styles.siBtnCont}>
+                    {/* <View style={styles.pricingCont}>
+                                    <Text style={styles.pricingTitle}>Pricing</Text>
+                                    <View style={{ flexDirection: "row", marginTop: 15 }}>
+                                        <Text style={styles.subTotalLeft}>Sub Total</Text>
+                                        <Text style={styles.subTotalRight}>R{itemsSubTotalPrice}.00</Text>
+                                    </View>
+                                    <View style={{ flexDirection: "row", marginTop: 10 }}>
+                                        <Text style={styles.subTotalLeft}>Delivery Fee:</Text>
+                                        <Text style={styles.subTotalRight}>R60.00</Text>
+                                    </View>
+                                    <View style={styles.pLine} />
+                                    <View style={{ flexDirection: "row" }}>
+                                        <Text style={styles.totalLeft}>Total</Text>
+                                        <Text style={styles.totalRight}>R{itemsTotalPrice}.00</Text>
+                                    </View>
+
+                                  
+
+                                </View> */}
                     <TouchableOpacity style={styles.siBtn} onPress={checkout}>
                         {/* <TouchableOpacity style={styles.siBtn}  onPress={() => navigation.navigate("Journals")}> */}
                         <Text style={styles.siBtnTxt}>Review</Text>
@@ -417,6 +462,9 @@ const CartScreen = ({ navigation }) => {
                 </View>
             }
 
+            {menuStatus ?
+                <SideNavComp setMenuStatus={setMenuStatus} />
+                : null}
 
         </View>
     )
@@ -433,6 +481,55 @@ const styles = StyleSheet.create({
         // justifyContent: "center",
         backgroundColor: '#FFFEF5',
         width: "100%",
+    },
+    header: {
+        position: "relative",
+        width: "100%",
+        paddingTop: 50,
+        height: 210,
+        backgroundColor: "#7C9070",
+        // borderBottomLeftRadius: 150,
+        // borderBottomRightRadius: 150,
+    },
+    menuCont: {
+        marginHorizontal: 30,
+        marginTop: 10
+    },
+    menuBtn: {},
+    menu: {
+        width: 30,
+        height: 30
+    },
+    headerTextCont: {
+        marginHorizontal: 30,
+        marginTop: 30,
+    },
+    headerDate: {
+        color: "#FFFEF5",
+        fontSize: 16,
+        fontWeight: "400",
+        marginBottom: 2
+    },
+    headerUser: {
+        color: "#FFFEF5",
+        fontSize: 22,
+        fontWeight: "700",
+        marginBottom: 5
+    },
+    headerImageCont: {
+        position: 'absolute',
+        top: 70,
+        right: 20,
+
+    },
+    headerImage: {
+
+        width: 90,
+        height: 90,
+        objectFit: "cover",
+        borderRadius: 100,
+        borderWidth: 3,
+        borderColor: "#FFFEF5"
     },
     mainImageCont: {
         position: "relative",
@@ -487,7 +584,7 @@ const styles = StyleSheet.create({
         // backgroundColor: "yellow",
         marginHorizontal: "4%",
         marginTop: 20,
-        marginBottom: 0
+        marginBottom: 100
     },
     cartCard: {
         height: 105,
@@ -599,8 +696,8 @@ const styles = StyleSheet.create({
         height: 200,
         marginHorizontal: "5%",
         // backgroundColor: "yellow",
-        marginTop: 100,
-        marginBottom: 20,
+        // marginTop: 100,
+        marginBottom: 0,
         position: "fixed",
         zIndex: 99,
         bottom: 0

@@ -265,20 +265,19 @@ user id,
 
     return (
         <View style={styles.container}>
+            <View style={{
+                height: 130,
+                width: "100%",
+                backgroundColor: "#7C9070"
+            }}>
+                <TouchableOpacity style={styles.backBtnCont} onPress={backToHome}>
+                    <Image source={backBtnIcon} style={styles.backBtn} />
+                </TouchableOpacity>
+                <Text style={styles.pageTitle}>Checkout</Text>
+            </View>
             <ScrollView scrollEnabled={true} >
                 <>
                     <View >
-                        <View style={{
-                            height: 130,
-                            width: "100%",
-                            backgroundColor: "#7C9070"
-                        }}>
-                            <TouchableOpacity style={styles.backBtnCont} onPress={backToHome}>
-                                <Image source={backBtnIcon} style={styles.backBtn} />
-                            </TouchableOpacity>
-                            <Text style={styles.pageTitle}>Checkout</Text>
-                        </View>
-
                         {!paymentStatus ?
                             <View style={{ marginTop: 30 }}>
                                 <TouchableOpacity style={styles.editBtn2} onPress={openCardPopup}>
@@ -377,15 +376,18 @@ user id,
                                 <Text style={styles.totalRight}>R{itemsTotalPrice}.00</Text>
                             </View>
 
-                            <TouchableOpacity style={styles.siBtn} onPress={confirmPament}>
-                                <Text style={styles.siBtnTxt}>Confirm Payment</Text>
-                            </TouchableOpacity>
 
                         </View>
                     </View>
                 </>
             </ScrollView>
 
+            <View style={styles.siBtnCont} >
+                <TouchableOpacity style={styles.siBtn} onPress={confirmPament}>
+                    <Text style={styles.siBtnTxt}>Confirm Payment</Text>
+                </TouchableOpacity>
+
+            </View>
             {popUpStatus ?
                 <View style={styles.popUp}>
                     <View style={styles.popUpBox}>
@@ -579,11 +581,14 @@ const styles = StyleSheet.create({
 
     pricingCont: {
         width: "90%",
-        height: 300,
+        height: 200,
         marginHorizontal: "5%",
         // backgroundColor: "yellow",
-        marginTop: 130,
-        marginBottom: 20
+        marginTop: 100,
+        marginBottom: 0,
+        position: "fixed",
+        zIndex: 99,
+        bottom: 0
     },
     pricingTitle: {
         fontSize: 20,
@@ -626,10 +631,21 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: "#7C9070"
     },
+    siBtnCont: {
+        width: "90%",
+        // height: 300,
+        marginHorizontal: "5%",
+        // backgroundColor: "yellow",
+        // marginTop: 100,
+        // marginBottom: 20,
+        position: "fixed",
+        zIndex: 99,
+        bottom: 0
+    },
     siBtn: {
         width: "100%",
         // marginHorizontal: "8%",
-        marginBottom: 0,
+        marginBottom: 30,
         height: 60,
         borderRadius: 50,
         marginTop: 40,
