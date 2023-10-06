@@ -108,7 +108,7 @@ const ViewProfileScreen = () => {
                             </TouchableOpacity>
                         </View>
 
-                        <View style={{ marginTop: 60 }}>
+                        <View style={{ marginTop: 50 }}>
                             <View style={styles.detailsCont}>
                                 <View style={styles.personalCont}>
                                     <Image source={userIcon} style={styles.detailsImg} />

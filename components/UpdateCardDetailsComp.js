@@ -5,7 +5,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import userIcon from "../assets/Icons/id2.png";
 import closeBtnIcon from "../assets/Icons/close.png";
 
+import { useNavigation } from '@react-navigation/native';
+
 const UpdateCardDetailsComp = ({ setpopUpCardStatus }) => {
+    const navigation = useNavigation();
+
     const [cardName, setcardName] = useState("");
     const [cardNum, setcardNum] = useState("");
     const [zipCode, setZipCode] = useState("");
@@ -60,6 +64,8 @@ const UpdateCardDetailsComp = ({ setpopUpCardStatus }) => {
     }
 
     async function onSave() {
+        const locate = await checkLocation();
+        console.log(locate);
         if (cardName === "" || cardNum === "" || zipCode === "" || cardDate === "") {
             setWarningMsg("Fields shouldn't be left empty");
             setWarningStatus(true)
@@ -76,11 +82,12 @@ const UpdateCardDetailsComp = ({ setpopUpCardStatus }) => {
             }
             await updateUserCardDetails(res).then(async()=>{
                 console.log("Success");
-        
+
                 const jsonValue = JSON.stringify(res);
                 await AsyncStorage.setItem('cardDetails', jsonValue).then(() => {
                   console.log("Success");
                   setpopUpCardStatus(false);
+                  navigation.navigate(`${locate}`);
                 })
 
         }).catch((error)=>{
@@ -89,8 +96,26 @@ const UpdateCardDetailsComp = ({ setpopUpCardStatus }) => {
 
 
 
-            
+
         }
+    }
+
+    async function checkLocation() {
+        const jsonValue = await AsyncStorage.getItem('location');
+        const location = jsonValue != null ? JSON.parse(jsonValue) : null;
+        var locate = "";
+
+        if (location !== null) {
+            // console.log(location);
+            if (location.locate === "checkout") {
+                locate = "Checkout";
+            } else if (location.locate === "profile") {
+                locate = "ViewProfile";
+            }
+        }
+
+
+        return locate;
     }
 
 

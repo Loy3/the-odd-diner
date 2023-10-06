@@ -97,13 +97,13 @@ const CartScreen = ({ navigation }) => {
         const jsonValue = await AsyncStorage.getItem('user');
         const resUser = jsonValue != null ? JSON.parse(jsonValue) : null;
 
-        // console.log("itemsId", itemsId);
+        console.log("itemsId", itemsId);
         var myItems = [];
         var totalIPrice = 0;
         var totalISubPrice = 0;
         itemsId.forEach(id => {
             res.forEach(r => {
-                if (id.id === r.id && resUser.userID === r.userID) {
+                if (id.id === r.id && resUser.localId === id.userID) {
                     // console.log("Item found");
                     const foundItem = {
                         id: r.id,

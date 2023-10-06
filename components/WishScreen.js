@@ -99,7 +99,7 @@ const WishScreen = ({ navigation }) => {
 
         itemsId.forEach(id => {
             res.forEach(r => {
-                if (id.id === r.id && resUser.userID === r.userID) {
+                if (id.id === r.id && resUser.localId === id.userID) {
                     // console.log("Item found");
                     const foundItem = {
                         id: r.id,

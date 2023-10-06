@@ -142,8 +142,15 @@ const CheckOutScreen = ({ navigation }) => {
     // }
 
 
-    function openCardPopup() {
-        setpopUpCardStatus(true)
+    async function openCardPopup() {
+        setpopUpCardStatus(true);
+
+        const location = {locate: "checkout"};
+        const jsonValue = JSON.stringify(location);
+        await AsyncStorage.setItem('location', jsonValue).then(() => {
+            console.log("Success");
+        
+          })
     }
 
     function cardNumberChanger(cardNum) {

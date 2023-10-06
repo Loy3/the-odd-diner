@@ -45,7 +45,7 @@ const SideNavComp = ({ setMenuStatus }) => {
         // return null;
     }
 
-    function handleNav(type) {
+    async function handleNav(type) {
         switch (type) {
             case "home":
                 navigation.navigate("Home");
@@ -71,7 +71,11 @@ const SideNavComp = ({ setMenuStatus }) => {
                 console.log("Wish");
                 break;
             default:
-                console.log("Sign Out");
+                // console.log("Sign Out");
+
+                await AsyncStorage.removeItem('user').then(() => {
+                    navigation.navigate("SignOut");
+                })
         }
     }
 
@@ -159,14 +163,14 @@ const styles = StyleSheet.create({
         backgroundColor: "#A8C099",
         // opacity: 0.5,
         // position: "absolute",
-        height: "26%",
+        height: "27%",
         width: "100%",
         zIndex: 99,
         top: 0,
         left: 0,
         alignItems: "center",
         justifyContent: "center",
-        borderBottomRightRadius:60
+        // borderBottomRightRadius: 60
     },
 
     headerDate: {
@@ -198,7 +202,7 @@ const styles = StyleSheet.create({
         borderColor: "#FFFEF5"
     },
     btnCont: {
-        marginTop: 60,
+        marginTop: 50,
         marginLeft: 30
     },
     btnIcon: {
