@@ -4,7 +4,8 @@ import { View, StyleSheet, Text, TouchableOpacity, Image, Button, TextInput, Scr
 import { getItems, getUsers, getOrders } from "../services/serviceStoreDoc";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
+import closeIcon from "../assets/Icons/close.png";
+import subImg from "../assets/Images/1.jpg";
 import menuIcon from "../assets/Icons/menu.png";
 import userIcon from "../assets/Icons/user2.png";
 import priceIcon from "../assets/Icons/money.png";
@@ -29,17 +30,24 @@ const OrdersScreen = () => {
         imageUrl: null,
         emailAddress: null
     });
+    const [viewItem, setViewItem] = useState({
+        itemImageUrl: "",
+        itemName: "",
+        itemSub: "",
+        numOfItems: "",
+        itemPrice: "",
+    });
 
     useEffect(() => {
         (async () => {
             setloadingStatusStatus(true);
             await getUser().then(async (id) => {
                 // const res = await getUserOrders();
-                
-                await getUserOrders(id).then(async(list)=>{
+
+                await getUserOrders(id).then(async (list) => {
                     await getOrderItems(list);
                 })
-                               
+
             })
         })();
 
@@ -71,7 +79,7 @@ const OrdersScreen = () => {
         orders.forEach(ord => {
 
             const myItemsArr = ord.items.arrayValue.values;
-            console.log("Orders", myItemsArr);
+            // console.log("Orders", myItemsArr);
 
 
             myItemsArr.forEach(item => {
@@ -118,6 +126,13 @@ const OrdersScreen = () => {
             });
         });
 
+        setViewItem({
+            itemImageUrl: myItems[0].itemImageUrl,
+            itemName: myItems[0].itemName,
+            itemSub: myItems[0].itemSub,
+            numOfItems: myItems[0].numOfItems,
+            itemPrice: myItems[0].itemPrice,
+        })
         // console.log("myItems",myItems[0]);
         // totalIPrice = totalISubPrice + 60;
         // setItemsSubTotalPrice(totalISubPrice);
@@ -159,6 +174,26 @@ const OrdersScreen = () => {
                 </View>
             </View>
             {/* {console.log("itemssss",items)} */}
+
+            <View style={{ width: "100%", height: "100%", zIndex: 99, backgroundColor: "rgba(0,0,0,0.5)", position: "absolute", top: 0, left: 0, justifyContent: "center", alignItems: "center" }}>
+                <View style={{ width: "90%", height: "70%", backgroundColor: "#FFFEF5" }}>
+                    <TouchableOpacity style={{ position: "absolute", right: "7%", top: "5%", width:40, height:40, backgroundColor: "#FFFEF5", zIndex:99, justifyContent:"center", alignItems:"center", borderRadius:40 }}>
+                        <Image source={closeIcon} style={{ width: 20, height: 20 }} />
+                    </TouchableOpacity>
+
+                    <Image source={viewItem.itemImageUrl ? { uri: viewItem.itemImageUrl } : subImg} style={{ width: "90%", height: "76%", objectFit: "cover", marginHorizontal: "5%", marginTop: "5%" }} />
+                    <View style={[styles.cardDetailsCont, { marginHorizontal: 20 }]}>
+                        <Text style={[styles.cardItemTitle, { fontSize: 20 }]}>{viewItem.itemName ? `${viewItem.itemName}` : "Name"}</Text>
+                        <Text style={[styles.cardItemSubTitle, { fontSize: 15 }]}>{viewItem.itemSub ? `${viewItem.itemSub}` : "Name"}</Text>
+                        <View style={[styles.priceCont, { position: "absolute", top: 0, right: 0 }]}>
+                            <Image source={priceIcon} style={styles.prepTimeIc} />
+                            <Text style={styles.prepTimeText}>{viewItem.itemPrice ? `R${viewItem.itemPrice}.00` : "R00.00"}</Text>
+                        </View>
+                        <Text style={[styles.prepTimeText, { position: "absolute", left: -10, bottom: -50 }]}>Quantity: {viewItem.numOfItems ? `${viewItem.numOfItems}` : "1"}</Text>
+
+                    </View>
+                </View>
+            </View>
             <ScrollView scrollEnabled={true} >
                 <>
                     <View>
@@ -340,7 +375,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: "#7C9070",
-        borderRadius:30
+        borderRadius: 30
     },
     counter: {
         fontSize: 16,
