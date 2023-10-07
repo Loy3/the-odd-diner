@@ -21,6 +21,7 @@ const OrdersScreen = () => {
     const formattedDate = `${dayOfWeek}, ${dayOfMonth} ${monthOfYear}`;
     const [loadingStatus, setloadingStatusStatus] = useState(false);
     const [menuStatus, setMenuStatus] = useState(false);
+    const [orderViewStatus, setorderViewStatus] = useState(false);
     const [items, setItems] = useState([]);
     const [itemsTotalPrice, setItemsTotalPrice] = useState(0);
     const [itemsSubTotalPrice, setItemsSubTotalPrice] = useState(0);
@@ -146,6 +147,20 @@ const OrdersScreen = () => {
         setMenuStatus(true);
     }
 
+    function openViewer(item) {
+        setViewItem({
+            itemImageUrl: item.itemImageUrl,
+            itemName: item.itemName,
+            itemSub: item.itemSub,
+            numOfItems: item.numOfItems,
+            itemPrice: item.itemPrice,
+        })
+        setorderViewStatus(true);
+    }
+
+    function closeViewer() {
+        setorderViewStatus(false);
+    }
 
     if (loadingStatus === true) {
         return (
@@ -175,25 +190,28 @@ const OrdersScreen = () => {
             </View>
             {/* {console.log("itemssss",items)} */}
 
-            <View style={{ width: "100%", height: "100%", zIndex: 99, backgroundColor: "rgba(0,0,0,0.5)", position: "absolute", top: 0, left: 0, justifyContent: "center", alignItems: "center" }}>
-                <View style={{ width: "90%", height: "70%", backgroundColor: "#FFFEF5" }}>
-                    <TouchableOpacity style={{ position: "absolute", right: "7%", top: "5%", width:40, height:40, backgroundColor: "#FFFEF5", zIndex:99, justifyContent:"center", alignItems:"center", borderRadius:40 }}>
-                        <Image source={closeIcon} style={{ width: 20, height: 20 }} />
-                    </TouchableOpacity>
+            {orderViewStatus ?
+                <View style={{ width: "100%", height: "100%", zIndex: 99, backgroundColor: "rgba(0,0,0,0.5)", position: "absolute", top: 0, left: 0, justifyContent: "center", alignItems: "center" }}>
+                    <View style={{ width: "90%", height: "70%", backgroundColor: "#FFFEF5", borderRadius: 20 }}>
+                        <TouchableOpacity style={{ position: "absolute", right: "7%", top: "5%", width: 40, height: 40, backgroundColor: "#FFFEF5", zIndex: 99, justifyContent: "center", alignItems: "center", borderRadius: 40 }} onPress={closeViewer}>
+                            <Image source={closeIcon} style={{ width: 20, height: 20 }} />
+                        </TouchableOpacity>
 
-                    <Image source={viewItem.itemImageUrl ? { uri: viewItem.itemImageUrl } : subImg} style={{ width: "90%", height: "76%", objectFit: "cover", marginHorizontal: "5%", marginTop: "5%" }} />
-                    <View style={[styles.cardDetailsCont, { marginHorizontal: 20 }]}>
-                        <Text style={[styles.cardItemTitle, { fontSize: 20 }]}>{viewItem.itemName ? `${viewItem.itemName}` : "Name"}</Text>
-                        <Text style={[styles.cardItemSubTitle, { fontSize: 15 }]}>{viewItem.itemSub ? `${viewItem.itemSub}` : "Name"}</Text>
-                        <View style={[styles.priceCont, { position: "absolute", top: 0, right: 0 }]}>
-                            <Image source={priceIcon} style={styles.prepTimeIc} />
-                            <Text style={styles.prepTimeText}>{viewItem.itemPrice ? `R${viewItem.itemPrice}.00` : "R00.00"}</Text>
+                        <Image source={viewItem.itemImageUrl ? { uri: viewItem.itemImageUrl } : subImg} style={{ width: "90%", height: "76%", objectFit: "cover", marginHorizontal: "5%", marginTop: "5%", borderRadius: 20 }} />
+                        <View style={[styles.cardDetailsCont, { marginHorizontal: 20 }]}>
+                            <Text style={[styles.cardItemTitle, { fontSize: 20 }]}>{viewItem.itemName ? `${viewItem.itemName}` : "Name"}</Text>
+                            <Text style={[styles.cardItemSubTitle, { fontSize: 15 }]}>{viewItem.itemSub ? `${viewItem.itemSub}` : "Name"}</Text>
+                            <View style={[styles.priceCont, { position: "absolute", top: 0, right: 0 }]}>
+                                <Image source={priceIcon} style={styles.prepTimeIc} />
+                                <Text style={styles.prepTimeText}>{viewItem.itemPrice ? `R${viewItem.itemPrice}.00` : "R00.00"}</Text>
+                            </View>
+                            <Text style={[styles.prepTimeText, { position: "absolute", right: 0, bottom: -40 }]}>Quantity: {viewItem.numOfItems ? `${viewItem.numOfItems}` : "1"}</Text>
+
                         </View>
-                        <Text style={[styles.prepTimeText, { position: "absolute", left: -10, bottom: -50 }]}>Quantity: {viewItem.numOfItems ? `${viewItem.numOfItems}` : "1"}</Text>
-
                     </View>
                 </View>
-            </View>
+                : null}
+
             <ScrollView scrollEnabled={true} >
                 <>
                     <View>
@@ -206,9 +224,9 @@ const OrdersScreen = () => {
                                 <View style={styles.cartCont}>
                                     {items.map((item, index) => (
                                         <View style={styles.cartCard} key={index}>
-                                            <View style={styles.itemImgCont}>
+                                            <TouchableOpacity style={styles.itemImgCont} onPress={()=>openViewer(item)}>
                                                 <Image source={item.itemImageUrl ? { uri: item.itemImageUrl } : subImg} style={styles.itemImg} />
-                                            </View>
+                                            </TouchableOpacity>
                                             <View style={styles.cardDetailsCont}>
                                                 <Text style={styles.cardItemTitle}>{item.itemName ? `${item.itemName}` : "Title"}</Text>
                                                 <Text style={styles.cardItemSubTitle}>{item.itemSub ? `${item.itemSub}` : "Sub Title"}</Text>
