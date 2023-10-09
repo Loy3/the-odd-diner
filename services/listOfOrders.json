@@ -3,9 +3,6 @@
         {
             "name": "projects/the-hidden-inn/databases/(default)/documents/oddOrders/DwQnHqHEeGyTz1L7oYvO",
             "fields": {
-                "date": {
-                    "stringValue": "Monday, 9 October"
-                },
                 "items": {
                     "arrayValue": {
                         "values": [
@@ -48,6 +45,9 @@
                         ]
                     }
                 },
+                "date": {
+                    "stringValue": "Monday, 9 October"
+                },
                 "userID": {
                     "stringValue": "RItKmUrir2YPXDwrliwnQgxRMzj2"
                 }
@@ -58,6 +58,9 @@
         {
             "name": "projects/the-hidden-inn/databases/(default)/documents/oddOrders/OLMRdeNPDISHn38boD9z",
             "fields": {
+                "date": {
+                    "stringValue": "Wednesday, 4 October"
+                },
                 "items": {
                     "arrayValue": {
                         "values": [
@@ -118,9 +121,6 @@
                         ]
                     }
                 },
-                "date": {
-                    "stringValue": "Wednesday, 4 October"
-                },
                 "userID": {
                     "stringValue": "VN4NAftkApVdOSKbY3kILjQBeaG2"
                 }
@@ -131,8 +131,8 @@
         {
             "name": "projects/the-hidden-inn/databases/(default)/documents/oddOrders/RRKbGvRntrGmzRj3wYzx",
             "fields": {
-                "userID": {
-                    "stringValue": "VN4NAftkApVdOSKbY3kILjQBeaG2"
+                "date": {
+                    "stringValue": "Wednesday, 4 October"
                 },
                 "items": {
                     "arrayValue": {
@@ -176,8 +176,8 @@
                         ]
                     }
                 },
-                "date": {
-                    "stringValue": "Wednesday, 4 October"
+                "userID": {
+                    "stringValue": "VN4NAftkApVdOSKbY3kILjQBeaG2"
                 }
             },
             "createTime": "2023-10-04T19:03:55.637829Z",
@@ -188,9 +188,6 @@
             "fields": {
                 "date": {
                     "stringValue": "Thursday, 5 October"
-                },
-                "userID": {
-                    "stringValue": "RItKmUrir2YPXDwrliwnQgxRMzj2"
                 },
                 "items": {
                     "arrayValue": {
@@ -233,6 +230,9 @@
                             }
                         ]
                     }
+                },
+                "userID": {
+                    "stringValue": "RItKmUrir2YPXDwrliwnQgxRMzj2"
                 }
             },
             "createTime": "2023-10-05T05:32:00.857386Z",
@@ -241,9 +241,6 @@
         {
             "name": "projects/the-hidden-inn/databases/(default)/documents/oddOrders/ZQUFSLg1YWStEKRRAA5G",
             "fields": {
-                "date": {
-                    "stringValue": "Thursday, 5 October"
-                },
                 "userID": {
                     "stringValue": "RItKmUrir2YPXDwrliwnQgxRMzj2"
                 },
@@ -324,6 +321,9 @@
                             }
                         ]
                     }
+                },
+                "date": {
+                    "stringValue": "Thursday, 5 October"
                 }
             },
             "createTime": "2023-10-05T05:26:03.961314Z",
@@ -332,9 +332,6 @@
         {
             "name": "projects/the-hidden-inn/databases/(default)/documents/oddOrders/yTmERSHUqleI2xOf3LTd",
             "fields": {
-                "date": {
-                    "stringValue": "Monday, 9 October"
-                },
                 "userID": {
                     "stringValue": "RItKmUrir2YPXDwrliwnQgxRMzj2"
                 },
@@ -379,6 +376,9 @@
                             }
                         ]
                     }
+                },
+                "date": {
+                    "stringValue": "Monday, 9 October"
                 }
             },
             "createTime": "2023-10-09T09:23:45.590075Z",

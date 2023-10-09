@@ -40,6 +40,7 @@ const CartScreen = ({ navigation }) => {
     const [storeItems, setStoreItems] = useState([]);
     const [loadingStatus, setloadingStatusStatus] = useState(false);
     const [itemsStatus, setitemsStatus] = useState(false);
+    const [deleteStatus, setDeleteStatus] = useState(false);
     const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const monthsOfYear = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -157,6 +158,7 @@ const CartScreen = ({ navigation }) => {
         const jsonSetValue = JSON.stringify(remainingItems);
         await AsyncStorage.setItem('cartItems', jsonSetValue).then(async () => {
             console.log("Success");
+            setDeleteStatus(true)
             await getCartItems(remainingItems);
         })
 
@@ -275,6 +277,10 @@ const CartScreen = ({ navigation }) => {
     }
     function openMenu() {
         setMenuStatus(true);
+    }
+
+    function closeDelete(){
+        setDeleteStatus(false)
     }
 
     if (loadingStatus === true) {
@@ -465,6 +471,19 @@ const CartScreen = ({ navigation }) => {
             {menuStatus ?
                 <SideNavComp setMenuStatus={setMenuStatus} />
                 : null}
+            {deleteStatus ?
+                <View style={{ width: "100%", height: "100%", zIndex: 99, backgroundColor: "rgba(0,0,0,0.5)", position: "absolute", top: 0, left: 0, justifyContent: "center", alignItems: "center" }}>
+                    <View style={{ width: "90%", height: "35%", backgroundColor: "#FFFEF5", borderRadius: 20, alignItems: "center", justifyContent: "center" }}>
+                        <View style={{ alignItems: "center", justifyContent: "center", width: "100%" }}>
+                            <Text style={[styles.modalTitle, { margin: 0 }]}>Successfully deleted.</Text>
+
+                            <TouchableOpacity style={{ height: 50, backgroundColor: "#7C9070", marginTop: 10, width: "70%", borderRadius: 50 }} onPress={closeDelete}>
+                                <Text style={styles.siBtnTxt}>Close</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+                : null}
 
         </View>
     )
@@ -574,6 +593,11 @@ const styles = StyleSheet.create({
     paymentTitle: {
         marginTop: 50,
         marginLeft: "5%",
+        fontSize: 21,
+        fontWeight: "bold",
+        color: "#7C9070"
+    },
+    modalTitle: {
         fontSize: 21,
         fontWeight: "bold",
         color: "#7C9070"

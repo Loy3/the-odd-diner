@@ -140,16 +140,16 @@ const OrderReviewScreen = ({ navigation }) => {
     }
 
     async function editAddress() {
-         const location = {locate: "review"};
+        const location = { locate: "review" };
         const jsonValue = JSON.stringify(location);
         await AsyncStorage.setItem('location', jsonValue).then(() => {
             console.log("Success");
             setpopUpStatus(true)
-          })
-        
+        })
+
     }
 
-    function toCheckout(){
+    function toCheckout() {
         // console.log("ch");
         navigation.navigate("Checkout")
     }
@@ -167,19 +167,19 @@ const OrderReviewScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <View style={{
-                            height: 130,
-                            width: "100%",
-                            backgroundColor: "#7C9070"
-                        }}>
-                            <TouchableOpacity style={styles.backBtnCont} onPress={backToHome}>
-                                <Image source={backBtnIcon} style={styles.backBtn} />
-                            </TouchableOpacity>
-                            <Text style={styles.pageTitle}>Review</Text>
-                        </View>
+                height: 130,
+                width: "100%",
+                backgroundColor: "#7C9070"
+            }}>
+                <TouchableOpacity style={styles.backBtnCont} onPress={backToHome}>
+                    <Image source={backBtnIcon} style={styles.backBtn} />
+                </TouchableOpacity>
+                <Text style={styles.pageTitle}>Review</Text>
+            </View>
             <ScrollView scrollEnabled={true} >
                 <>
                     <View >
-                        
+
 
 
                         <Text style={[styles.paymentTitle, { marginTop: 30 }]}>Delivery Address:</Text>
@@ -271,6 +271,7 @@ const OrderReviewScreen = ({ navigation }) => {
                     </View>
                 </View>
                 : null}
+
         </View>
     )
 }
@@ -501,7 +502,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: "#7C9070"
     },
-    siBtnCont:{
+    siBtnCont: {
         width: "90%",
         // height: 300,
         marginHorizontal: "5%",

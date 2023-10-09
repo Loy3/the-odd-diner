@@ -33,6 +33,7 @@ const CheckOutScreen = ({ navigation }) => {
     const [loadingStatus, setloadingStatusStatus] = useState(false);
     const [popUpStatus, setpopUpStatus] = useState(false);
     const [popUpCardStatus, setpopUpCardStatus] = useState(false);
+    const [successStatus, setsuccessStatus] = useState(false);
     const [itemsTotalPrice, setItemsTotalPrice] = useState("");
     const [itemsSubTotalPrice, setItemsSubTotalPrice] = useState("");
     const [checkoutItems, setCheckoutItems] = useState(null);
@@ -145,12 +146,12 @@ const CheckOutScreen = ({ navigation }) => {
     async function openCardPopup() {
         setpopUpCardStatus(true);
 
-        const location = {locate: "checkout"};
+        const location = { locate: "checkout" };
         const jsonValue = JSON.stringify(location);
         await AsyncStorage.setItem('location', jsonValue).then(() => {
             console.log("Success");
-        
-          })
+
+        })
     }
 
     function cardNumberChanger(cardNum) {
@@ -234,7 +235,8 @@ const CheckOutScreen = ({ navigation }) => {
                     await AsyncStorage.removeItem('cardDetails').then(() => {
                         console.log("success");
                         setloadingStatusStatus(false);
-                        navigation.navigate("Orders");
+                        setsuccessStatus(true)
+
 
                     }).catch((error) => {
                         console.log("Error", error);
@@ -257,6 +259,11 @@ user id,
 "numOfItems": 1,
 "totalPrice": "250"
 */
+    }
+
+    function closeSuccess() {
+        setsuccessStatus(false);
+        navigation.navigate("Orders");
     }
 
 
@@ -286,35 +293,35 @@ user id,
                 <>
                     <View >
                         {/* {!paymentStatus ? */}
-                            <View style={{ marginTop: 30 }}>
-                                <TouchableOpacity style={styles.editBtn2} onPress={openCardPopup}>
-                                    <Text style={styles.editBtnTxt}>Edit</Text>
-                                </TouchableOpacity>
-                                <Text style={[styles.paymentTitle, { marginLeft: "5%" }]}>Payment Method</Text>
-                                <View style={styles.masterCardCont}>
-                                    <Image source={cardChipIcon} style={styles.chip} />
-                                    <Image source={masterCardIcon} style={styles.cardMaster} />
-                                    <Text style={styles.cardNum}>{signedInUser.cardNum ? cardNumberChanger(signedInUser.cardNum) : signedInUser.cardNum}</Text>
+                        <View style={{ marginTop: 30 }}>
+                            <TouchableOpacity style={styles.editBtn2} onPress={openCardPopup}>
+                                <Text style={styles.editBtnTxt}>Edit</Text>
+                            </TouchableOpacity>
+                            <Text style={[styles.paymentTitle, { marginLeft: "5%" }]}>Payment Method</Text>
+                            <View style={styles.masterCardCont}>
+                                <Image source={cardChipIcon} style={styles.chip} />
+                                <Image source={masterCardIcon} style={styles.cardMaster} />
+                                <Text style={styles.cardNum}>{signedInUser.cardNum ? cardNumberChanger(signedInUser.cardNum) : signedInUser.cardNum}</Text>
 
-                                    <View style={styles.cardDetailsCont}>
-                                        <View style={styles.cardNameCont}>
-                                            <Text style={styles.cardTitles}>Card Name:</Text>
-                                            <Text style={styles.cardSubTitles}>{signedInUser.cardName}</Text>
-                                        </View>
-                                        <View style={styles.cardRestCont}>
-                                            <Text style={styles.cardTitles}>Expires:</Text>
-                                            <Text style={styles.cardSubTitles}>{signedInUser.cardDate}</Text>
-                                        </View>
-                                        <View style={styles.cardRestCont}>
-                                            <Text style={styles.cardTitles}>cvv</Text>
-                                            <Text style={styles.cardSubTitles}>{signedInUser.zipCode}</Text>
-                                        </View>
+                                <View style={styles.cardDetailsCont}>
+                                    <View style={styles.cardNameCont}>
+                                        <Text style={styles.cardTitles}>Card Name:</Text>
+                                        <Text style={styles.cardSubTitles}>{signedInUser.cardName}</Text>
+                                    </View>
+                                    <View style={styles.cardRestCont}>
+                                        <Text style={styles.cardTitles}>Expires:</Text>
+                                        <Text style={styles.cardSubTitles}>{signedInUser.cardDate}</Text>
+                                    </View>
+                                    <View style={styles.cardRestCont}>
+                                        <Text style={styles.cardTitles}>cvv</Text>
+                                        <Text style={styles.cardSubTitles}>{signedInUser.zipCode}</Text>
                                     </View>
                                 </View>
                             </View>
+                        </View>
 
-                            {/* : */}
-                            {/* <View style={{ marginTop: 30 }}>
+                        {/* : */}
+                        {/* <View style={{ marginTop: 30 }}>
                                 <TouchableOpacity style={styles.editBtn2} onPress={openCardPopup}>
                                     <Text style={styles.editBtnTxt}>Edit</Text>
                                 </TouchableOpacity>
@@ -409,6 +416,21 @@ user id,
                     </View>
                 </View>
                 : null}
+
+            {successStatus ?
+                <View style={{ width: "100%", height: "100%", zIndex: 99, backgroundColor: "rgba(0,0,0,0.5)", position: "absolute", top: 0, left: 0, justifyContent: "center", alignItems: "center" }}>
+                    <View style={{ width: "90%", height: "35%", backgroundColor: "#FFFEF5", borderRadius: 20, alignItems: "center", justifyContent: "center" }}>
+                        <View style={{ alignItems: "center", justifyContent: "center", width: "100%" }}>
+                            <Text style={[styles.modalTitle, { margin: 0 }]}>Payment</Text>
+                            <Text style={[styles.modalTitle, { margin: 0 }]}>successfully made.</Text>
+
+                            <TouchableOpacity style={{ height: 50, backgroundColor: "#7C9070", marginTop: 10, width: "70%", borderRadius: 50 }} onPress={closeSuccess}>
+                                <Text style={styles.siBtnTxt}>Close</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+                : null}
         </View>
     )
 }
@@ -452,6 +474,11 @@ const styles = StyleSheet.create({
     paymentTitle: {
         marginTop: 20,
         marginLeft: 20,
+        fontSize: 21,
+        fontWeight: "bold",
+        color: "#7C9070"
+    },
+    modalTitle: {
         fontSize: 21,
         fontWeight: "bold",
         color: "#7C9070"

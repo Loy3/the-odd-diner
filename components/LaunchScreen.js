@@ -12,7 +12,7 @@ const LaunchScreen = ({ navigation }) => {
             </View>
             <View style={styles.wrapper}>
                 <View style={styles.titleCont}>
-                    <Text style={styles.title}>Journal Recorder</Text>
+                    <Text style={styles.title}>The Odd Diner</Text>
                     <Text style={styles.subTitle}>
                         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the
                         1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
@@ -54,7 +54,6 @@ const styles = StyleSheet.create({
         top: 50
     },
     landingImg: {
-
         width: 250,
         height: 250,
         marginTop: 50

@@ -56,15 +56,16 @@ const ViewItemScreen = ({ navigation }) => {
             //Get user 
             const jsonUserValue = await AsyncStorage.getItem('user');
             const resUser = jsonValue != null ? JSON.parse(jsonUserValue) : null;
-
-            res.forEach(r => {
-                if (r.id === curItem.id && r.userID === resUser.localId) {
-                    console.log("found");
-                    setBtnStatus(false);
-                } else {
-                    console.log("not found");
-                }
-            });
+            if (res !== null) {
+                res.forEach(r => {
+                    if (r.id === curItem.id && r.userID === resUser.localId) {
+                        console.log("found");
+                        setBtnStatus(false);
+                    } else {
+                        console.log("not found");
+                    }
+                });
+            }
 
         })();
     }, [])
@@ -161,8 +162,6 @@ const ViewItemScreen = ({ navigation }) => {
                 setBtnStatus(false);
             })
         }
-
-
     }
 
     async function addToWish(id) {
