@@ -285,7 +285,7 @@ user id,
             <ScrollView scrollEnabled={true} >
                 <>
                     <View >
-                        {!paymentStatus ?
+                        {/* {!paymentStatus ? */}
                             <View style={{ marginTop: 30 }}>
                                 <TouchableOpacity style={styles.editBtn2} onPress={openCardPopup}>
                                     <Text style={styles.editBtnTxt}>Edit</Text>
@@ -313,8 +313,8 @@ user id,
                                 </View>
                             </View>
 
-                            :
-                            <View style={{ marginTop: 30 }}>
+                            {/* : */}
+                            {/* <View style={{ marginTop: 30 }}>
                                 <TouchableOpacity style={styles.editBtn2} onPress={openCardPopup}>
                                     <Text style={styles.editBtnTxt}>Edit</Text>
                                 </TouchableOpacity>
@@ -339,17 +339,17 @@ user id,
                                         </View>
                                     </View>
                                 </View>
-                            </View>
-                        }
+                            </View> */}
+                        {/* } */}
 
-                        <View style={{ width: "100%", flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: 30 }}>
+                        {/* <View style={{ width: "100%", flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: 30 }}>
                             <TouchableOpacity style={styles.editBtn3} onPress={() => handlePaymentType("card")}>
                                 <Text style={styles.editBtnTxt}>Card</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.editBtn3} onPress={() => handlePaymentType("eft")}>
                                 <Text style={styles.editBtnTxt}>eft</Text>
                             </TouchableOpacity>
-                        </View>
+                        </View> */}
 
                         {/* <View style={styles.pLine} /> */}
                         {/* <Text style={[styles.paymentTitle, { marginTop: 30 }]}>Delivery Address:</Text> */}

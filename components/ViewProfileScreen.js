@@ -9,8 +9,10 @@ import menuIcon from "../assets/Icons/menu.png";
 import userIcon from "../assets/Icons/user2.png";
 import updateIcon from "../assets/Icons/edit.png";
 import dropdowmIcon from "../assets/Icons/prev.png";
+import openedIcon from "../assets/Icons/opened.png";
 import cardIcon from "../assets/Icons/id.png";
 import UpdateAddressComp from './UpdateAddressComp';
+import UpdateUserComp from './UpdateUserComp';
 
 const ViewProfileScreen = () => {
     const [loadingStatus, setloadingStatusStatus] = useState(false);
@@ -23,6 +25,8 @@ const ViewProfileScreen = () => {
 
     const [menuStatus, setMenuStatus] = useState(false);
     const [popUpStatus, setpopUpStatus] = useState(false);
+    const [personalDStatus, setPersonalDStatus] = useState(false);
+    const [upPersonalDStatus, setUpPersonalDStatus] = useState(false);
     const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const monthsOfYear = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -46,12 +50,13 @@ const ViewProfileScreen = () => {
 
         const user = await getUsers(res.localId)
         // console.log("Ress", res);
-        // console.log("signed in user", user[0].lastname.stringValue);
+        // console.log("signed in user", user[0]);
         setSignedInUser({
             firstname: user[0].firstname.stringValue,
             lastname: user[0].lastname.stringValue,
             imageUrl: user[0].imageUrl.stringValue,
             emailAddress: res.email,
+            phoneNum: user[0].phoneNum.stringValue,
             userID: res.localId,
             address: `${user[0].address.mapValue.fields.streetAddr.stringValue} `,
             addressZip: `${user[0].address.mapValue.fields.zipCode.stringValue}`,
@@ -69,6 +74,18 @@ const ViewProfileScreen = () => {
     }
     function editAddress() {
         setpopUpStatus(true)
+    }
+
+    function handlePersonalDetails(type) {
+        if (type === "open") {
+            setPersonalDStatus(true);
+        } else {
+            setPersonalDStatus(false);
+        }
+    }
+
+    function openPersonalD() {
+        setUpPersonalDStatus(true);
     }
 
 
@@ -99,9 +116,10 @@ const ViewProfileScreen = () => {
                             <Image source={signedInUser.imageUrl === null ? userIcon : { uri: signedInUser.imageUrl }} style={styles.headerImage} />
                             <View style={{ width: 300, height: 320, borderRadius: 320, backgroundColor: "#7C9070", opacity: 0.35, marginTop: -320 }} />
                         </View>
+
                         <View style={{ flex: 1, alignItems: "center" }}>
-                            <Text style={{ marginTop: 20, fontSize: 30, fontWeight: "700", color: "#7C9070", marginLeft:-7 }}>{signedInUser.firstname ? `${signedInUser.firstname} ${signedInUser.lastname}` : "User"}</Text>
-                            <Text style={{ marginTop: 5, fontSize: 18, fontWeight: "400", color: "#7C9070", marginLeft:-10 }}>{signedInUser.address ? `${signedInUser.address} ${signedInUser.city}, ${signedInUser.addressZip}` : "User"}</Text>
+                            <Text style={{ marginTop: 20, fontSize: 30, fontWeight: "700", color: "#7C9070", marginLeft: -7 }}>{signedInUser.firstname ? `${signedInUser.firstname} ${signedInUser.lastname}` : "User"}</Text>
+                            <Text style={{ marginTop: 5, fontSize: 18, fontWeight: "400", color: "#7C9070", marginLeft: -10 }}>{signedInUser.address ? `${signedInUser.address} ${signedInUser.city}, ${signedInUser.addressZip}` : "User"}</Text>
 
                             <TouchableOpacity style={{ position: "absolute", right: 20, top: 68 }} onPress={editAddress}>
                                 <Image source={updateIcon} style={styles.menu} />
@@ -109,23 +127,63 @@ const ViewProfileScreen = () => {
                         </View>
 
                         <View style={{ marginTop: 50 }}>
-                            <View style={styles.detailsCont}>
-                                <View style={styles.personalCont}>
-                                    <Image source={userIcon} style={styles.detailsImg} />
-                                    <Text style={styles.detailsTxt}>Personal Details</Text>
 
-                                    <View style={{position:"absolute", right: 15}}>
-                                        <Image source={dropdowmIcon} style={styles.menu}/>
+                            {!personalDStatus ?
+                                <View style={styles.detailsCont}>
+                                    <View style={styles.personalCont}>
+                                        <Image source={userIcon} style={styles.detailsImg} />
+                                        <Text style={styles.detailsTxt}>Personal Details</Text>
+
+                                        <TouchableOpacity style={{ position: "absolute", right: 15, width: 30, height: 30 }} onPress={() => handlePersonalDetails("open")}>
+                                            <Image source={dropdowmIcon} style={styles.menu} />
+                                        </TouchableOpacity>
                                     </View>
                                 </View>
-                            </View>
+                                :
+                                <View style={styles.detailsCont2}>
+                                    <View style={styles.personalCont2}>
+                                        <Image source={userIcon} style={styles.detailsImg} />
+                                        <Text style={styles.detailsTxt}>Personal Details</Text>
+
+                                        <TouchableOpacity style={{ position: "absolute", right: 15, width: 30, height: 30 }} onPress={() => handlePersonalDetails("close")}>
+                                            <Image source={openedIcon} style={styles.menu} />
+                                        </TouchableOpacity>
+                                    </View>
+
+                                    <View style={{ marginLeft: 30 }}>
+                                        <View style={{ flexDirection: "row" }}>
+                                            <Text style={{ color: "#7C9070", fontWeight: "bold" }}>First Name:</Text>
+                                            <Text style={{ color: "#7C9070" }}> {signedInUser.firstname ? `${signedInUser.firstname}` : "First Name"}</Text>
+                                        </View>
+
+                                        <View style={{ flexDirection: "row" }}>
+                                            <Text style={{ color: "#7C9070", fontWeight: "bold" }}>Last Name: </Text>
+                                            <Text style={{ color: "#7C9070" }}>{signedInUser.lastname ? `${signedInUser.lastname}` : "Last Name"}</Text>
+                                        </View>
+                                        <View style={{ flexDirection: "row" }}>
+                                            <Text style={{ color: "#7C9070", fontWeight: "bold" }}>Email Address: </Text>
+                                            <Text style={{ color: "#7C9070" }}>{signedInUser.emailAddress ? `${signedInUser.emailAddress}` : "Email Address"}</Text>
+                                        </View>
+                                        <View style={{ flexDirection: "row" }}>
+                                            <Text style={{ color: "#7C9070", fontWeight: "bold" }}>Phone Number: </Text>
+                                            <Text style={{ color: "#7C9070" }}>{signedInUser.phoneNum ? `${signedInUser.phoneNum}` : "Phone Number"}</Text>
+                                        </View>
+                                    </View>
+
+                                    <TouchableOpacity style={styles.editBtn} onPress={openPersonalD}>
+                                        <Text style={{ color: "#7C9070", fontWeight: "bold" }}>Edit</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            }
+
+
                             <View style={styles.detailsCont}>
                                 <View style={styles.personalCont}>
-                                    <Image source={cardIcon} style={[styles.detailsImg, {marginTop:-3}]} />
+                                    <Image source={cardIcon} style={[styles.detailsImg, { marginTop: -3 }]} />
                                     <Text style={styles.detailsTxt}>Card Details</Text>
 
-                                    <View style={{position:"absolute", right: 15}}>
-                                        <Image source={dropdowmIcon} style={styles.menu}/>
+                                    <View style={{ position: "absolute", right: 15 }}>
+                                        <Image source={dropdowmIcon} style={styles.menu} />
                                     </View>
                                 </View>
                             </View>
@@ -143,6 +201,14 @@ const ViewProfileScreen = () => {
                 <View style={styles.popUp}>
                     <View style={styles.popUpBox}>
                         <UpdateAddressComp setpopUpStatus={setpopUpStatus} />
+                    </View>
+                </View>
+                : null}
+
+            {upPersonalDStatus ?
+                <View style={styles.popUp}>
+                    <View style={styles.popUpBox}>
+                        <UpdateUserComp setUpPersonalDStatus={setUpPersonalDStatus} />
                     </View>
                 </View>
                 : null}
@@ -269,13 +335,29 @@ const styles = StyleSheet.create({
         borderWidth: 3,
         borderColor: "#7C9070",
         borderRadius: 35,
-        marginBottom:10
+        marginBottom: 10
+    },
+    detailsCont2: {
+        width: "90%",
+        marginHorizontal: "5%",
+        height: 200,
+        borderWidth: 3,
+        borderColor: "#7C9070",
+        borderRadius: 35,
+        marginBottom: 10
     },
     personalCont: {
         flexDirection: "row",
         height: "100%",
         width: "100%",
         alignItems: "center"
+    },
+    personalCont2: {
+        flexDirection: "row",
+        height: "auto",
+        width: "100%",
+        marginVertical: 20
+        // alignItems: "center"
     },
     detailsImg: {
         width: 30,
@@ -288,5 +370,16 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: "#7C9070"
     },
-
+    editBtn: {
+        position: "absolute",
+        bottom: 10,
+        right: 15,
+        borderColor: "#7C9070",
+        borderWidth: 3,
+        height: 40,
+        width: 70,
+        borderRadius: 10,
+        alignItems: "center",
+        justifyContent: "center"
+    },
 })
