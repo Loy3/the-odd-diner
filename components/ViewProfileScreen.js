@@ -13,6 +13,7 @@ import openedIcon from "../assets/Icons/opened.png";
 import cardIcon from "../assets/Icons/id.png";
 import UpdateAddressComp from './UpdateAddressComp';
 import UpdateUserComp from './UpdateUserComp';
+import UpdateCardDetailsComp from './UpdateCardDetailsComp';
 
 const ViewProfileScreen = () => {
     const [loadingStatus, setloadingStatusStatus] = useState(false);
@@ -26,7 +27,9 @@ const ViewProfileScreen = () => {
     const [menuStatus, setMenuStatus] = useState(false);
     const [popUpStatus, setpopUpStatus] = useState(false);
     const [personalDStatus, setPersonalDStatus] = useState(false);
+    const [cardDStatus, setCardDStatus] = useState(false);
     const [upPersonalDStatus, setUpPersonalDStatus] = useState(false);
+    const [popUpCardStatus, setpopUpCardStatus] = useState(false);
     const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const monthsOfYear = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -39,7 +42,7 @@ const ViewProfileScreen = () => {
     useEffect(() => {
         (async () => {
             setloadingStatusStatus(true);
-            await getUser()
+            await getUser();
         })();
 
     }, [])
@@ -69,11 +72,23 @@ const ViewProfileScreen = () => {
         // return null;
     }
 
-    function openMenu() {
-        setMenuStatus(true);
+    async function openMenu() {
+        const location = { locate: "profile" };
+        const jsonValue = JSON.stringify(location);
+        await AsyncStorage.setItem('location', jsonValue).then(() => {
+            console.log("Success");
+            setMenuStatus(true);
+        })
+
     }
-    function editAddress() {
-        setpopUpStatus(true)
+    async function editAddress() {
+        const location = { locate: "profile" };
+        const jsonValue = JSON.stringify(location);
+        await AsyncStorage.setItem('location', jsonValue).then(() => {
+            console.log("Success");
+            setpopUpStatus(true)
+        })
+
     }
 
     function handlePersonalDetails(type) {
@@ -84,10 +99,33 @@ const ViewProfileScreen = () => {
         }
     }
 
-    function openPersonalD() {
-        setUpPersonalDStatus(true);
+    function handleCardDetails(type) {
+        if (type === "open") {
+            setCardDStatus(true);
+        } else {
+            setCardDStatus(false);
+        }
     }
 
+    async function openPersonalD() {
+        const location = { locate: "profile" };
+        const jsonValue = JSON.stringify(location);
+        await AsyncStorage.setItem('location', jsonValue).then(() => {
+            console.log("Success");
+            setUpPersonalDStatus(true);
+        })
+
+    }
+
+    async function openCardD() {
+        const location = { locate: "profile" };
+        const jsonValue = JSON.stringify(location);
+        await AsyncStorage.setItem('location', jsonValue).then(() => {
+            console.log("Success");
+            setpopUpCardStatus(true);
+        })
+
+    }
 
     return (
         <View style={styles.container}>
@@ -176,17 +214,53 @@ const ViewProfileScreen = () => {
                                 </View>
                             }
 
+                            {!cardDStatus ?
+                                <View style={styles.detailsCont}>
+                                    <View style={styles.personalCont}>
+                                        <Image source={cardIcon} style={[styles.detailsImg, { marginTop: -3 }]} />
+                                        <Text style={styles.detailsTxt}>Card Details</Text>
 
-                            <View style={styles.detailsCont}>
-                                <View style={styles.personalCont}>
-                                    <Image source={cardIcon} style={[styles.detailsImg, { marginTop: -3 }]} />
-                                    <Text style={styles.detailsTxt}>Card Details</Text>
-
-                                    <View style={{ position: "absolute", right: 15 }}>
-                                        <Image source={dropdowmIcon} style={styles.menu} />
+                                        <TouchableOpacity style={{ position: "absolute", right: 15 }} onPress={() => handleCardDetails("open")}>
+                                            <Image source={dropdowmIcon} style={styles.menu} />
+                                        </TouchableOpacity>
                                     </View>
                                 </View>
-                            </View>
+                                :
+                                <View style={styles.detailsCont2}>
+                                    <View style={styles.personalCont2}>
+                                        <Image source={cardIcon} style={[styles.detailsImg, { marginTop: -3 }]} />
+                                        <Text style={styles.detailsTxt}>Card Details</Text>
+
+                                        <TouchableOpacity style={{ position: "absolute", right: 15, width: 30, height: 30 }} onPress={() => handleCardDetails("close")}>
+                                            <Image source={openedIcon} style={styles.menu} />
+                                        </TouchableOpacity>
+                                    </View>
+
+                                    <View style={{ marginLeft: 30 }}>
+                                        <View style={{ flexDirection: "row" }}>
+                                            <Text style={{ color: "#7C9070", fontWeight: "bold" }}>Card Name:</Text>
+                                            <Text style={{ color: "#7C9070" }}> {signedInUser.cardName ? `${signedInUser.cardName}` : "Card Name"}</Text>
+                                        </View>
+
+                                        <View style={{ flexDirection: "row" }}>
+                                            <Text style={{ color: "#7C9070", fontWeight: "bold" }}>Card Number: </Text>
+                                            <Text style={{ color: "#7C9070" }}>{signedInUser.cardNum ? `${signedInUser.cardNum}` : "Card Number"}</Text>
+                                        </View>
+                                        <View style={{ flexDirection: "row" }}>
+                                            <Text style={{ color: "#7C9070", fontWeight: "bold" }}>Expires: </Text>
+                                            <Text style={{ color: "#7C9070" }}>{signedInUser.cardDate ? `${signedInUser.cardDate}` : "Card Date"}</Text>
+                                        </View>
+                                        <View style={{ flexDirection: "row" }}>
+                                            <Text style={{ color: "#7C9070", fontWeight: "bold" }}>CVV: </Text>
+                                            <Text style={{ color: "#7C9070" }}>{signedInUser.zipCode ? `${signedInUser.zipCode}` : "0000"}</Text>
+                                        </View>
+                                    </View>
+
+                                    <TouchableOpacity style={styles.editBtn} onPress={openCardD}>
+                                        <Text style={{ color: "#7C9070", fontWeight: "bold" }}>Edit</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            }
                         </View>
                     </View>
                 </>
@@ -212,7 +286,15 @@ const ViewProfileScreen = () => {
                     </View>
                 </View>
                 : null}
+            {popUpCardStatus ?
+                <View style={styles.popUp}>
+                    <View style={styles.popUpBox}>
+                        <UpdateCardDetailsComp setpopUpCardStatus={setpopUpCardStatus} />
+                    </View>
+                </View>
+                : null}
         </View>
+
     )
 }
 

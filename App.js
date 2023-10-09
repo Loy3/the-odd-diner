@@ -21,6 +21,8 @@ import OrderReviewScreen from './components/OrderReviewScreen';
 import OrdersScreen from './components/OrdersScreen';
 import WishScreen from './components/WishScreen';
 import SignOutScreen from './components/SignOutScreen';
+import StopByScreen from './components/StopByScreen';
+import StopByTwoScreen from './components/StopByTwoScreen';
 
 export default function App({ navigation }) {
   const Stack = createStackNavigator();
@@ -124,9 +126,12 @@ export default function App({ navigation }) {
             <Stack.Screen name="ViewProfile" component={ViewProfileScreen} /> 
             <Stack.Screen name="Orders" component={OrdersScreen} /> 
             <Stack.Screen name="Wish" component={WishScreen} />
+            <Stack.Screen name="StopBy" component={StopByScreen} />
+            <Stack.Screen name="StopByTwo" component={StopByTwoScreen} />
             <Stack.Screen name="SignOut">
               {() => <SignOutScreen setSignIn={setSignIn} />}
             </Stack.Screen>
+
           </>
 
         )

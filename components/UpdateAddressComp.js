@@ -5,7 +5,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import userIcon from "../assets/Icons/location.png";
 import closeBtnIcon from "../assets/Icons/close.png";
 
+import { useNavigation } from '@react-navigation/native';
+
 const UpdateAddressComp = ({ setpopUpStatus }) => {
+    const navigation = useNavigation();
     const [streetAddr, setStreetAddr] = useState("");
     const [city, setCity] = useState("");
     const [zipCode, setZipCode] = useState("");
@@ -73,6 +76,7 @@ const UpdateAddressComp = ({ setpopUpStatus }) => {
                 const jsonValue = JSON.stringify(res);
                 await AsyncStorage.setItem('physicalAddress', jsonValue).then(() => {
                     console.log("Success");
+                    navigation.navigate(`StopBy`);
                     setpopUpStatus(false);
                 })
             }).catch((error)=>{

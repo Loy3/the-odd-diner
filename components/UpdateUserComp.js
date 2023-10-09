@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Image, Button, TextInput, ScrollView } from 'react-native';
-import { updateUserCardDetails, getUsers } from "../services/serviceStoreDoc";
+import { updateUserPersonalDetails, getUsers } from "../services/serviceStoreDoc";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import userIcon from "../assets/Icons/id2.png";
+import userIcon from "../assets/Icons/user.png";
 import closeBtnIcon from "../assets/Icons/close.png";
 
 
@@ -50,7 +50,7 @@ const UpdateUserComp = ({ setUpPersonalDStatus }) => {
         const res = jsonValue != null ? JSON.parse(jsonValue) : null;
         // console.log("Ress", user[0]);
         const user = await getUsers(res.localId)
-        // console.log("signed in user", user[0].cardDetails.mapValue.fields);
+        // console.log("signed in user", user[0].id);
         setSignedInUser({
             firstname: user[0].firstname.stringValue,
             lastname: user[0].lastname.stringValue,
@@ -68,8 +68,7 @@ const UpdateUserComp = ({ setUpPersonalDStatus }) => {
     }
 
     async function onSave() {
-        const locate = await checkLocation();
-        console.log(locate);
+        
         if (firstname === "" || lastname === "" || phoneNum === "") {
             setWarningMsg("Fields shouldn't be left empty");
             setWarningStatus(true)
@@ -78,50 +77,34 @@ const UpdateUserComp = ({ setUpPersonalDStatus }) => {
             setWarningStatus(false)
             console.log(lastname);
 
-            // const res = {
-            //     cardName: cardName,
-            //     cardNum: cardNum,
-            //     zipCode: zipCode,
-            //     cardDate: cardDate,
-            //     id:signedInUser.docID
-            // }
-            // await updateUserCardDetails(res).then(async () => {
-            //     console.log("Success");
-
-            //     const jsonValue = JSON.stringify(res);
-            //     await AsyncStorage.setItem('cardDetails', jsonValue).then(() => {
-            //         console.log("Success");
-            //         setpopUpCardStatus(false);
-            //         navigation.navigate(`${locate}`);
-            //     })
-
-            // }).catch((error) => {
-            //     console.log("Error: ", error);
-            // })
-
-
-
-
-        }
-    }
-
-    async function checkLocation() {
-        const jsonValue = await AsyncStorage.getItem('location');
-        const location = jsonValue != null ? JSON.parse(jsonValue) : null;
-        var locate = "";
-
-        if (location !== null) {
-            // console.log(location);
-            if (location.locate === "checkout") {
-                locate = "Checkout";
-            } else if (location.locate === "profile") {
-                locate = "ViewProfile";
+            const res = {
+                firstname: firstname,
+                lastname: lastname,
+                phoneNum: phoneNum,
+                id:signedInUser.docID
             }
+            await updateUserPersonalDetails(res).then(async () => {
+                console.log("Success");
+
+                const jsonValue = JSON.stringify(res);
+                await AsyncStorage.setItem('personalDetails', jsonValue).then(() => {
+                    console.log("Success");
+                    
+                    navigation.navigate(`StopBy`);
+                    setUpPersonalDStatus(false);
+                })
+
+            }).catch((error) => {
+                console.log("Error: ", error);
+            })
+
+
+
+
         }
-
-
-        return locate;
     }
+
+    
 
 
 

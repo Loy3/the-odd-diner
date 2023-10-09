@@ -1,14 +1,63 @@
 {
     "documents": [
         {
-            "name": "projects/the-hidden-inn/databases/(default)/documents/oddOrders/OLMRdeNPDISHn38boD9z",
+            "name": "projects/the-hidden-inn/databases/(default)/documents/oddOrders/DwQnHqHEeGyTz1L7oYvO",
             "fields": {
                 "date": {
-                    "stringValue": "Wednesday, 4 October"
+                    "stringValue": "Monday, 9 October"
+                },
+                "items": {
+                    "arrayValue": {
+                        "values": [
+                            {
+                                "mapValue": {
+                                    "fields": {
+                                        "itemID": {
+                                            "stringValue": "iTCYURooEKTzqyQwn1yg"
+                                        },
+                                        "totalPrice": {
+                                            "stringValue": "130"
+                                        },
+                                        "numOfItems": {
+                                            "stringValue": "1"
+                                        },
+                                        "orderStatus": {
+                                            "stringValue": "Placed"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "mapValue": {
+                                    "fields": {
+                                        "itemID": {
+                                            "stringValue": "mZ2iKVt5bvFwJd8cWY2X"
+                                        },
+                                        "totalPrice": {
+                                            "stringValue": "80"
+                                        },
+                                        "numOfItems": {
+                                            "stringValue": "1"
+                                        },
+                                        "orderStatus": {
+                                            "stringValue": "Placed"
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    }
                 },
                 "userID": {
-                    "stringValue": "VN4NAftkApVdOSKbY3kILjQBeaG2"
-                },
+                    "stringValue": "RItKmUrir2YPXDwrliwnQgxRMzj2"
+                }
+            },
+            "createTime": "2023-10-09T09:52:25.769458Z",
+            "updateTime": "2023-10-09T09:52:25.769458Z"
+        },
+        {
+            "name": "projects/the-hidden-inn/databases/(default)/documents/oddOrders/OLMRdeNPDISHn38boD9z",
+            "fields": {
                 "items": {
                     "arrayValue": {
                         "values": [
@@ -68,6 +117,12 @@
                             }
                         ]
                     }
+                },
+                "date": {
+                    "stringValue": "Wednesday, 4 October"
+                },
+                "userID": {
+                    "stringValue": "VN4NAftkApVdOSKbY3kILjQBeaG2"
                 }
             },
             "createTime": "2023-10-04T19:00:28.444165Z",
@@ -76,6 +131,9 @@
         {
             "name": "projects/the-hidden-inn/databases/(default)/documents/oddOrders/RRKbGvRntrGmzRj3wYzx",
             "fields": {
+                "userID": {
+                    "stringValue": "VN4NAftkApVdOSKbY3kILjQBeaG2"
+                },
                 "items": {
                     "arrayValue": {
                         "values": [
@@ -120,9 +178,6 @@
                 },
                 "date": {
                     "stringValue": "Wednesday, 4 October"
-                },
-                "userID": {
-                    "stringValue": "VN4NAftkApVdOSKbY3kILjQBeaG2"
                 }
             },
             "createTime": "2023-10-04T19:03:55.637829Z",
@@ -133,6 +188,9 @@
             "fields": {
                 "date": {
                     "stringValue": "Thursday, 5 October"
+                },
+                "userID": {
+                    "stringValue": "RItKmUrir2YPXDwrliwnQgxRMzj2"
                 },
                 "items": {
                     "arrayValue": {
@@ -175,9 +233,6 @@
                             }
                         ]
                     }
-                },
-                "userID": {
-                    "stringValue": "RItKmUrir2YPXDwrliwnQgxRMzj2"
                 }
             },
             "createTime": "2023-10-05T05:32:00.857386Z",
@@ -186,11 +241,11 @@
         {
             "name": "projects/the-hidden-inn/databases/(default)/documents/oddOrders/ZQUFSLg1YWStEKRRAA5G",
             "fields": {
-                "userID": {
-                    "stringValue": "RItKmUrir2YPXDwrliwnQgxRMzj2"
-                },
                 "date": {
                     "stringValue": "Thursday, 5 October"
+                },
+                "userID": {
+                    "stringValue": "RItKmUrir2YPXDwrliwnQgxRMzj2"
                 },
                 "items": {
                     "arrayValue": {
@@ -273,6 +328,61 @@
             },
             "createTime": "2023-10-05T05:26:03.961314Z",
             "updateTime": "2023-10-05T05:59:58.449531Z"
+        },
+        {
+            "name": "projects/the-hidden-inn/databases/(default)/documents/oddOrders/yTmERSHUqleI2xOf3LTd",
+            "fields": {
+                "date": {
+                    "stringValue": "Monday, 9 October"
+                },
+                "userID": {
+                    "stringValue": "RItKmUrir2YPXDwrliwnQgxRMzj2"
+                },
+                "items": {
+                    "arrayValue": {
+                        "values": [
+                            {
+                                "mapValue": {
+                                    "fields": {
+                                        "itemID": {
+                                            "stringValue": "X6kZGCaERyROPpmmaNf5"
+                                        },
+                                        "totalPrice": {
+                                            "stringValue": "300"
+                                        },
+                                        "numOfItems": {
+                                            "stringValue": "2"
+                                        },
+                                        "orderStatus": {
+                                            "stringValue": "Placed"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "mapValue": {
+                                    "fields": {
+                                        "itemID": {
+                                            "stringValue": "l1gycfAUgG8fqwgPUI2u"
+                                        },
+                                        "totalPrice": {
+                                            "stringValue": "300"
+                                        },
+                                        "numOfItems": {
+                                            "stringValue": "1"
+                                        },
+                                        "orderStatus": {
+                                            "stringValue": "Placed"
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            "createTime": "2023-10-09T09:23:45.590075Z",
+            "updateTime": "2023-10-09T09:23:45.590075Z"
         }
     ]
 }

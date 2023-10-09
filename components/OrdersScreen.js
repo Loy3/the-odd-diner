@@ -37,6 +37,7 @@ const OrdersScreen = () => {
         itemSub: "",
         numOfItems: "",
         itemPrice: "",
+        date: ""
     });
 
     useEffect(() => {
@@ -60,7 +61,7 @@ const OrdersScreen = () => {
 
         const user = await getUsers(res.localId)
         // console.log("Ress", res.localId);
-        console.log("signed in user", user[0].lastname.stringValue);
+        // console.log("signed in user", user[0].lastname.stringValue);
         setSignedInUser({
             firstname: user[0].firstname.stringValue,
             lastname: user[0].lastname.stringValue,
@@ -77,15 +78,15 @@ const OrdersScreen = () => {
 
         var listOfItems = [];
         // var cont = 1;
+        // console.log(orders);
         orders.forEach(ord => {
 
             const myItemsArr = ord.items.arrayValue.values;
-            // console.log("Orders", myItemsArr);
-
+            // console.log("Orders", ord);
 
             myItemsArr.forEach(item => {
-                // console.log(`Orders${cont++}`, item.mapValue.fields);
-                listOfItems.push(item.mapValue.fields);
+                // console.log(`Orders${cont++}`, date:ord.date);
+                listOfItems.push({date:ord.date, ...item.mapValue.fields});
             });
         });
 
@@ -100,7 +101,7 @@ const OrdersScreen = () => {
         const jsonValue = await AsyncStorage.getItem('user');
         const resUser = jsonValue != null ? JSON.parse(jsonValue) : null;
 
-        // console.log("itemsId", list[0]);
+        // console.log("itemsId", list);
         var myItems = [];
         var totalIPrice = 0;
         var totalISubPrice = 0;
@@ -119,7 +120,8 @@ const OrdersScreen = () => {
                         itemDescription: r.itemDescription.stringValue,
                         numOfItems: l.numOfItems.stringValue,
                         totalPrice: l.totalPrice.stringValue,
-                        orderStatus: l.orderStatus.stringValue
+                        orderStatus: l.orderStatus.stringValue,
+                        date: l.date.stringValue
                     }
                     myItems.push(foundItem);
                     totalISubPrice += parseInt(r.itemPrice.stringValue);
@@ -133,6 +135,7 @@ const OrdersScreen = () => {
             itemSub: myItems[0].itemSub,
             numOfItems: myItems[0].numOfItems,
             itemPrice: myItems[0].itemPrice,
+            date: myItems[0].date,
         })
         // console.log("myItems",myItems[0]);
         // totalIPrice = totalISubPrice + 60;
@@ -154,6 +157,7 @@ const OrdersScreen = () => {
             itemSub: item.itemSub,
             numOfItems: item.numOfItems,
             itemPrice: item.itemPrice,
+            date: item.date
         })
         setorderViewStatus(true);
     }
@@ -200,7 +204,7 @@ const OrdersScreen = () => {
                         <Image source={viewItem.itemImageUrl ? { uri: viewItem.itemImageUrl } : subImg} style={{ width: "90%", height: "76%", objectFit: "cover", marginHorizontal: "5%", marginTop: "5%", borderRadius: 20 }} />
                         <View style={[styles.cardDetailsCont, { marginHorizontal: 20 }]}>
                             <Text style={[styles.cardItemTitle, { fontSize: 20 }]}>{viewItem.itemName ? `${viewItem.itemName}` : "Name"}</Text>
-                            <Text style={[styles.cardItemSubTitle, { fontSize: 15 }]}>{viewItem.itemSub ? `${viewItem.itemSub}` : "Name"}</Text>
+                            <Text style={[styles.cardItemSubTitle, { fontSize: 15 }]}>{viewItem.date ? `${viewItem.date}` : "Date"}</Text> 
                             <View style={[styles.priceCont, { position: "absolute", top: 0, right: 0 }]}>
                                 <Image source={priceIcon} style={styles.prepTimeIc} />
                                 <Text style={styles.prepTimeText}>{viewItem.itemPrice ? `R${viewItem.itemPrice}.00` : "R00.00"}</Text>
@@ -229,13 +233,16 @@ const OrdersScreen = () => {
                                             </TouchableOpacity>
                                             <View style={styles.cardDetailsCont}>
                                                 <Text style={styles.cardItemTitle}>{item.itemName ? `${item.itemName}` : "Title"}</Text>
-                                                <Text style={styles.cardItemSubTitle}>{item.itemSub ? `${item.itemSub}` : "Sub Title"}</Text>
+                                                <Text style={styles.cardItemSubTitle}>{item.date ? `${item.date}` : "Date"}</Text>
+                                                
                                                 <View style={styles.priceCont}>
                                                     <Image source={priceIcon} style={styles.prepTimeIc} />
                                                     <Text style={styles.prepTimeText}>{item.totalPrice ? `R${item.totalPrice}.00` : "R00.00"}</Text>
                                                 </View>
+                                                
 
                                             </View>
+                                            
                                             <View style={[styles.countBtnCont, { position: "absolute", top: 15, right: 10 }]}>
                                                 <Text style={styles.counter}>{item.numOfItems ? `${item.numOfItems}` : "1"}</Text>
                                             </View>
@@ -364,11 +371,11 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
     cardItemSubTitle: {
-        fontSize: 12,
+        fontSize: 13,
         // fontWeight:"bold",
         color: "#7C9070",
         marginTop: 3,
-        marginLeft: 5
+        marginLeft: 2
     },
     prepTimeIc: {
         width: 25,

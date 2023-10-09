@@ -64,8 +64,8 @@ const UpdateCardDetailsComp = ({ setpopUpCardStatus }) => {
     }
 
     async function onSave() {
-        const locate = await checkLocation();
-        console.log(locate);
+        // const locate = await checkLocation();
+        // console.log(locate);
         if (cardName === "" || cardNum === "" || zipCode === "" || cardDate === "") {
             setWarningMsg("Fields shouldn't be left empty");
             setWarningStatus(true)
@@ -86,8 +86,9 @@ const UpdateCardDetailsComp = ({ setpopUpCardStatus }) => {
                 const jsonValue = JSON.stringify(res);
                 await AsyncStorage.setItem('cardDetails', jsonValue).then(() => {
                   console.log("Success");
+                  
+                  navigation.navigate(`StopBy`);
                   setpopUpCardStatus(false);
-                  navigation.navigate(`${locate}`);
                 })
 
         }).catch((error)=>{
@@ -100,23 +101,23 @@ const UpdateCardDetailsComp = ({ setpopUpCardStatus }) => {
         }
     }
 
-    async function checkLocation() {
-        const jsonValue = await AsyncStorage.getItem('location');
-        const location = jsonValue != null ? JSON.parse(jsonValue) : null;
-        var locate = "";
+    // async function checkLocation() {
+    //     const jsonValue = await AsyncStorage.getItem('location');
+    //     const location = jsonValue != null ? JSON.parse(jsonValue) : null;
+    //     var locate = "";
 
-        if (location !== null) {
-            // console.log(location);
-            if (location.locate === "checkout") {
-                locate = "Checkout";
-            } else if (location.locate === "profile") {
-                locate = "ViewProfile";
-            }
-        }
+    //     if (location !== null) {
+    //         // console.log(location);
+    //         if (location.locate === "checkout") {
+    //             locate = "Checkout";
+    //         } else if (location.locate === "profile") {
+    //             locate = "ViewProfile";
+    //         }
+    //     }
 
 
-        return locate;
-    }
+    //     return locate;
+    // }
 
 
 

@@ -354,12 +354,13 @@ export const storeOrders = async (data) => {
 //         console.log(error);
 //     }
 // }
+
 export const getOrders = async (id) => {
     // console.log("items", items.documents[0].fields);
 
     let myOrders = [];
     const data = orders;
-    // console.log("data",data);
+    // console.log("data",data[5]);
 
     data.documents.forEach(dat => {
         // console.log("Done: ", dat.fields.userID.stringValue);
@@ -371,4 +372,36 @@ export const getOrders = async (id) => {
     });
     // console.log("My orders", myOrders);
     return myOrders;
+}
+
+//Update personal details
+export const updateUserPersonalDetails = async (data) => {
+
+    const user = {
+        fields: {
+            firstname: { stringValue: data.firstname },
+            lastname: { stringValue: data.lastname },
+            phoneNum: { stringValue: data.phoneNum }
+        }
+    }
+
+    console.log("user",user);
+
+    const url = `https://firestore.googleapis.com/v1/projects/${project}/databases/(default)/documents/oddUsers/${data.id}?currentDocument.exists=true&updateMask.fieldPaths=firstname&updateMask.fieldPaths=lastname&updateMask.fieldPaths=phoneNum&alt=json`;
+    try {
+        await fetch(url, {
+            method: "PATCH",
+            headers: { 'ContentType': 'application/json' },
+            body: JSON.stringify(user),
+        }).then(() => {
+            console.log("Done");
+        }).catch((error) => {
+            console.log(error);
+        })
+        // const data = await response.json();
+
+        // return data;
+    } catch (error) {
+        console.log(error);
+    }
 }

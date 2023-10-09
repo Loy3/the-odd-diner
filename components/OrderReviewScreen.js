@@ -139,8 +139,14 @@ const OrderReviewScreen = ({ navigation }) => {
         navigation.navigate("Cart");
     }
 
-    function editAddress() {
-        setpopUpStatus(true)
+    async function editAddress() {
+         const location = {locate: "review"};
+        const jsonValue = JSON.stringify(location);
+        await AsyncStorage.setItem('location', jsonValue).then(() => {
+            console.log("Success");
+            setpopUpStatus(true)
+          })
+        
     }
 
     function toCheckout(){

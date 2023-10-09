@@ -234,7 +234,7 @@ const CheckOutScreen = ({ navigation }) => {
                     await AsyncStorage.removeItem('cardDetails').then(() => {
                         console.log("success");
                         setloadingStatusStatus(false);
-                        navigation.navigate("Home");
+                        navigation.navigate("Orders");
 
                     }).catch((error) => {
                         console.log("Error", error);
