@@ -374,7 +374,11 @@ const HomeScreen = ({ navigation }) => {
 
               <View style={styles.popularDetailsCont}>
 
-                <Image source={starIcon} style={styles.starIcon} />
+                {/* <Image source={starIcon} style={styles.starIcon} /> */}
+                <TouchableOpacity onPress={() => viewItem(popularItems.id)} style={{ width: 70, height: 45, position: "absolute", top: 15, right: "5%", zIndex:99, borderWidth: 3, borderColor: "#7C9070", borderRadius: 15, justifyContent: "center", alignItems: "center" }}>
+                  <Text style={{ color: "#7C9070", fontWeight: "bold" }}>View</Text>
+                </TouchableOpacity>
+
                 <Text style={styles.popularDetailsTitle}>{popularItems.itemName}</Text>
                 <Text style={styles.popularDetailsSub}>{popularItems.itemSub}</Text>
                 <View style={styles.line} />
@@ -694,18 +698,18 @@ const styles = StyleSheet.create({
     // backgroundColor:"yellow",
     flexDirection: "row",
     alignItems: "center",
-    
+
   },
   prepTimeIc: {
     width: 25,
     height: 25,
-    marginLeft:-5
+    marginLeft: -5
   },
   prepTimeIc2: {
     width: 25,
     height: 25,
-    marginLeft:-5,
-    marginRight:7
+    marginLeft: -5,
+    marginRight: 7
   },
   prepTimeText: {
     marginLeft: 2,
@@ -780,7 +784,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
     color: "#7C9070",
-    fontSize:12
+    fontSize: 12
     // backgroundColor:"yellow"
   },
   itemTitle: {
@@ -806,14 +810,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F6F3",
     marginVertical: 10,
     marginHorizontal: "1%",
-    borderRadius:20
+    borderRadius: 20
   },
   itemImg: {
     width: "100%",
     height: 200,
     objectFit: "cover",
-    borderTopRightRadius:20,
-    borderTopLeftRadius:20
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20
   },
 
   cardPriceCont: {
@@ -824,7 +828,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 158,
     left: 7,
-    borderRadius:10
+    borderRadius: 10
   },
   cardPrice: {
     fontSize: 16,
@@ -850,11 +854,11 @@ const styles = StyleSheet.create({
     width: 23,
     height: 23,
     marginLeft: 5,
-    marginBottom:10
+    marginBottom: 10
   },
   cardPrepTimeText: {
     marginLeft: 2,
-    marginBottom:10,
+    marginBottom: 10,
     color: "#7C9070",
     fontSize: 15,
     fontWeight: "700",
@@ -869,9 +873,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center"
   },
-  addToCartImg:{
-    width:20,
-    height:20
+  addToCartImg: {
+    width: 20,
+    height: 20
   },
   // sideNavCont: {
   //   backgroundColor: "rgba(0,0,0,0.5)",

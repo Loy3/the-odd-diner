@@ -38,6 +38,11 @@ const OrderReviewScreen = ({ navigation }) => {
     const [itemsTotalPrice, setItemsTotalPrice] = useState("");
     const [itemsSubTotalPrice, setItemsSubTotalPrice] = useState("");
     const [checkoutItems, setCheckoutItems] = useState([]);
+    const [recAddress, setRecAddress] = useState({
+        address: null,
+        addressZip: null,
+        city: null,
+    })
     // useEffect(()=>{
     //     navigation.navigate("Cart")
     // },[])
@@ -58,6 +63,16 @@ const OrderReviewScreen = ({ navigation }) => {
         })();
 
     }, [])
+
+    // useEffect(() => {
+    //     (async () => {
+    //         const address = await getAddress();
+    //         if (address !== null) {
+    //             await getUser();
+    //         }
+    //     })();
+
+    // },[])
 
     async function getUser() {
         const jsonValue = await AsyncStorage.getItem('user');
@@ -81,6 +96,12 @@ const OrderReviewScreen = ({ navigation }) => {
                 cardDate: user[0].cardDetails.mapValue.fields.cardDate.stringValue,
                 zipCode: user[0].cardDetails.mapValue.fields.zipCode.stringValue
             });
+
+            setRecAddress({
+                address: `${user[0].address.mapValue.fields.streetAddr.stringValue} `,
+                addressZip: `${user[0].address.mapValue.fields.zipCode.stringValue}`,
+                city: `${user[0].address.mapValue.fields.city.stringValue}`,
+            })
         } else {
             setSignedInUser({
                 firstname: user[0].firstname.stringValue,
@@ -96,6 +117,12 @@ const OrderReviewScreen = ({ navigation }) => {
                 cardDate: user[0].cardDetails.mapValue.fields.cardDate.stringValue,
                 zipCode: user[0].cardDetails.mapValue.fields.zipCode.stringValue
             });
+
+            setRecAddress({
+                address: `${address.streetAddr} `,
+                addressZip: `${address.zipCode}`,
+                city: `${address.city}`,
+            })
         }
 
         return res;
@@ -119,7 +146,7 @@ const OrderReviewScreen = ({ navigation }) => {
                 city: address.city,
                 zipCode: address.zipCode
             };
-            // console.log(addDets);
+            console.log(addDets);
             myAddress = address;
         } else {
             myAddress = null;
@@ -130,6 +157,8 @@ const OrderReviewScreen = ({ navigation }) => {
 
     async function getAddress() {
         const jsonValue = await AsyncStorage.getItem('physicalAddress');
+        console.log(jsonValue);
+        
         return jsonValue != null ? JSON.parse(jsonValue) : null;
     }
 
