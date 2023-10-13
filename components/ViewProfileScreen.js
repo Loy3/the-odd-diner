@@ -15,7 +15,7 @@ import UpdateAddressComp from './UpdateAddressComp';
 import UpdateUserComp from './UpdateUserComp';
 import UpdateCardDetailsComp from './UpdateCardDetailsComp';
 
-const ViewProfileScreen = () => {
+const ViewProfileScreen = ({ navigation }) => {
     const [loadingStatus, setloadingStatusStatus] = useState(false);
     const [signedInUser, setSignedInUser] = useState({
         firstname: null,
@@ -40,27 +40,53 @@ const ViewProfileScreen = () => {
     const formattedDate = `${dayOfWeek}, ${dayOfMonth} ${monthOfYear}`;
 
     useEffect(() => {
-        (async () => {
+        // (async () => {
+        //     setloadingStatusStatus(true);
+        //     await getUser();
+        // })();
+
+        const unsubscribe = navigation.addListener("focus", async () => {
             setloadingStatusStatus(true);
             await getUser();
-        })();
+        })
+        return unsubscribe
+    }, [navigation])
 
-    }, [])
 
     async function getUser() {
         const jsonValue = await AsyncStorage.getItem('user');
         const res = jsonValue != null ? JSON.parse(jsonValue) : null;
-
+        var myAddress = null;
         const user = await getUsers(res.localId)
         // console.log("Ress", res);
         // console.log("signed in user", user[0]);
+        // const address = await getCurrentAddress();
+        // if (address !== null) {
+        //     if (address.id === user[0].id) {
+        //         console.log("address found", address);
+        //         myAddress = {
+        //             address: address.streetAddr,
+        //             addressZip: address.zipCode,
+        //             city: address.city
+        //         };
+        //     } else {
+        //         console.log("address not found", address);
+        //         myAddress = {
+        //             address: `${user[0].address.mapValue.fields.streetAddr.stringValue} `,
+        //             addressZip: `${user[0].address.mapValue.fields.zipCode.stringValue}`,
+        //             city: `${user[0].address.mapValue.fields.city.stringValue}`,
+        //         };
+
+        //     }
+
+        // }
+
         setSignedInUser({
             firstname: user[0].firstname.stringValue,
             lastname: user[0].lastname.stringValue,
             imageUrl: user[0].imageUrl.stringValue,
             emailAddress: res.email,
             phoneNum: user[0].phoneNum.stringValue,
-            userID: res.localId,
             address: `${user[0].address.mapValue.fields.streetAddr.stringValue} `,
             addressZip: `${user[0].address.mapValue.fields.zipCode.stringValue}`,
             city: `${user[0].address.mapValue.fields.city.stringValue}`,
@@ -70,7 +96,43 @@ const ViewProfileScreen = () => {
             zipCode: user[0].cardDetails.mapValue.fields.zipCode.stringValue
         });
         // return null;
+
     }
+    // useEffect(() => {
+    //     (async () => {
+    //         const address = await getCurrentAddress();
+    //         if (address !== null) {
+    //             if (address.id === signedInUser.userID) {
+    //                 console.log("address found", address);
+    //             }
+    //             // setSignedInUser({
+    //             //     firstname: signedInUser.firstname,
+    //             //     lastname: signedInUser.lastname,
+    //             //     imageUrl: signedInUser.imageUrl,
+    //             //     emailAddress: signedInUser.emailAddress,
+    //             //     phoneNum: signedInUser.phoneNum,
+    //             //     userID:signedInUser.userID,
+    //             //     address: address.streetAddr,
+    //             //     addressZip: address.zipCode,
+    //             //     city: address.city,
+    //             //     cardName: signedInUser.cardName,
+    //             //     cardNum: signedInUser.cardNum,
+    //             //     cardDate: signedInUser.cardDate,
+    //             //     zipCode: signedInUser.zipCode
+    //             // });
+    //         }else{
+    //             console.log("No address");
+    //         }
+    //     })();
+
+    // }, [getCurrentAddress])
+
+    // async function getCurrentAddress() {
+
+    //     const jsonValue = await AsyncStorage.getItem('physicalAddress');
+    //     // console.log(jsonValue);
+    //     return jsonValue != null ? JSON.parse(jsonValue) : null;
+    // }
 
     async function openMenu() {
         const location = { locate: "profile" };
@@ -127,10 +189,19 @@ const ViewProfileScreen = () => {
 
     }
 
+    function cardNumberChanger(cardNum) {
+        const word = cardNum;
+        const lastFourLetters = word.slice(-4);
+        // console.log(lastFourLetters);
+        const returnValue = `*** *** *** *** ${lastFourLetters}`
+        return returnValue;
+    }
+
+
     return (
         <View style={styles.container}>
-
-            <ScrollView scrollEnabled={true} >
+            <ScrollView scrollEnabled={true}
+            >
                 <>
                     <View>
                         <View style={styles.topImg} >
@@ -152,7 +223,7 @@ const ViewProfileScreen = () => {
                         </View>
                         <View style={styles.headerImageCont}>
                             <Image source={signedInUser.imageUrl === null ? userIcon : { uri: signedInUser.imageUrl }} style={styles.headerImage} />
-                            <View style={{ width: 300, height: 320, borderRadius: 320, backgroundColor: "#7C9070", opacity: 0.35, marginTop: -320 }} />
+                            <View style={{ width: 320, height: 320, borderRadius: 320, backgroundColor: "#7C9070", opacity: 0.35, marginTop: -320 }} />
                         </View>
 
                         <View style={{ flex: 1, alignItems: "center" }}>
@@ -244,7 +315,7 @@ const ViewProfileScreen = () => {
 
                                         <View style={{ flexDirection: "row" }}>
                                             <Text style={{ color: "#7C9070", fontWeight: "bold" }}>Card Number: </Text>
-                                            <Text style={{ color: "#7C9070" }}>{signedInUser.cardNum ? `${signedInUser.cardNum}` : "Card Number"}</Text>
+                                            <Text style={{ color: "#7C9070" }}>{signedInUser.cardNum ? `${cardNumberChanger(signedInUser.cardNum)}` : "Card Number"}</Text>
                                         </View>
                                         <View style={{ flexDirection: "row" }}>
                                             <Text style={{ color: "#7C9070", fontWeight: "bold" }}>Expires: </Text>

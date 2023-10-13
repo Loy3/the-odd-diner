@@ -37,12 +37,10 @@ const CheckOutScreen = ({ navigation }) => {
     const [itemsTotalPrice, setItemsTotalPrice] = useState("");
     const [itemsSubTotalPrice, setItemsSubTotalPrice] = useState("");
     const [checkoutItems, setCheckoutItems] = useState(null);
-    // useEffect(()=>{
-    //     navigation.navigate("Cart")
-    // },[])
+    
 
     useEffect(() => {
-        (async () => {
+              const unsubscribe = navigation.addListener("focus", async () => {
             setloadingStatusStatus(true);
             await getUser().then(async (user) => {
 
@@ -54,9 +52,9 @@ const CheckOutScreen = ({ navigation }) => {
                 }
                 setloadingStatusStatus(false);
             })
-        })();
-
-    }, [])
+        })
+        return unsubscribe
+    }, [navigation])
 
     async function getUser() {
         const jsonValue = await AsyncStorage.getItem('user');

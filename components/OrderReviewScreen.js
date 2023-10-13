@@ -48,7 +48,7 @@ const OrderReviewScreen = ({ navigation }) => {
     // },[])
 
     useEffect(() => {
-        (async () => {
+        const unsubscribe = navigation.addListener("focus", async () => {
             setloadingStatusStatus(true);
             await getUser().then(async (user) => {
 
@@ -60,19 +60,10 @@ const OrderReviewScreen = ({ navigation }) => {
                 }
                 setloadingStatusStatus(false);
             })
-        })();
+        })
+        return unsubscribe
+    }, [navigation])
 
-    }, [])
-
-    // useEffect(() => {
-    //     (async () => {
-    //         const address = await getAddress();
-    //         if (address !== null) {
-    //             await getUser();
-    //         }
-    //     })();
-
-    // },[])
 
     async function getUser() {
         const jsonValue = await AsyncStorage.getItem('user');
@@ -158,7 +149,7 @@ const OrderReviewScreen = ({ navigation }) => {
     async function getAddress() {
         const jsonValue = await AsyncStorage.getItem('physicalAddress');
         console.log(jsonValue);
-        
+
         return jsonValue != null ? JSON.parse(jsonValue) : null;
     }
 

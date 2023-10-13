@@ -184,7 +184,7 @@ const UpdateCardDetailsComp = ({ setpopUpCardStatus }) => {
                         keyboardType="visible-password"
                         autoCapitalize="none"
                         onChangeText={text => setZipCode(text)}
-                        value={zipCode} placeholder={"0000"} />
+                        value={zipCode} placeholder={"cvv"} />
                 </View>
 
             </View>
