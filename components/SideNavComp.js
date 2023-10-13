@@ -35,7 +35,7 @@ const SideNavComp = ({ setMenuStatus }) => {
         const res = jsonValue != null ? JSON.parse(jsonValue) : null;
         // console.log("Ress", user[0]);
         const user = await getUsers(res.localId)
-        console.log("signed in user", user[0].lastname.stringValue);
+        // console.log("signed in user", user[0].lastname.stringValue);
         setSignedInUser({
             firstname: user[0].firstname.stringValue,
             lastname: user[0].lastname.stringValue,
@@ -54,7 +54,7 @@ const SideNavComp = ({ setMenuStatus }) => {
             case "orders":
                 navigation.navigate("Orders");
                 setMenuStatus(false);
-                console.log("Orders");
+                // console.log("Orders");
                 break;
             case "cart":
                 navigation.navigate("Cart");
@@ -63,12 +63,12 @@ const SideNavComp = ({ setMenuStatus }) => {
             case "profile":
                 navigation.navigate("ViewProfile");
                 setMenuStatus(false);
-                console.log("Profile");
+                // console.log("Profile");
                 break;
             case "wish":
                 navigation.navigate("Wish");
                 setMenuStatus(false);
-                console.log("Wish");
+                // console.log("Wish");
                 break;
             default:
                 // console.log("Sign Out");
