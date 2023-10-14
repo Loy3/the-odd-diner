@@ -129,7 +129,22 @@ const OrdersScreen = () => {
                 }
             });
         });
+        // console.log(myItems);
+        let sortedItems = [];
+        sortedItems = myItems.reduce((acc, obj) => {
+            const date = obj.date;
+            // const idNum = obj.item;
+            if (!acc[date]) {
+                acc[date] = [obj];
+            } else {
+                acc[date].push( obj );
+            }
+            return acc;
+        }, {});
 
+        const arr = Object.entries(sortedItems).map(([date, value]) => ({ date, value }));
+        // console.log("arr[0].value",arr[0].value);
+        setItems(arr);
         setViewItem({
             itemImageUrl: myItems[0].itemImageUrl,
             itemName: myItems[0].itemName,
@@ -142,7 +157,7 @@ const OrdersScreen = () => {
         // totalIPrice = totalISubPrice + 60;
         // setItemsSubTotalPrice(totalISubPrice);
         // setItemsTotalPrice(totalIPrice)
-        setItems(myItems);
+        // setItems(myItems);
         setloadingStatusStatus(false)
 
     }
@@ -167,7 +182,7 @@ const OrdersScreen = () => {
         setorderViewStatus(false);
     }
 
-   
+
     if (loadingStatus === true) {
         return (
             <>
@@ -198,12 +213,12 @@ const OrdersScreen = () => {
 
             {orderViewStatus ?
                 <View style={{ width: "100%", height: "100%", zIndex: 99, backgroundColor: "rgba(0,0,0,0.5)", position: "absolute", top: 0, left: 0, justifyContent: "center", alignItems: "center" }}>
-                    <View style={{ width: "90%", height: "70%", backgroundColor: "#FFFEF5", borderRadius: 20 }}>
+                    <View style={{ width: "90%", height: "70%", backgroundColor: "#FFFEF5", borderRadius: 30 }}>
                         <TouchableOpacity style={{ position: "absolute", right: "7%", top: "5%", width: 40, height: 40, backgroundColor: "#FFFEF5", zIndex: 99, justifyContent: "center", alignItems: "center", borderRadius: 40 }} onPress={closeViewer}>
                             <Image source={closeIcon} style={{ width: 20, height: 20 }} />
                         </TouchableOpacity>
 
-                        <Image source={viewItem.itemImageUrl ? { uri: viewItem.itemImageUrl } : subImg} style={{ width: "90%", height: "76%", objectFit: "cover", marginHorizontal: "5%", marginTop: "5%", borderRadius: 20 }} />
+                        <Image source={viewItem.itemImageUrl ? { uri: viewItem.itemImageUrl } : subImg} style={{ width: "94%", height: "76%", objectFit: "cover", marginHorizontal: "3%", marginTop: "3%", borderRadius: 30 }} />
                         <View style={[styles.cardDetailsCont, { marginHorizontal: 20 }]}>
                             <Text style={[styles.cardItemTitle, { fontSize: 20 }]}>{viewItem.itemName ? `${viewItem.itemName}` : "Name"}</Text>
                             <Text style={[styles.cardItemSubTitle, { fontSize: 15 }]}>{viewItem.date ? `${viewItem.date}` : "Date"}</Text>
@@ -222,35 +237,40 @@ const OrdersScreen = () => {
                 <>
                     <View>
 
-
                         <View>
                             <View style={{ marginTop: 0, marginBottom: 30 }}>
-                                <Text style={[styles.paymentTitle, { marginTop: 30 }]}>Order Items:</Text>
+                                <Text style={[styles.paymentTitle, { marginTop: 30, marginLeft:"3%" }]}>Order Items:</Text>
 
                                 <View style={styles.cartCont}>
                                     {items.map((item, index) => (
-                                        <View style={styles.cartCard} key={index}>
-                                            <TouchableOpacity style={styles.itemImgCont} onPress={() => openViewer(item)}>
-                                                <Image source={item.itemImageUrl ? { uri: item.itemImageUrl } : subImg} style={styles.itemImg} />
-                                            </TouchableOpacity>
-                                            <View style={styles.cardDetailsCont}>
-                                                <Text style={styles.cardItemTitle}>{item.itemName ? `${item.itemName}` : "Title"}</Text>
-                                                <Text style={styles.cardItemSubTitle}>{item.date ? `${item.date}` : "Date"}</Text>
+                                        <View key={index}>
+                                            <Text style={[styles.paymentTitle, { marginTop: 20, fontSize: 18, marginLeft: -5 }]}>Order for date: {item.date ? item.date : "Friday, 13th October"}</Text>
+                                            {item.value.map((itm, index) => (
+                                                <View style={styles.cartCard} key={index}>
+                                                    <TouchableOpacity style={styles.itemImgCont} onPress={() => openViewer(itm)}>
+                                                        <Image source={itm.itemImageUrl ? { uri: itm.itemImageUrl } : subImg} style={styles.itemImg} />
+                                                    </TouchableOpacity>
+                                                    <View style={styles.cardDetailsCont}>
+                                                        <Text style={styles.cardItemTitle}>{itm.itemName ? `${itm.itemName}` : "Title"}</Text>
+                                                        <Text style={styles.cardItemSubTitle}>{itm.date ? `${itm.date}` : "Date"}</Text>
 
-                                                <View style={styles.priceCont}>
-                                                    <Image source={priceIcon} style={styles.prepTimeIc} />
-                                                    <Text style={styles.prepTimeText}>{item.totalPrice ? `R${item.totalPrice}.00` : "R00.00"}</Text>
+                                                        <View style={styles.priceCont}>
+                                                            <Image source={priceIcon} style={styles.prepTimeIc} />
+                                                            <Text style={styles.prepTimeText}>{itm.totalPrice ? `R${itm.totalPrice}.00` : "R00.00"}</Text>
+                                                        </View>
+
+
+                                                    </View>
+
+                                                    <View style={[styles.countBtnCont, { position: "absolute", top: 15, right: 10 }]}>
+                                                        <Text style={styles.counter}>{itm.numOfItems ? `${itm.numOfItems}` : "1"}</Text>
+                                                    </View>
+
+
                                                 </View>
-
-
-                                            </View>
-
-                                            <View style={[styles.countBtnCont, { position: "absolute", top: 15, right: 10 }]}>
-                                                <Text style={styles.counter}>{item.numOfItems ? `${item.numOfItems}` : "1"}</Text>
-                                            </View>
-
-                                           
+                                            ))}
                                         </View>
+
                                     ))}
 
 
@@ -411,7 +431,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: "#FFFEF5"
     },
-    
+
     loadingScreen: {
         backgroundColor: "#FFFEF5",
 
