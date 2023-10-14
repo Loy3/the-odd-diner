@@ -11,6 +11,7 @@ import dinIcon from "../assets/Icons/dinner.png";
 
 import userIcon from "../assets/Icons/user2.png";
 import addIcon from "../assets/Icons/add.png";
+import subIcon from "../assets/Icons/minus.png";
 import subImg from "../assets/Images/1.jpg";
 import popularBtnLeft from "../assets/Icons/prev.png";
 import popularBtnRight from "../assets/Icons/next.png";
@@ -43,6 +44,8 @@ const HomeScreen = ({ navigation }) => {
   });
 
   const [menuStatus, setMenuStatus] = useState(false);
+
+  const [addBStatus, setAddBStatus] = useState(false);
 
   // popularDets = {
   //   id: "",
@@ -265,11 +268,31 @@ const HomeScreen = ({ navigation }) => {
 
     if (res === true) {
       console.log("Item already added");
+      // const jsonValue = await AsyncStorage.getItem('cartItems');
+      // const result = jsonValue != null ? JSON.parse(jsonValue) : null;
+
+      // console.log("res", result);
+      // var index = 0;
+      // var arrToAdd = [];
+      // for (let r = 0; r < result.length; r++) {
+      //   if (result[r].id === id) {
+      //     console.log("Item alreeee added");
+      //     index = r;
+      //   } else {
+      //     arrToAdd.push(result[r]);
+      //   }
+
+      // };
+      // const jsonToSetValue = JSON.stringify(arrToAdd);
+      // await AsyncStorage.setItem('cartItems', jsonToSetValue).then(() => {
+      //   console.log("Success");
+      // })
+
     } else {
       console.log("Item not added");
 
       const jsonValue = await AsyncStorage.getItem('cartItems');
-      const res = jsonValue != null ? JSON.parse(jsonValue) : null;
+      const result = jsonValue != null ? JSON.parse(jsonValue) : null;
       // await AsyncStorage.removeItem('cartItems')
 
       console.log("res", res);
@@ -280,14 +303,14 @@ const HomeScreen = ({ navigation }) => {
       }
 
       console.log(itemId);
-      if (res === null) {
+      if (result === null) {
         itemsToCart.push(itemId);
         const jsonSetValue = JSON.stringify(itemsToCart);
         await AsyncStorage.setItem('cartItems', jsonSetValue).then(() => {
           console.log("Success");
         })
       } else {
-        res.forEach(r => {
+        result.forEach(r => {
           itemsToCart.push(r);
         });
         itemsToCart.push(itemId);
@@ -375,7 +398,7 @@ const HomeScreen = ({ navigation }) => {
               <View style={styles.popularDetailsCont}>
 
                 {/* <Image source={starIcon} style={styles.starIcon} /> */}
-                <TouchableOpacity onPress={() => viewItem(popularItems.id)} style={{ width: 70, height: 45, position: "absolute", top: 15, right: "5%", zIndex:99, borderWidth: 3, borderColor: "#7C9070", borderRadius: 15, justifyContent: "center", alignItems: "center" }}>
+                <TouchableOpacity onPress={() => viewItem(popularItems.id)} style={{ width: 70, height: 45, position: "absolute", top: 15, right: "5%", zIndex: 99, borderWidth: 3, borderColor: "#7C9070", borderRadius: 15, justifyContent: "center", alignItems: "center" }}>
                   <Text style={{ color: "#7C9070", fontWeight: "bold" }}>View</Text>
                 </TouchableOpacity>
 
@@ -475,9 +498,15 @@ const HomeScreen = ({ navigation }) => {
                       <Text style={styles.cardPrepTimeText}>{item.itemPrepTime.stringValue ? `${item.itemPrepTime.stringValue}` : "10 - 15min"}</Text>
                     </View>
 
-                    <TouchableOpacity style={styles.addToCart} onPress={() => addToCart(item.id)}>
-                      <Image source={addIcon} style={styles.addToCartImg} />
-                    </TouchableOpacity>
+                    {/* {!checkCart(item.id) ? */}
+                      <TouchableOpacity style={styles.addToCart} onPress={() => addToCart(item.id)}>
+                        <Image source={addIcon} style={styles.addToCartImg} />
+                      </TouchableOpacity>
+                      {/* : 
+                       <TouchableOpacity style={styles.addToCart} onPress={() => addToCart(item.id)}>
+                        <Image source={subIcon} style={styles.addToCartImg} />
+                      </TouchableOpacity> */}
+                    {/* } */}
                   </View>
                 </View>
               ))
