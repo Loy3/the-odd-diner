@@ -10,6 +10,7 @@ import menuIcon from "../assets/Icons/menu.png";
 import userIcon from "../assets/Icons/user2.png";
 import priceIcon from "../assets/Icons/money.png";
 import SideNavComp from './SideNavComp';
+
 const OrdersScreen = () => {
     const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const monthsOfYear = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -86,7 +87,7 @@ const OrdersScreen = () => {
 
             myItemsArr.forEach(item => {
                 // console.log(`Orders${cont++}`, date:ord.date);
-                listOfItems.push({date:ord.date, ...item.mapValue.fields});
+                listOfItems.push({ date: ord.date, ...item.mapValue.fields });
             });
         });
 
@@ -166,6 +167,7 @@ const OrdersScreen = () => {
         setorderViewStatus(false);
     }
 
+   
     if (loadingStatus === true) {
         return (
             <>
@@ -204,7 +206,7 @@ const OrdersScreen = () => {
                         <Image source={viewItem.itemImageUrl ? { uri: viewItem.itemImageUrl } : subImg} style={{ width: "90%", height: "76%", objectFit: "cover", marginHorizontal: "5%", marginTop: "5%", borderRadius: 20 }} />
                         <View style={[styles.cardDetailsCont, { marginHorizontal: 20 }]}>
                             <Text style={[styles.cardItemTitle, { fontSize: 20 }]}>{viewItem.itemName ? `${viewItem.itemName}` : "Name"}</Text>
-                            <Text style={[styles.cardItemSubTitle, { fontSize: 15 }]}>{viewItem.date ? `${viewItem.date}` : "Date"}</Text> 
+                            <Text style={[styles.cardItemSubTitle, { fontSize: 15 }]}>{viewItem.date ? `${viewItem.date}` : "Date"}</Text>
                             <View style={[styles.priceCont, { position: "absolute", top: 0, right: 0 }]}>
                                 <Image source={priceIcon} style={styles.prepTimeIc} />
                                 <Text style={styles.prepTimeText}>{viewItem.itemPrice ? `R${viewItem.itemPrice}.00` : "R00.00"}</Text>
@@ -228,24 +230,26 @@ const OrdersScreen = () => {
                                 <View style={styles.cartCont}>
                                     {items.map((item, index) => (
                                         <View style={styles.cartCard} key={index}>
-                                            <TouchableOpacity style={styles.itemImgCont} onPress={()=>openViewer(item)}>
+                                            <TouchableOpacity style={styles.itemImgCont} onPress={() => openViewer(item)}>
                                                 <Image source={item.itemImageUrl ? { uri: item.itemImageUrl } : subImg} style={styles.itemImg} />
                                             </TouchableOpacity>
                                             <View style={styles.cardDetailsCont}>
                                                 <Text style={styles.cardItemTitle}>{item.itemName ? `${item.itemName}` : "Title"}</Text>
                                                 <Text style={styles.cardItemSubTitle}>{item.date ? `${item.date}` : "Date"}</Text>
-                                                
+
                                                 <View style={styles.priceCont}>
                                                     <Image source={priceIcon} style={styles.prepTimeIc} />
                                                     <Text style={styles.prepTimeText}>{item.totalPrice ? `R${item.totalPrice}.00` : "R00.00"}</Text>
                                                 </View>
-                                                
+
 
                                             </View>
-                                            
+
                                             <View style={[styles.countBtnCont, { position: "absolute", top: 15, right: 10 }]}>
                                                 <Text style={styles.counter}>{item.numOfItems ? `${item.numOfItems}` : "1"}</Text>
                                             </View>
+
+                                           
                                         </View>
                                     ))}
 
@@ -407,7 +411,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: "#FFFEF5"
     },
-
+    
     loadingScreen: {
         backgroundColor: "#FFFEF5",
 

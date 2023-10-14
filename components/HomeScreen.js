@@ -4,6 +4,7 @@ import { View, StyleSheet, Text, TouchableOpacity, Image, Button, TextInput, Scr
 import { getItems, getUsers } from "../services/serviceStoreDoc";
 import menuIcon from "../assets/Icons/menu.png";
 
+import allIcon from "../assets/Icons/table2.png";
 import bfIcon from "../assets/Icons/breakfast.png";
 import bevIcon from "../assets/Icons/bev.png";
 import lnIcon from "../assets/Icons/lunch.png";
@@ -443,16 +444,9 @@ const HomeScreen = ({ navigation }) => {
           <View style={styles.filterBtnCont}>
             <View>
               <TouchableOpacity style={styles.filterBtn} onPress={() => filterItems("all")}>
-                <Image source={bfIcon} style={styles.filterBtnImg} />
+                <Image source={allIcon} style={styles.filterBtnImg} />
               </TouchableOpacity>
               <Text style={styles.filterBtnTxt}>All</Text>
-            </View>
-
-            <View>
-              <TouchableOpacity style={styles.filterBtn} onPress={() => filterItems("breakfast")}>
-                <Image source={bfIcon} style={styles.filterBtnImg} />
-              </TouchableOpacity>
-              <Text style={styles.filterBtnTxt}>Breakfast</Text>
             </View>
 
             <View>
@@ -461,6 +455,13 @@ const HomeScreen = ({ navigation }) => {
               </TouchableOpacity>
               <Text style={styles.filterBtnTxt}>Beverages</Text>
             </View>
+
+            <View>
+              <TouchableOpacity style={styles.filterBtn} onPress={() => filterItems("breakfast")}>
+                <Image source={bfIcon} style={styles.filterBtnImg} />
+              </TouchableOpacity>
+              <Text style={styles.filterBtnTxt}>Breakfast</Text>
+            </View>            
 
             <View>
               <TouchableOpacity style={styles.filterBtn} onPress={() => filterItems("lunch")}>

@@ -7,6 +7,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import prepTimeIcon from "../assets/Icons/stopwatch2.png";
 import masterCardIcon from "../assets/Icons/card.png";
 import cardChipIcon from "../assets/Icons/chip.png";
+import closeIcon from "../assets/Icons/close.png";
+import subImg from "../assets/Images/1.jpg";
 
 import menuIcon from "../assets/Icons/menu.png";
 import userIcon from "../assets/Icons/user2.png";
@@ -14,7 +16,7 @@ import priceIcon from "../assets/Icons/money.png";
 import wishIcon from "../assets/Icons/favourite.png";
 import UpdateAddressComp from './UpdateAddressComp';
 import UpdateCardDetailsComp from './UpdateCardDetailsComp';
-
+import deleteIcon from "../assets/Icons/delete.png";
 
 import { CardField, useStripe } from '@stripe/stripe-react-native';
 import SideNavComp from './SideNavComp';
@@ -35,7 +37,10 @@ const WishScreen = ({ navigation }) => {
     const [itemsTotalPrice, setItemsTotalPrice] = useState("");
     const [itemsSubTotalPrice, setItemsSubTotalPrice] = useState("");
     const [checkoutItems, setCheckoutItems] = useState([]);
+    const [orderViewStatus, setorderViewStatus] = useState(false);
     const [menuStatus, setMenuStatus] = useState(false);
+    const [deleteStatus, setDeleteStatus] = useState(false);
+
     const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const monthsOfYear = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -44,6 +49,15 @@ const WishScreen = ({ navigation }) => {
     const dayOfMonth = today.getDate();
     const monthOfYear = monthsOfYear[today.getMonth()];
     const formattedDate = `${dayOfWeek}, ${dayOfMonth} ${monthOfYear}`;
+
+    const [viewItem, setViewItem] = useState({
+        itemImageUrl: "",
+        itemName: "",
+        itemSub: "",
+        numOfItems: "",
+        itemPrice: "",
+        date: ""
+    });
 
     useEffect(() => {
         (async () => {
@@ -161,6 +175,50 @@ const WishScreen = ({ navigation }) => {
         setMenuStatus(true);
     }
 
+    function openViewer(item) {
+        setViewItem({
+            itemImageUrl: item.itemImageUrl,
+            itemName: item.itemName,
+            itemSub: item.itemSub,
+            numOfItems: item.numOfItems,
+            itemPrice: item.itemPrice,
+            date: item.date
+        })
+        setorderViewStatus(true);
+    }
+
+    function closeViewer() {
+        setorderViewStatus(false);
+    }
+
+    async function deleteFromList(id) {
+        const jsonValue = await AsyncStorage.getItem('wishItems');
+        const res = jsonValue != null ? JSON.parse(jsonValue) : null;
+        // console.log("before", res);
+       
+        var remainingItems = [];
+        res.forEach(r => {
+            if (r.id === id && signedInUser.userID === r.userID) {
+                console.log("Found the item");
+            } else {
+                remainingItems.push(r);
+            }
+        });
+
+        // console.log("Remaining items", remainingItems);
+
+        const jsonSetValue = JSON.stringify(remainingItems);
+        await AsyncStorage.setItem('wishItems', jsonSetValue).then(async () => {
+            console.log("Success");
+            setDeleteStatus(true);
+            await getWishItems();
+        })
+    }
+
+    function closeDelete(){
+        setDeleteStatus(false)
+    }
+
 
     if (loadingStatus === true) {
         return (
@@ -188,6 +246,28 @@ const WishScreen = ({ navigation }) => {
                     <Image source={signedInUser.imageUrl === null ? userIcon : { uri: signedInUser.imageUrl }} style={styles.headerImage} />
                 </View>
             </View>
+
+            {orderViewStatus ?
+                <View style={{ width: "100%", height: "100%", zIndex: 99, backgroundColor: "rgba(0,0,0,0.5)", position: "absolute", top: 0, left: 0, justifyContent: "center", alignItems: "center" }}>
+                    <View style={{ width: "90%", height: "70%", backgroundColor: "#FFFEF5", borderRadius: 25 }}>
+                        <TouchableOpacity style={{ position: "absolute", right: "5%", top: "3%", width: 40, height: 40, backgroundColor: "#FFFEF5", zIndex: 99, justifyContent: "center", alignItems: "center", borderRadius: 40 }} onPress={closeViewer}>
+                            <Image source={closeIcon} style={{ width: 20, height: 20 }} />
+                        </TouchableOpacity>
+
+                        <Image source={viewItem.itemImageUrl ? { uri: viewItem.itemImageUrl } : subImg} style={{ width: "96%", height: "80%", objectFit: "cover", marginHorizontal: "2%", marginTop: "2%", borderRadius: 20 }} />
+                        <View style={[styles.cardDetailsCont, { marginHorizontal: 20 }]}>
+                            <Text style={[styles.cardItemTitle, { fontSize: 20 }]}>{viewItem.itemName ? `${viewItem.itemName}` : "Name"}</Text>
+                            <Text style={[styles.cardItemSubTitle, { fontSize: 15 }]}>{viewItem.date ? `${viewItem.date}` : "Date"}</Text> 
+                            <View style={[styles.priceCont, { position: "absolute", top: 0, right: 0 }]}>
+                                <Image source={priceIcon} style={styles.prepTimeIc} />
+                                <Text style={styles.prepTimeText}>{viewItem.itemPrice ? `R${viewItem.itemPrice}.00` : "R00.00"}</Text>
+                            </View>
+                            {/* <Text style={[styles.prepTimeText, { position: "absolute", right: 0, bottom: -40 }]}>Quantity: {viewItem.numOfItems ? `${viewItem.numOfItems}` : "1"}</Text> */}
+
+                        </View>
+                    </View>
+                </View>
+                : null}
             <ScrollView scrollEnabled={true} >
                 <>
                     <View >
@@ -199,9 +279,9 @@ const WishScreen = ({ navigation }) => {
                             <View style={styles.cartCont}>
                                 {items.map((item, index) => (
                                     <View style={styles.cartCard} key={index}>
-                                        <View style={styles.itemImgCont}>
+                                        <TouchableOpacity style={styles.itemImgCont} onPress={()=>openViewer(item)}>
                                             <Image source={item.itemImageUrl ? { uri: item.itemImageUrl } : subImg} style={styles.itemImg} />
-                                        </View>
+                                        </TouchableOpacity>
                                         <View style={styles.cardDetailsCont}>
                                             <Text style={styles.cardItemTitle}>{item.itemName ? `${item.itemName}` : "Title"}</Text>
                                             <Text style={styles.cardItemSubTitle}>{item.itemSub ? `${item.itemSub}` : "Sub Title"}</Text>
@@ -214,6 +294,9 @@ const WishScreen = ({ navigation }) => {
                                         <View style={[styles.countBtnCont, { position: "absolute", top: 15, right: 10 }]}>
                                             <Image source={wishIcon} style={{width:20,height:20}}/>
                                         </View>
+                                        <TouchableOpacity style={styles.deleteButnCont} onPress={() => deleteFromList(item.id, item.totalPrice)}>
+                                                <Image source={deleteIcon} style={styles.deleteButn} />
+                                            </TouchableOpacity>
                                     </View>
                                 ))}
 
@@ -227,6 +310,20 @@ const WishScreen = ({ navigation }) => {
                     </View>
                 </>
             </ScrollView>
+
+            {deleteStatus ?
+                <View style={{ width: "100%", height: "100%", zIndex: 99, backgroundColor: "rgba(0,0,0,0.5)", position: "absolute", top: 0, left: 0, justifyContent: "center", alignItems: "center" }}>
+                    <View style={{ width: "90%", height: "35%", backgroundColor: "#FFFEF5", borderRadius: 20, alignItems: "center", justifyContent: "center" }}>
+                        <View style={{ alignItems: "center", justifyContent: "center", width: "100%" }}>
+                            <Text style={[styles.modalTitle, { margin: 0 }]}>Successfully deleted.</Text>
+
+                            <TouchableOpacity style={{ height: 50, backgroundColor: "#7C9070", marginTop: 10, width: "70%", borderRadius: 50 }} onPress={closeDelete}>
+                                <Text style={styles.siBtnTxt}>Close</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+                : null}
             {menuStatus ?
         <SideNavComp setMenuStatus={setMenuStatus} />
         : null}
@@ -664,6 +761,21 @@ const styles = StyleSheet.create({
         width: "90%",
         height: "auto",
         marginHorizontal: "5%",
+    },
+
+    deleteButnCont: {
+        position: "absolute",
+        bottom: 10,
+        right: 10
+    },
+    deleteButn: {
+        height: 30,
+        width: 30
+    },
+    modalTitle: {
+        fontSize: 21,
+        fontWeight: "bold",
+        color: "#7C9070"
     },
     loadingScreen: {
         backgroundColor: "#FFFEF5",
