@@ -102,7 +102,7 @@ const OrdersScreen = () => {
         const jsonValue = await AsyncStorage.getItem('user');
         const resUser = jsonValue != null ? JSON.parse(jsonValue) : null;
 
-        // console.log("itemsId", list);
+        console.log("itemsId", list);
         var myItems = [];
         var totalIPrice = 0;
         var totalISubPrice = 0;
@@ -129,7 +129,7 @@ const OrdersScreen = () => {
                 }
             });
         });
-        // console.log(myItems);
+        console.log(myItems);
         let sortedItems = [];
         sortedItems = myItems.reduce((acc, obj) => {
             const date = obj.date;
@@ -145,14 +145,14 @@ const OrdersScreen = () => {
         const arr = Object.entries(sortedItems).map(([date, value]) => ({ date, value }));
         // console.log("arr[0].value",arr[0].value);
         setItems(arr);
-        setViewItem({
-            itemImageUrl: myItems[0].itemImageUrl,
-            itemName: myItems[0].itemName,
-            itemSub: myItems[0].itemSub,
-            numOfItems: myItems[0].numOfItems,
-            itemPrice: myItems[0].itemPrice,
-            date: myItems[0].date,
-        })
+        // setViewItem({
+        //     itemImageUrl: myItems[0].itemImageUrl,
+        //     itemName: myItems[0].itemName,
+        //     itemSub: myItems[0].itemSub,
+        //     numOfItems: myItems[0].numOfItems,
+        //     itemPrice: myItems[0].itemPrice,
+        //     date: myItems[0].date,
+        // })
         // console.log("myItems",myItems[0]);
         // totalIPrice = totalISubPrice + 60;
         // setItemsSubTotalPrice(totalISubPrice);
@@ -209,7 +209,6 @@ const OrdersScreen = () => {
                     <Image source={signedInUser.imageUrl === null ? userIcon : { uri: signedInUser.imageUrl }} style={styles.headerImage} />
                 </View>
             </View>
-            {/* {console.log("itemssss",items)} */}
 
             {orderViewStatus ?
                 <View style={{ width: "100%", height: "100%", zIndex: 99, backgroundColor: "rgba(0,0,0,0.5)", position: "absolute", top: 0, left: 0, justifyContent: "center", alignItems: "center" }}>

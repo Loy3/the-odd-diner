@@ -211,13 +211,13 @@ const CheckOutScreen = ({ navigation }) => {
             setloadingStatusStatus(true);
             var myItems = [];
             for (let c = 0; c < checkoutItems.length; c++) {
-                const data = {
+                const dataToS = {
                     itemID: checkoutItems[c].id,
                     numOfItems: checkoutItems[c].numOfItems.toString(),
                     totalPrice: checkoutItems[c].totalPrice.toString()
                 };
 
-                myItems.push(data);
+                myItems.push(dataToS);
             }
 
             const data = {

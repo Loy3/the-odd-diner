@@ -311,7 +311,7 @@ export const storeOrders = async (data) => {
         await fetch(url, {
             method: "POST",
             headers: {
-                "Authorization": `Firebase ${token}`,
+                // "Authorization": `Firebase ${token}`,
                 'ContentType': 'application/json'
             },
             body: JSON.stringify(dataToStore),
