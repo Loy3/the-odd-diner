@@ -4,7 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { authUrl, refreshTkn } from "./services/serviceAuth";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { StripeProvider } from '@stripe/stripe-react-native';
+const STRIPE_KEY = "pk_test_51NxPV0IvSlofnRIzU39U6CycGJAN6zbTVpk0iFghsLbIN9vFHrQOXNYq8WT2xqxQGkHTAWpnlaw6AKJ7F1XnI0Pu00aGV33DVU";
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import LaunchScreen from './components/LaunchScreen';
@@ -112,47 +113,48 @@ export default function App({ navigation }) {
   }
 
   return (
-    <NavigationContainer>
-      {/* <AppStack.Navigator screenOptions={{ headerShown: true }} > */}
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <StripeProvider publishableKey={STRIPE_KEY}>
+      <NavigationContainer>
+        {/* <AppStack.Navigator screenOptions={{ headerShown: true }} > */}
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
 
-        {isSignedIn ? (
-          <>
-             <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="Item" component={ViewItemScreen} />
-             <Stack.Screen name="Cart" component={CartScreen} />
-             <Stack.Screen name="Review" component={OrderReviewScreen} />  
-            <Stack.Screen name="Checkout" component={CheckOutScreen} /> 
-            <Stack.Screen name="ViewProfile" component={ViewProfileScreen} /> 
-            <Stack.Screen name="Orders" component={OrdersScreen} /> 
-            <Stack.Screen name="Wish" component={WishScreen} />
-            <Stack.Screen name="StopBy" component={StopByScreen} />
-            <Stack.Screen name="StopByTwo" component={StopByTwoScreen} />
-            <Stack.Screen name="SignOut">
-              {() => <SignOutScreen setSignIn={setSignIn} />}
-            </Stack.Screen>
+          {isSignedIn ? (
+            <>
+              <Stack.Screen name="Home" component={HomeScreen} />
+              <Stack.Screen name="Item" component={ViewItemScreen} />
+              <Stack.Screen name="Cart" component={CartScreen} />
+              <Stack.Screen name="Review" component={OrderReviewScreen} />
+              <Stack.Screen name="Checkout" component={CheckOutScreen} />
+              <Stack.Screen name="ViewProfile" component={ViewProfileScreen} />
+              <Stack.Screen name="Orders" component={OrdersScreen} />
+              <Stack.Screen name="Wish" component={WishScreen} />
+              <Stack.Screen name="StopBy" component={StopByScreen} />
+              <Stack.Screen name="StopByTwo" component={StopByTwoScreen} />
+              <Stack.Screen name="SignOut">
+                {() => <SignOutScreen setSignIn={setSignIn} />}
+              </Stack.Screen>
 
-          </>
-
-        )
-          :
-          (
-            <>            
-              <Stack.Screen name="LaunchPage" component={LaunchScreen} />
-              <Stack.Screen name="SignIn">
-                {() => <SignInScreen setSignIn={setSignIn} />}
-              </Stack.Screen>
-              <Stack.Screen name="SignUp">
-                {() => <SignUpScreen setSignIn={setSignIn} />}
-              </Stack.Screen>
-              <Stack.Screen name="Profile">
-                {() => <ProfileScreen setSignIn={setSignIn} />}
-              </Stack.Screen>
             </>
-          )
 
-        }
-        {/* {isSignedIn ? (
+          )
+            :
+            (
+              <>
+                <Stack.Screen name="LaunchPage" component={LaunchScreen} />
+                <Stack.Screen name="SignIn">
+                  {() => <SignInScreen setSignIn={setSignIn} />}
+                </Stack.Screen>
+                <Stack.Screen name="SignUp">
+                  {() => <SignUpScreen setSignIn={setSignIn} />}
+                </Stack.Screen>
+                <Stack.Screen name="Profile">
+                  {() => <ProfileScreen setSignIn={setSignIn} />}
+                </Stack.Screen>
+              </>
+            )
+
+          }
+          {/* {isSignedIn ? (
           <>
             <Stack.Screen name="Home" component={HomeScreen} initialParams={{ userMail }} />
             <Stack.Screen name="Journals" component={JournalsScreen} initialParams={{ userMail }} />
@@ -176,11 +178,12 @@ export default function App({ navigation }) {
           )
 
         } */}
-        {/* <AppStack.Screen name="DefaultScreen" component={DefaultScreen} options={{ headerShown: false }} /> */}
+          {/* <AppStack.Screen name="DefaultScreen" component={DefaultScreen} options={{ headerShown: false }} /> */}
 
 
-      </Stack.Navigator>
-    </NavigationContainer>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </StripeProvider>
   );
 }
 

@@ -257,7 +257,7 @@ const WishScreen = ({ navigation }) => {
                         <Image source={viewItem.itemImageUrl ? { uri: viewItem.itemImageUrl } : subImg} style={{ width: "96%", height: "80%", objectFit: "cover", marginHorizontal: "2%", marginTop: "2%", borderRadius: 20 }} />
                         <View style={[styles.cardDetailsCont, { marginHorizontal: 20 }]}>
                             <Text style={[styles.cardItemTitle, { fontSize: 20 }]}>{viewItem.itemName ? `${viewItem.itemName}` : "Name"}</Text>
-                            <Text style={[styles.cardItemSubTitle, { fontSize: 15 }]}>{viewItem.date ? `${viewItem.date}` : "Date"}</Text> 
+                            <Text style={[styles.cardItemSubTitle, { fontSize: 15 }]}>{viewItem.itemSub ? `${viewItem.itemSub}` : "Date"}</Text> 
                             <View style={[styles.priceCont, { position: "absolute", top: 0, right: 0 }]}>
                                 <Image source={priceIcon} style={styles.prepTimeIc} />
                                 <Text style={styles.prepTimeText}>{viewItem.itemPrice ? `R${viewItem.itemPrice}.00` : "R00.00"}</Text>

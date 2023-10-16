@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, Image, Button, TextInput, ScrollView } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, Image, Button, TextInput, ScrollView, Alert } from 'react-native';
 
 import { getItems, getUsers, storeOrders } from "../services/serviceStoreDoc";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { makePayment } from "../services/servicePayment";
+import { useStripe } from '@stripe/stripe-react-native';
 
 import backBtnIcon from "../assets/Icons/prev.png";
 import masterCardIcon from "../assets/Icons/card.png";
@@ -11,7 +13,7 @@ import locationIcon from "../assets/Icons/location2.png";
 import UpdateAddressComp from './UpdateAddressComp';
 import UpdateCardDetailsComp from './UpdateCardDetailsComp';
 
-import { CardField, useStripe } from '@stripe/stripe-react-native';
+// import { CardField, useStripe } from '@stripe/stripe-react-native';
 
 
 const CheckOutScreen = ({ navigation }) => {
@@ -37,10 +39,12 @@ const CheckOutScreen = ({ navigation }) => {
     const [itemsTotalPrice, setItemsTotalPrice] = useState("");
     const [itemsSubTotalPrice, setItemsSubTotalPrice] = useState("");
     const [checkoutItems, setCheckoutItems] = useState(null);
-    
+    const [alertStatus, setalertStatus] = useState(false);
+    const [alertMessage, setalertMessage] = useState("");
+    const {initPaymentSheet} = useStripe();
 
     useEffect(() => {
-              const unsubscribe = navigation.addListener("focus", async () => {
+        const unsubscribe = navigation.addListener("focus", async () => {
             setloadingStatusStatus(true);
             await getUser().then(async (user) => {
 
@@ -194,6 +198,24 @@ const CheckOutScreen = ({ navigation }) => {
     }
 
     async function confirmPament() {
+        const myAmount ={
+            amount: itemsTotalPrice
+        }
+        const results = await makePayment(myAmount);
+        console.log(results);
+
+        // if (results.error) {
+        //     setalertStatus(true);
+        //     setalertMessage("Something went wrong");
+        //     return;
+        // }
+
+
+
+        // await confirmOrder()
+    }
+
+    async function confirmOrder() {
         // console.log(checkoutItems[0].totalPrice);
 
         try {
@@ -261,6 +283,11 @@ user id,
 
     function closeSuccess() {
         setsuccessStatus(false);
+        navigation.navigate("Orders");
+    }
+
+    function closeAlert() {
+        setalertStatus(false);
         navigation.navigate("Orders");
     }
 
@@ -423,6 +450,21 @@ user id,
                             <Text style={[styles.modalTitle, { margin: 0 }]}>successfully made.</Text>
 
                             <TouchableOpacity style={{ height: 50, backgroundColor: "#7C9070", marginTop: 10, width: "70%", borderRadius: 50 }} onPress={closeSuccess}>
+                                <Text style={styles.siBtnTxt}>Close</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+                : null}
+
+            {alertStatus ?
+                <View style={{ width: "100%", height: "100%", zIndex: 99, backgroundColor: "rgba(0,0,0,0.5)", position: "absolute", top: 0, left: 0, justifyContent: "center", alignItems: "center" }}>
+                    <View style={{ width: "90%", height: "35%", backgroundColor: "#FFFEF5", borderRadius: 20, alignItems: "center", justifyContent: "center" }}>
+                        <View style={{ alignItems: "center", justifyContent: "center", width: "100%" }}>
+                            <Text style={[styles.modalTitle, { margin: 0 }]}>Message</Text>
+                            <Text style={[styles.modalTitle, { margin: 0 }]}>{alertMessage}</Text>
+
+                            <TouchableOpacity style={{ height: 50, backgroundColor: "#7C9070", marginTop: 10, width: "70%", borderRadius: 50 }} onPress={closeAlert}>
                                 <Text style={styles.siBtnTxt}>Close</Text>
                             </TouchableOpacity>
                         </View>
