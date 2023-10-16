@@ -102,7 +102,7 @@ const OrdersScreen = () => {
         const jsonValue = await AsyncStorage.getItem('user');
         const resUser = jsonValue != null ? JSON.parse(jsonValue) : null;
 
-        console.log("itemsId", list);
+        // console.log("itemsId", list);
         var myItems = [];
         var totalIPrice = 0;
         var totalISubPrice = 0;
@@ -129,7 +129,7 @@ const OrdersScreen = () => {
                 }
             });
         });
-        console.log(myItems);
+        // console.log(myItems);
         let sortedItems = [];
         sortedItems = myItems.reduce((acc, obj) => {
             const date = obj.date;

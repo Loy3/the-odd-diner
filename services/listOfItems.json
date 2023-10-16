@@ -407,6 +407,414 @@
             },
             "createTime": "2023-09-28T12:28:16.607813Z",
             "updateTime": "2023-09-28T12:28:16.607813Z"
+        },
+        {
+            "name": "projects/the-hidden-inn/databases/(default)/documents/oddItems/3poFrpB10BYRmRQiDORP",
+            "fields": {
+                "itemStatus": {
+                    "stringValue": "not"
+                },
+                "itemPrice": {
+                    "stringValue": "230"
+                },
+                "itemImageName": {
+                    "stringValue": "11.jpg"
+                },
+                "itemPrepTime": {
+                    "stringValue": "10 - 20 min"
+                },
+                "itemDescription": {
+                    "stringValue": "Introducing our mouthwatering grilled chicken, a tantalizing blend of juicy flavors and smoky goodness. Savor the succulent tenderness with every bite, as the perfectly seasoned spices dance on your taste buds. Experience the ultimate grilling sensation that will leave you craving for more."
+                },
+                "itemImageUrl": {
+                    "stringValue": "https://firebasestorage.googleapis.com/v0/b/the-hidden-inn.appspot.com/o/oddItems%2F11.jpg?alt=media&token=1025de49-5d65-4a7b-8442-5480983f8f1d"
+                },
+                "itemSub": {
+                    "stringValue": "Grilled Chicken."
+                },
+                "itemName": {
+                    "stringValue": "Grilly Chick"
+                },
+                "itemCategory": {
+                    "stringValue": "dinner"
+                }
+            },
+            "createTime": "2023-10-16T09:03:47.573538Z",
+            "updateTime": "2023-10-16T09:03:47.573538Z"
+        },
+        {
+            "name": "projects/the-hidden-inn/databases/(default)/documents/oddItems/Elyo5Sz4rnxgWHlUmgbG",
+            "fields": {
+                "itemImageUrl": {
+                    "stringValue": "https://firebasestorage.googleapis.com/v0/b/the-hidden-inn.appspot.com/o/oddItems%2F42.jpg?alt=media&token=11cf3619-0ae3-4d81-9c88-bf745783fc61"
+                },
+                "itemStatus": {
+                    "stringValue": "not"
+                },
+                "itemImageName": {
+                    "stringValue": "42.jpg"
+                },
+                "itemCategory": {
+                    "stringValue": "lunch"
+                },
+                "itemName": {
+                    "stringValue": "Meat Veg"
+                },
+                "itemPrepTime": {
+                    "stringValue": "10 - 20 min"
+                },
+                "itemPrice": {
+                    "stringValue": "110"
+                },
+                "itemDescription": {
+                    "stringValue": "Introducing the ultimate burger experience - our mouthwatering meat and veggie burger! Sink your teeth into a juicy patty made with the finest cuts of meat, perfectly complemented by a flavorful medley of fresh veggies. Indulge in the best of both worlds with every delicious bite. Try our meat and veggie burger today and elevate your burger game to a whole new level!"
+                },
+                "itemSub": {
+                    "stringValue": "Meat & veggie burger."
+                }
+            },
+            "createTime": "2023-10-16T09:29:32.113230Z",
+            "updateTime": "2023-10-16T09:29:32.113230Z"
+        },
+        {
+            "name": "projects/the-hidden-inn/databases/(default)/documents/oddItems/L4MfY6n3Bldpi9abcGSj",
+            "fields": {
+                "itemSub": {
+                    "stringValue": "Fresh citrus juice."
+                },
+                "itemDescription": {
+                    "stringValue": "Introducing the epitome of refreshment - our freshly squeezed juice! Bursting with vibrant flavors and packed with vitamins, each sip is a revitalizing journey for your taste buds. Discover the perfect blend of nature's goodness in every glass."
+                },
+                "itemImageUrl": {
+                    "stringValue": "https://firebasestorage.googleapis.com/v0/b/the-hidden-inn.appspot.com/o/oddItems%2F40.jpg?alt=media&token=e50ce7e2-735d-4f36-925d-ba33fef92c71"
+                },
+                "itemPrice": {
+                    "stringValue": "50"
+                },
+                "itemCategory": {
+                    "stringValue": "beverages"
+                },
+                "itemName": {
+                    "stringValue": "Lemon & Orange"
+                },
+                "itemImageName": {
+                    "stringValue": "40.jpg"
+                },
+                "itemPrepTime": {
+                    "stringValue": "none"
+                },
+                "itemStatus": {
+                    "stringValue": "popular"
+                }
+            },
+            "createTime": "2023-10-16T09:39:11.484857Z",
+            "updateTime": "2023-10-16T09:39:11.484857Z"
+        },
+        {
+            "name": "projects/the-hidden-inn/databases/(default)/documents/oddItems/ZJSrRUas5jEUqD1cHTkL",
+            "fields": {
+                "itemName": {
+                    "stringValue": "Omellie"
+                },
+                "itemImageUrl": {
+                    "stringValue": "https://firebasestorage.googleapis.com/v0/b/the-hidden-inn.appspot.com/o/oddItems%2F30.jpg?alt=media&token=464ffea2-2322-4fdf-93ea-988b0d7718c8"
+                },
+                "itemImageName": {
+                    "stringValue": "30.jpg"
+                },
+                "itemStatus": {
+                    "stringValue": "not"
+                },
+                "itemPrepTime": {
+                    "stringValue": "10 - 20 min"
+                },
+                "itemSub": {
+                    "stringValue": "Egg Omelette."
+                },
+                "itemDescription": {
+                    "stringValue": "Indulge in the perfect breakfast treat with our mouthwatering egg omelette. Made with farm-fresh eggs, a medley of savory ingredients, and cooked to perfection, each bite is a delightful explosion of flavors. Start your day right with our irresistible omelette that will leave you craving for more!"
+                },
+                "itemCategory": {
+                    "stringValue": "lunch"
+                },
+                "itemPrice": {
+                    "stringValue": "100"
+                }
+            },
+            "createTime": "2023-10-16T09:26:42.754150Z",
+            "updateTime": "2023-10-16T09:26:42.754150Z"
+        },
+        {
+            "name": "projects/the-hidden-inn/databases/(default)/documents/oddItems/asCtB7RZ26A6Ao1OVtO0",
+            "fields": {
+                "itemDescription": {
+                    "stringValue": "Introducing the ultimate breakfast delight: the Egg Burger. Sink your teeth into a juicy beef patty topped with a perfectly fried egg, nestled between two soft, toasted buns. It's a mouthwatering combination that will leave you craving for more. Try our Egg Burger today and experience a breakfast like no other."
+                },
+                "itemSub": {
+                    "stringValue": "Egg Burger."
+                },
+                "itemImageUrl": {
+                    "stringValue": "https://firebasestorage.googleapis.com/v0/b/the-hidden-inn.appspot.com/o/oddItems%2F37.jpg?alt=media&token=7efdbec4-cd19-4ede-bbe2-cae5405e7cfb"
+                },
+                "itemName": {
+                    "stringValue": "Eggie Burger"
+                },
+                "itemPrepTime": {
+                    "stringValue": "10 - 15 min"
+                },
+                "itemStatus": {
+                    "stringValue": "not"
+                },
+                "itemPrice": {
+                    "stringValue": "50"
+                },
+                "itemCategory": {
+                    "stringValue": "breakfast"
+                },
+                "itemImageName": {
+                    "stringValue": "37.jpg"
+                }
+            },
+            "createTime": "2023-10-16T08:50:06.206313Z",
+            "updateTime": "2023-10-16T08:50:06.206313Z"
+        },
+        {
+            "name": "projects/the-hidden-inn/databases/(default)/documents/oddItems/bIy40y0chAfqzMXzj07r",
+            "fields": {
+                "itemName": {
+                    "stringValue": "Vino Elegante"
+                },
+                "itemImageName": {
+                    "stringValue": "26.jpg"
+                },
+                "itemSub": {
+                    "stringValue": "Conventual Wine."
+                },
+                "itemPrepTime": {
+                    "stringValue": "none"
+                },
+                "itemStatus": {
+                    "stringValue": "not"
+                },
+                "itemCategory": {
+                    "stringValue": "beverages"
+                },
+                "itemPrice": {
+                    "stringValue": "150"
+                },
+                "itemImageUrl": {
+                    "stringValue": "https://firebasestorage.googleapis.com/v0/b/the-hidden-inn.appspot.com/o/oddItems%2F26.jpg?alt=media&token=d7f34296-9c4d-42a5-8f92-27d8f21c447f"
+                },
+                "itemDescription": {
+                    "stringValue": "Introducing Vino Elegante - the epitome of sophistication and taste. Crafted from handpicked grapes, this conventual wine delivers a velvety smoothness that dances on the palate. With its rich aromas and exquisite flavors, indulge in a truly divine experience with Vino Elegante."
+                }
+            },
+            "createTime": "2023-10-16T09:13:19.665673Z",
+            "updateTime": "2023-10-16T09:13:19.665673Z"
+        },
+        {
+            "name": "projects/the-hidden-inn/databases/(default)/documents/oddItems/cXKVsS6Aw70kobL1362l",
+            "fields": {
+                "itemSub": {
+                    "stringValue": "A cup of coffee."
+                },
+                "itemName": {
+                    "stringValue": "Mr. Coffee"
+                },
+                "itemPrepTime": {
+                    "stringValue": "none"
+                },
+                "itemDescription": {
+                    "stringValue": "Introducing the perfect brew for coffee enthusiasts! Our premium blend boasts rich flavors and a velvety smooth finish, ensuring every sip is a moment of pure bliss. Indulge in the ultimate coffee experience today and awaken your senses with our irresistible blend."
+                },
+                "itemCategory": {
+                    "stringValue": "beverages"
+                },
+                "itemImageUrl": {
+                    "stringValue": "https://firebasestorage.googleapis.com/v0/b/the-hidden-inn.appspot.com/o/oddItems%2F50.jpg?alt=media&token=4dd7f747-4afd-4822-8f0f-816bb255be70"
+                },
+                "itemPrice": {
+                    "stringValue": "40"
+                },
+                "itemImageName": {
+                    "stringValue": "50.jpg"
+                },
+                "itemStatus": {
+                    "stringValue": "not"
+                }
+            },
+            "createTime": "2023-10-16T09:15:06.524837Z",
+            "updateTime": "2023-10-16T09:15:06.524837Z"
+        },
+        {
+            "name": "projects/the-hidden-inn/databases/(default)/documents/oddItems/eytwrobx6Af90y0rRV4F",
+            "fields": {
+                "itemName": {
+                    "stringValue": "Strawy"
+                },
+                "itemSub": {
+                    "stringValue": "Strawberry Topping Cake."
+                },
+                "itemImageUrl": {
+                    "stringValue": "https://firebasestorage.googleapis.com/v0/b/the-hidden-inn.appspot.com/o/oddItems%2F34.jpg?alt=media&token=57392898-1d42-442b-a2b8-7ee44bee634e"
+                },
+                "itemCategory": {
+                    "stringValue": "breakfast"
+                },
+                "itemImageName": {
+                    "stringValue": "34.jpg"
+                },
+                "itemPrice": {
+                    "stringValue": "100"
+                },
+                "itemPrepTime": {
+                    "stringValue": "10 - 15 min"
+                },
+                "itemStatus": {
+                    "stringValue": "not"
+                },
+                "itemDescription": {
+                    "stringValue": "Indulge in pure bliss with every bite of our luscious strawberry cake. Moist layers of vanilla sponge are generously filled with fresh strawberry compote, creating a burst of fruity flavor. Topped with a velvety cream frosting and adorned with delicate strawberry slices, this cake is a delightful treat for any occasion. Order now and experience the taste of sweet perfection."
+                }
+            },
+            "createTime": "2023-10-16T08:52:24.730538Z",
+            "updateTime": "2023-10-16T08:52:24.730538Z"
+        },
+        {
+            "name": "projects/the-hidden-inn/databases/(default)/documents/oddItems/iDQ4fK4mxsDV0Dody3hK",
+            "fields": {
+                "itemSub": {
+                    "stringValue": "Spaghetti & Veggies."
+                },
+                "itemCategory": {
+                    "stringValue": "dinner"
+                },
+                "itemDescription": {
+                    "stringValue": "Indulge in the perfect blend of flavors with our mouthwatering spaghetti and veggie meal. Savor every bite as the pasta twirls around your fork, accompanied by a vibrant medley of fresh vegetables. Experience a wholesome and satisfying dish that will leave you craving for more."
+                },
+                "itemStatus": {
+                    "stringValue": "popular"
+                },
+                "itemImageName": {
+                    "stringValue": "14.jpg"
+                },
+                "itemPrepTime": {
+                    "stringValue": "15 - 25 min"
+                },
+                "itemImageUrl": {
+                    "stringValue": "https://firebasestorage.googleapis.com/v0/b/the-hidden-inn.appspot.com/o/oddItems%2F14.jpg?alt=media&token=3932033a-a9f8-496c-9700-15c0393bfbea"
+                },
+                "itemPrice": {
+                    "stringValue": "130"
+                },
+                "itemName": {
+                    "stringValue": "Spaggie & Veggie"
+                }
+            },
+            "createTime": "2023-10-16T09:01:51.195023Z",
+            "updateTime": "2023-10-16T09:01:51.195023Z"
+        },
+        {
+            "name": "projects/the-hidden-inn/databases/(default)/documents/oddItems/ibXAFVmY2UDSiMbxhADz",
+            "fields": {
+                "itemDescription": {
+                    "stringValue": "Indulge in the perfect blend of sweetness and earthy goodness with our carrot and caramel cake. Moist, flavorful carrot cake layers are infused with luscious caramel, creating a heavenly combination that will leave you craving more. Experience the ultimate treat for your taste buds and order our irresistible carrot and caramel cake today!"
+                },
+                "itemImageName": {
+                    "stringValue": "18.jpg"
+                },
+                "itemName": {
+                    "stringValue": "Carrot Mel"
+                },
+                "itemImageUrl": {
+                    "stringValue": "https://firebasestorage.googleapis.com/v0/b/the-hidden-inn.appspot.com/o/oddItems%2F18.jpg?alt=media&token=e868f4ad-4b0f-4c18-bd44-39f32d071c10"
+                },
+                "itemPrice": {
+                    "stringValue": "80"
+                },
+                "itemSub": {
+                    "stringValue": "Carrot & Caramel Cake."
+                },
+                "itemStatus": {
+                    "stringValue": "popular"
+                },
+                "itemCategory": {
+                    "stringValue": "breakfast"
+                },
+                "itemPrepTime": {
+                    "stringValue": "10 - 15 min"
+                }
+            },
+            "createTime": "2023-10-16T08:54:51.035734Z",
+            "updateTime": "2023-10-16T08:58:22.658345Z"
+        },
+        {
+            "name": "projects/the-hidden-inn/databases/(default)/documents/oddItems/izBMjOreTvPAA40raNLh",
+            "fields": {
+                "itemImageName": {
+                    "stringValue": "39.jpg"
+                },
+                "itemImageUrl": {
+                    "stringValue": "https://firebasestorage.googleapis.com/v0/b/the-hidden-inn.appspot.com/o/oddItems%2F39.jpg?alt=media&token=c7e4afe5-15b6-4282-a7c0-6d3e3789227a"
+                },
+                "itemSub": {
+                    "stringValue": "Corn Fries."
+                },
+                "itemStatus": {
+                    "stringValue": "popular"
+                },
+                "itemPrepTime": {
+                    "stringValue": "10 - 20 min"
+                },
+                "itemPrice": {
+                    "stringValue": "50"
+                },
+                "itemCategory": {
+                    "stringValue": "lunch"
+                },
+                "itemName": {
+                    "stringValue": "CornFry"
+                },
+                "itemDescription": {
+                    "stringValue": "Introducing our irresistible corn fried fries! Made from the finest golden corn, our fries are expertly seasoned and fried to perfection. Crispy on the outside, fluffy on the inside, they're the ultimate indulgence for corn lovers. Try our corn fried fries today and experience a taste sensation like no other!"
+                }
+            },
+            "createTime": "2023-10-16T09:24:09.735201Z",
+            "updateTime": "2023-10-16T09:24:09.735201Z"
+        },
+        {
+            "name": "projects/the-hidden-inn/databases/(default)/documents/oddItems/weUWVzaBXdf22eHYRqSl",
+            "fields": {
+                "itemName": {
+                    "stringValue": "Something Fishy"
+                },
+                "itemImageName": {
+                    "stringValue": "4.jpg"
+                },
+                "itemImageUrl": {
+                    "stringValue": "https://firebasestorage.googleapis.com/v0/b/the-hidden-inn.appspot.com/o/oddItems%2F4.jpg?alt=media&token=cd8ed3e6-078d-4fac-9f0f-541d245d858f"
+                },
+                "itemCategory": {
+                    "stringValue": "dinner"
+                },
+                "itemStatus": {
+                    "stringValue": "not"
+                },
+                "itemSub": {
+                    "stringValue": "Grilled Fish."
+                },
+                "itemPrepTime": {
+                    "stringValue": "10 - 20 min"
+                },
+                "itemDescription": {
+                    "stringValue": "Indulge in the perfect harmony of flavors with our succulent grilled fish, expertly seasoned to perfection. Served alongside velvety smooth mashed potatoes, every bite is a delightful symphony of taste and texture. Elevate your dining experience with our delectable combination, crafted to satisfy even the most discerning palates."
+                },
+                "itemPrice": {
+                    "stringValue": "150"
+                }
+            },
+            "createTime": "2023-10-16T09:05:34.310641Z",
+            "updateTime": "2023-10-16T09:10:24.755622Z"
         }
     ]
 }
