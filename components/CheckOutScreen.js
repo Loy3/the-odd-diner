@@ -41,6 +41,7 @@ const CheckOutScreen = ({ navigation }) => {
     const [checkoutItems, setCheckoutItems] = useState(null);
     const [alertStatus, setalertStatus] = useState(false);
     const [alertMessage, setalertMessage] = useState("");
+    const [alertMessageHead, setalertMessageHead] = useState("Message");
     const { initPaymentSheet, presentPaymentSheet } = useStripe();
 
     useEffect(() => {
@@ -209,29 +210,38 @@ const CheckOutScreen = ({ navigation }) => {
         if (results.error) {
             console.log(results.error);
             setalertStatus(true);
+            setalertMessageHead("Message");
             setalertMessage("Something went wrong");
             return;
         }
 
         const initResponse = await initPaymentSheet({
-            merchantDisplayName:"The Odd Diner",
+            merchantDisplayName: "The Odd Diner",
             paymentIntentClientSecret: results.paymentIntent,
             defaultBillingDetails: {
                 name: `${signedInUser.firstname} ${signedInUser.lastname}`,
-                address:`${signedInUser.address} ${signedInUser.city} ${signedInUser.addressZip}`
+                address: `${signedInUser.address} ${signedInUser.city} ${signedInUser.addressZip}`
             }
         })
 
         if (initResponse.error) {
             console.log(initResponse.error);
             setalertStatus(true);
+            setalertMessageHead("Message");
             setalertMessage("Something went wrong");
             return;
         }
 
-        await presentPaymentSheet()
+        const paymentResponse = await presentPaymentSheet();
 
-        // await confirmOrder()
+        if (paymentResponse.error) {
+            setalertMessageHead(`${paymentResponse.error.code}`);
+            setalertMessage(`${paymentResponse.error.message}`);
+            setalertStatus(true);
+            return;
+        }
+
+        await confirmOrder();
     }
 
     async function confirmOrder() {
@@ -307,6 +317,11 @@ user id,
 
     function closeAlert() {
         setalertStatus(false);
+    }
+
+    function convertToUsd() {
+        const convAmount = Math.floor((parseInt(itemsTotalPrice) * 0.053));
+        return convAmount;
     }
 
 
@@ -432,6 +447,10 @@ user id,
                                 <Text style={styles.totalLeft}>Total</Text>
                                 <Text style={styles.totalRight}>R{itemsTotalPrice}.00</Text>
                             </View>
+                            <View style={{ flexDirection: "row" }}>
+                                <Text style={styles.totalLeft}>Total in USD</Text>
+                                <Text style={styles.totalRight}>${convertToUsd()}.00</Text>
+                            </View>
 
 
                         </View>
@@ -479,8 +498,8 @@ user id,
                 <View style={{ width: "100%", height: "100%", zIndex: 99, backgroundColor: "rgba(0,0,0,0.5)", position: "absolute", top: 0, left: 0, justifyContent: "center", alignItems: "center" }}>
                     <View style={{ width: "90%", height: "35%", backgroundColor: "#FFFEF5", borderRadius: 20, alignItems: "center", justifyContent: "center" }}>
                         <View style={{ alignItems: "center", justifyContent: "center", width: "100%" }}>
-                            <Text style={[styles.modalTitle, { margin: 0 }]}>Message</Text>
-                            <Text style={[styles.modalTitle, { margin: 0 }]}>{alertMessage}</Text>
+                            <Text style={[styles.modalTitle, { margin: 0, fontSize:24 }]}>{alertMessageHead}</Text>
+                            <Text style={[styles.modalTitle, { marginVertical: 8, textAlign:"center", fontSize:16 }]}>{alertMessage}</Text>
 
                             <TouchableOpacity style={{ height: 50, backgroundColor: "#7C9070", marginTop: 10, width: "70%", borderRadius: 50 }} onPress={closeAlert}>
                                 <Text style={styles.siBtnTxt}>Close</Text>
@@ -673,7 +692,7 @@ const styles = StyleSheet.create({
 
     pricingCont: {
         width: "90%",
-        height: 200,
+        height: 250,
         marginHorizontal: "5%",
         // backgroundColor: "yellow",
         marginTop: 100,
