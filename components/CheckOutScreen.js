@@ -41,7 +41,7 @@ const CheckOutScreen = ({ navigation }) => {
     const [checkoutItems, setCheckoutItems] = useState(null);
     const [alertStatus, setalertStatus] = useState(false);
     const [alertMessage, setalertMessage] = useState("");
-    const { initPaymentSheet } = useStripe();
+    const { initPaymentSheet, presentPaymentSheet } = useStripe();
 
     useEffect(() => {
         const unsubscribe = navigation.addListener("focus", async () => {
@@ -206,13 +206,30 @@ const CheckOutScreen = ({ navigation }) => {
         const results = await makePayment(convAmount);
         console.log(results);
 
-        // if (results.error) {
-        //     setalertStatus(true);
-        //     setalertMessage("Something went wrong");
-        //     return;
-        // }
+        if (results.error) {
+            console.log(results.error);
+            setalertStatus(true);
+            setalertMessage("Something went wrong");
+            return;
+        }
 
+        const initResponse = await initPaymentSheet({
+            merchantDisplayName:"The Odd Diner",
+            paymentIntentClientSecret: results.paymentIntent,
+            defaultBillingDetails: {
+                name: `${signedInUser.firstname} ${signedInUser.lastname}`,
+                address:`${signedInUser.address} ${signedInUser.city} ${signedInUser.addressZip}`
+            }
+        })
 
+        if (initResponse.error) {
+            console.log(initResponse.error);
+            setalertStatus(true);
+            setalertMessage("Something went wrong");
+            return;
+        }
+
+        await presentPaymentSheet()
 
         // await confirmOrder()
     }
@@ -290,7 +307,6 @@ user id,
 
     function closeAlert() {
         setalertStatus(false);
-        navigation.navigate("Orders");
     }
 
 
