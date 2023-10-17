@@ -41,7 +41,7 @@ const CheckOutScreen = ({ navigation }) => {
     const [checkoutItems, setCheckoutItems] = useState(null);
     const [alertStatus, setalertStatus] = useState(false);
     const [alertMessage, setalertMessage] = useState("");
-    const {initPaymentSheet} = useStripe();
+    const { initPaymentSheet } = useStripe();
 
     useEffect(() => {
         const unsubscribe = navigation.addListener("focus", async () => {
@@ -198,10 +198,12 @@ const CheckOutScreen = ({ navigation }) => {
     }
 
     async function confirmPament() {
-        const myAmount ={
-            amount: itemsTotalPrice
+        const convAmount = Math.floor((parseInt(itemsTotalPrice) * 0.053) * 100);
+        console.log(convAmount);
+        const myAmount = {
+            amount: convAmount
         }
-        const results = await makePayment(myAmount);
+        const results = await makePayment(convAmount);
         console.log(results);
 
         // if (results.error) {
