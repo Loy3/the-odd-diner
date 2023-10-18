@@ -167,48 +167,50 @@ const CheckOutScreen = ({ navigation }) => {
 
 
 
-    const handlePayment = async () => {
-        const { paymentMethod, error } = await confirmPaymentMethod({
-            type: 'Card',
-            billingDetails: {
-                email: 'test@example.com',
-            },
-        });
+    // const handlePayment = async () => {
+    //     const { paymentMethod, error } = await confirmPaymentMethod({
+    //         type: 'Card',
+    //         billingDetails: {
+    //             email: 'test@example.com',
+    //         },
+    //     });
 
-        if (error) {
-            console.log('Error:', error.message);
-        } else {
-            console.log('Payment method:', paymentMethod);
-            // Handle successful payment
-        }
-    };
+    //     if (error) {
+    //         console.log('Error:', error.message);
+    //     } else {
+    //         console.log('Payment method:', paymentMethod);
+    //         // Handle successful payment
+    //     }
+    // };
 
-    const [paymentStatus, setPaymentStatus] = useState(false);
+    // const [paymentStatus, setPaymentStatus] = useState(false);
 
-    function handlePaymentType(type) {
-        switch (type) {
-            case "card":
-                setPaymentStatus(false);
-                break;
-            case "eft":
-                setPaymentStatus(true);
-                break;
-            default:
-                console.log("nothing to choose");
-        }
-    }
+    // function handlePaymentType(type) {
+    //     switch (type) {
+    //         case "card":
+    //             setPaymentStatus(false);
+    //             break;
+    //         case "eft":
+    //             setPaymentStatus(true);
+    //             break;
+    //         default:
+    //             console.log("nothing to choose");
+    //     }
+    // }
 
     async function confirmPament() {
         const convAmount = Math.floor(parseInt(itemsTotalPrice) * 100);
         console.log(convAmount);
+        setloadingStatusStatus(true);
         const myAmount = {
             amount: convAmount
         }
         const results = await makePayment(convAmount);
-        console.log(results);
+        // console.log(results);
 
         if (results.error) {
             console.log(results.error);
+            setloadingStatusStatus(false);
             setalertStatus(true);
             setalertMessageHead("Message");
             setalertMessage("Something went wrong");
@@ -226,15 +228,29 @@ const CheckOutScreen = ({ navigation }) => {
 
         if (initResponse.error) {
             console.log(initResponse.error);
+            setloadingStatusStatus(false);
             setalertStatus(true);
             setalertMessageHead("Message");
             setalertMessage("Something went wrong");
             return;
         }
-
-        const paymentResponse = await presentPaymentSheet();
+        setloadingStatusStatus(false);
+        const cardDetails = {
+            number: '4242424242424242',
+            expMonth: 12,
+            expYear: 2024,
+            cvc: '123',
+          };
+        const paymentResponse = await presentPaymentSheet(
+        //     {
+        //     paymentMethodOptions: {
+        //         card: cardDetails,
+        //       },
+        // }
+        );
 
         if (paymentResponse.error) {
+            setloadingStatusStatus(false);
             setalertMessageHead(`${paymentResponse.error.code}`);
             setalertMessage(`${paymentResponse.error.message}`);
             setalertStatus(true);

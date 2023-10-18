@@ -75,7 +75,7 @@ const UpdateUserComp = ({ setUpPersonalDStatus }) => {
         } else {
             setWarningMsg("");
             setWarningStatus(false)
-            console.log(lastname);
+            // console.log(lastname);
 
             const res = {
                 firstname: firstname,

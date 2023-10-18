@@ -187,7 +187,7 @@ const ProfileScreen = ({ setSignIn }) => {
 
                 setloadingStatusStatus(true);
                 //Store
-                console.log(userImage);
+                // console.log(userImage);
 
                 const blob = await new Promise((resolve, reject) => {
                     const xhr = new XMLHttpRequest();
@@ -195,7 +195,7 @@ const ProfileScreen = ({ setSignIn }) => {
                         try {
                             resolve(xhr.response);
                         } catch (error) {
-                            console.log("Line 205 error:", error);
+                            console.log("Error:", error);
                         }
                     };
                     xhr.onerror = (e) => {
@@ -255,16 +255,16 @@ const ProfileScreen = ({ setSignIn }) => {
                                 console.log("very saved");
                                 setloadingStatusStatus(false);
                                 await AsyncStorage.removeItem('physicalAddress').then(async () => {
-                                    console.log("Address removed");
+                                    // console.log("Address removed");
                                     await AsyncStorage.removeItem('cardDetails').then(() => {
-                                        console.log("Card Details removed");
+                                        // console.log("Card Details removed");
 
                                     }).then(async () => {
                                         const userRes = JSON.stringify(await getUser());
                                         await AsyncStorage.setItem('user', userRes).then(async () => {
                                             console.log("Success");
                                             await AsyncStorage.removeItem('myUser').then(() => {
-                                                console.log("myUser removed");
+                                                // console.log("myUser removed");
                                                 // navigation.navigate("Home")
                                                 setSignIn(true)
                                             })
@@ -330,7 +330,7 @@ const ProfileScreen = ({ setSignIn }) => {
             quality: 1,
         });
 
-        console.log(result);
+        // console.log(result);
 
         if (!result.canceled) {
             setUserImage(result.assets[0].uri);

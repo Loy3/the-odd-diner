@@ -4,13 +4,13 @@ export function nextPopular(type) {
     for (let p = 0; p < storePopularItems.length; p++) {
       if (storePopularItems[p].itemName === type) {
         itemIndex = p;
-        console.log("first",itemIndex);
+        // console.log("first",itemIndex);
         itemIndex++;
       }
     }
-    console.log(itemIndex);
+    // console.log(itemIndex);
     const arrLength = storePopularItems.length - 1;
-    console.log(arrLength);
+    // console.log(arrLength);
     if (itemIndex <= arrLength) {
       setPopularItems({
         id: storePopularItems[itemIndex].id,

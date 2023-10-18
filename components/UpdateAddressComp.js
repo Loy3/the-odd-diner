@@ -61,7 +61,7 @@ const UpdateAddressComp = ({ setpopUpStatus }) => {
         } else {
             setWarningMsg("");
             setWarningStatus(false)
-            console.log(streetAddr);
+            // console.log(streetAddr);
             const res = {
                 streetAddr: streetAddr,
                 city: city,

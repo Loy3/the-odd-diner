@@ -114,7 +114,7 @@ const HomeScreen = ({ navigation }) => {
 
     const user = await getUsers(res.localId)
     // console.log("Ress", res);
-    console.log("signed in user", user[0].lastname.stringValue);
+    // console.log("signed in user", user[0].lastname.stringValue);
     setSignedInUser({
       firstname: user[0].firstname.stringValue,
       lastname: user[0].lastname.stringValue,
@@ -252,7 +252,7 @@ const HomeScreen = ({ navigation }) => {
   }
 
   async function viewItem(id) {
-    console.log(id);
+    // console.log(id);
     const itemId = {
       id: id
     }
@@ -265,7 +265,7 @@ const HomeScreen = ({ navigation }) => {
 
   async function addToCart(id) {
     const res = await checkCart(id);
-    console.log(res);
+    // console.log(res);
 
     if (res === true) {
       console.log("Item already added");
@@ -296,14 +296,14 @@ const HomeScreen = ({ navigation }) => {
       const result = jsonValue != null ? JSON.parse(jsonValue) : null;
       // await AsyncStorage.removeItem('cartItems')
 
-      console.log("res", res);
+      // console.log("res", res);
       var itemsToCart = [];
       var itemId = {
         id: id,
         userID: signedInUser.userID
       }
 
-      console.log(itemId);
+      // console.log(itemId);
       if (result === null) {
         itemsToCart.push(itemId);
         const jsonSetValue = JSON.stringify(itemsToCart);

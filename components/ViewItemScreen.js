@@ -76,7 +76,7 @@ const ViewItemScreen = ({ navigation }) => {
         const res = jsonValue != null ? JSON.parse(jsonValue) : null;
         // console.log("Ress", user[0]);
         const user = await getUsers(res.localId)
-        console.log("signed in user", user[0].lastname.stringValue);
+        // console.log("signed in user", user[0].lastname.stringValue);
         setSignedInUser({
             firstname: user[0].firstname.stringValue,
             lastname: user[0].lastname.stringValue,
@@ -130,7 +130,7 @@ const ViewItemScreen = ({ navigation }) => {
         const res = jsonValue != null ? JSON.parse(jsonValue) : null;
         // await AsyncStorage.removeItem('cartItems')
 
-        console.log("res", res);
+        // console.log("res", res);
         var itemsToCart = [];
         var itemId = {
             id: id,
@@ -141,9 +141,9 @@ const ViewItemScreen = ({ navigation }) => {
             // res.forEach(r => {
             //     itemsToCart.push(r);
             // });
-            console.log("itemsToCart before", itemsToCart);
+            // console.log("itemsToCart before", itemsToCart);
             itemsToCart.push(itemId);
-            console.log("itemsToCart after", itemsToCart);
+            // console.log("itemsToCart after", itemsToCart);
             const jsonSetValue = JSON.stringify(itemsToCart);
             await AsyncStorage.setItem('cartItems', jsonSetValue).then(() => {
                 console.log("Success 1");
@@ -153,9 +153,9 @@ const ViewItemScreen = ({ navigation }) => {
             res.forEach(r => {
                 itemsToCart.push(r);
             });
-            console.log("itemsToCart before", itemsToCart);
+            // console.log("itemsToCart before", itemsToCart);
             itemsToCart.push(itemId);
-            console.log("itemsToCart after", itemsToCart);
+            // console.log("itemsToCart after", itemsToCart);
             const jsonSetValue = JSON.stringify(itemsToCart);
             await AsyncStorage.setItem('cartItems', jsonSetValue).then(() => {
                 console.log("Success 1");
@@ -166,7 +166,7 @@ const ViewItemScreen = ({ navigation }) => {
 
     async function addToWish(id) {
         const res = await checkWish(id);
-        console.log(res);
+        // console.log(res);
 
         if (res === true) {
             console.log("Item already added");
@@ -177,14 +177,14 @@ const ViewItemScreen = ({ navigation }) => {
             const res = jsonValue != null ? JSON.parse(jsonValue) : null;
             // await AsyncStorage.removeItem('cartItems')
 
-            console.log("res", res);
+            // console.log("res", res);
             var itemsToWish = [];
             var itemId = {
                 id: id,
                 userID: signedInUser.userID
             }
 
-            console.log(itemId);
+            // console.log(itemId);
             if (res === null) {
                 itemsToWish.push(itemId);
                 const jsonSetValue = JSON.stringify(itemsToWish);

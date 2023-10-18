@@ -137,7 +137,7 @@ const OrderReviewScreen = ({ navigation }) => {
                 city: address.city,
                 zipCode: address.zipCode
             };
-            console.log(addDets);
+            // console.log(addDets);
             myAddress = address;
         } else {
             myAddress = null;
@@ -148,7 +148,7 @@ const OrderReviewScreen = ({ navigation }) => {
 
     async function getAddress() {
         const jsonValue = await AsyncStorage.getItem('physicalAddress');
-        console.log(jsonValue);
+        // console.log(jsonValue);
 
         return jsonValue != null ? JSON.parse(jsonValue) : null;
     }

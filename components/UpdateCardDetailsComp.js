@@ -72,7 +72,7 @@ const UpdateCardDetailsComp = ({ setpopUpCardStatus }) => {
         } else {
             setWarningMsg("");
             setWarningStatus(false)
-            console.log(cardName);
+            // console.log(cardName);
             const res = {
                 cardName: cardName,
                 cardNum: cardNum,

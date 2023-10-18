@@ -69,7 +69,7 @@ export default function App({ navigation }) {
 
             return jsonValue != null ? JSON.parse(jsonValue) : null;
           } else {
-            console.log("Token invalid");
+            // console.log("Token invalid");
             await refreshTkn(refTkn);
             //refresh token here
             return null;
@@ -104,7 +104,7 @@ export default function App({ navigation }) {
         const now = Math.floor(Date.now() / 1000);
         // console.log("exp", expTime, "now", now);
         if (expTime > now) {
-          console.log("Still Valid");
+          // console.log("Still Valid");
           return true
         }
       }
