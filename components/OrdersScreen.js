@@ -11,7 +11,7 @@ import userIcon from "../assets/Icons/user2.png";
 import priceIcon from "../assets/Icons/money.png";
 import SideNavComp from './SideNavComp';
 
-const OrdersScreen = () => {
+const OrdersScreen = ({ navigation }) => {
     const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const monthsOfYear = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -137,7 +137,7 @@ const OrdersScreen = () => {
             if (!acc[date]) {
                 acc[date] = [obj];
             } else {
-                acc[date].push( obj );
+                acc[date].push(obj);
             }
             return acc;
         }, {});
@@ -182,6 +182,9 @@ const OrdersScreen = () => {
         setorderViewStatus(false);
     }
 
+    function navigateToProfile(){
+        navigation.navigate("ViewProfile");
+      }
 
     if (loadingStatus === true) {
         return (
@@ -205,9 +208,9 @@ const OrdersScreen = () => {
                     <Text style={styles.headerDate}>{formattedDate}</Text>
                     <Text style={styles.headerUser}>Orders</Text>
                 </View>
-                <View style={styles.headerImageCont}>
+                <TouchableOpacity style={styles.headerImageCont} onPress={navigateToProfile}>
                     <Image source={signedInUser.imageUrl === null ? userIcon : { uri: signedInUser.imageUrl }} style={styles.headerImage} />
-                </View>
+                </TouchableOpacity>
             </View>
 
             {orderViewStatus ?
@@ -238,7 +241,7 @@ const OrdersScreen = () => {
 
                         <View>
                             <View style={{ marginTop: 0, marginBottom: 30 }}>
-                                <Text style={[styles.paymentTitle, { marginTop: 30, marginLeft:"3%" }]}>Order Items:</Text>
+                                <Text style={[styles.paymentTitle, { marginTop: 30, marginLeft: "3%" }]}>Order Items:</Text>
 
                                 <View style={styles.cartCont}>
                                     {items.map((item, index) => (

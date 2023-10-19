@@ -345,6 +345,11 @@ const HomeScreen = ({ navigation }) => {
 
   }
 
+
+  function navigateToProfile(){
+    navigation.navigate("ViewProfile");
+  }
+
   if (loadingStatus === true) {
     return (
       <>
@@ -378,9 +383,9 @@ const HomeScreen = ({ navigation }) => {
               <Text style={styles.headerDate}>{formattedDate}</Text>
               <Text style={styles.headerUser}>{`Hello! ${signedInUser.firstname === null ? "First Name" : signedInUser.firstname} ${signedInUser.lastname === null ? "Last Name" : signedInUser.lastname}`}</Text>
             </View>
-            <View style={styles.headerImageCont}>
+            <TouchableOpacity style={styles.headerImageCont} onPress={navigateToProfile}>
               <Image source={signedInUser.imageUrl === null ? userIcon : { uri: signedInUser.imageUrl }} style={styles.headerImage} />
-            </View>
+            </TouchableOpacity>
 
             <View style={styles.popularCont}>
 

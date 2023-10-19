@@ -283,6 +283,10 @@ const CartScreen = ({ navigation }) => {
         setDeleteStatus(false)
     }
 
+    function navigateToProfile(){
+        navigation.navigate("ViewProfile");
+      }
+
     if (loadingStatus === true) {
         return (
             <>
@@ -306,9 +310,9 @@ const CartScreen = ({ navigation }) => {
                     <Text style={styles.headerDate}>{formattedDate}</Text>
                     <Text style={styles.headerUser}>Cart</Text>
                 </View>
-                <View style={styles.headerImageCont}>
+                <TouchableOpacity style={styles.headerImageCont} onPress={navigateToProfile}>
                     <Image source={signedInUser.imageUrl === null ? userIcon : { uri: signedInUser.imageUrl }} style={styles.headerImage} />
-                </View>
+                </TouchableOpacity>
             </View>
             {/* <View style={{
                 height: 130,
@@ -537,7 +541,7 @@ const styles = StyleSheet.create({
     },
     headerImageCont: {
         position: 'absolute',
-        top: 70,
+        top: 90,
         right: 20,
 
     },

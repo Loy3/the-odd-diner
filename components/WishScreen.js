@@ -218,7 +218,9 @@ const WishScreen = ({ navigation }) => {
     function closeDelete(){
         setDeleteStatus(false)
     }
-
+    function navigateToProfile(){
+        navigation.navigate("ViewProfile");
+      }
 
     if (loadingStatus === true) {
         return (
@@ -242,9 +244,9 @@ const WishScreen = ({ navigation }) => {
                     <Text style={styles.headerDate}>{formattedDate}</Text>
                     <Text style={styles.headerUser}>Wish List</Text>
                 </View>
-                <View style={styles.headerImageCont}>
+                <TouchableOpacity style={styles.headerImageCont} onPress={navigateToProfile}>
                     <Image source={signedInUser.imageUrl === null ? userIcon : { uri: signedInUser.imageUrl }} style={styles.headerImage} />
-                </View>
+                </TouchableOpacity>
             </View>
 
             {orderViewStatus ?
@@ -377,7 +379,7 @@ const styles = StyleSheet.create({
     },
     headerImageCont: {
         position: 'absolute',
-        top: 70,
+        top: 90,
         right: 20,
 
     },
