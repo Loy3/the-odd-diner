@@ -43,6 +43,7 @@ const CheckOutScreen = ({ navigation }) => {
     const [alertMessage, setalertMessage] = useState("");
     const [alertMessageHead, setalertMessageHead] = useState("Message");
     const { initPaymentSheet, presentPaymentSheet } = useStripe();
+    const [initResponse, setInitResponse] = useState(null);
 
     useEffect(() => {
         const unsubscribe = navigation.addListener("focus", async () => {
@@ -60,6 +61,10 @@ const CheckOutScreen = ({ navigation }) => {
         })
         return unsubscribe
     }, [navigation])
+
+   
+
+    
 
     async function getUser() {
         const jsonValue = await AsyncStorage.getItem('user');
@@ -103,13 +108,64 @@ const CheckOutScreen = ({ navigation }) => {
         return res;
     }
 
+
+
     async function getCheckoutItems() {
         const jsonValue = await AsyncStorage.getItem('checkout');
         const res = jsonValue != null ? JSON.parse(jsonValue) : null;
         // console.log("Ress", res.items[0]); 
         setItemsSubTotalPrice(res.itemsSubTotalPrice);
         setItemsTotalPrice(res.itemsTotalPrice)
-        setCheckoutItems(res.items)
+        setCheckoutItems(res.items);
+        // console.log(res.itemsTotalPrice);
+
+        await initPay(res.itemsTotalPrice);
+    }
+
+    async function initPay(totalPrice) {
+        const convAmount = Math.floor(parseInt(totalPrice) * 100);
+        // console.log(convAmount);
+        // setloadingStatusStatus(true);
+        const myAmount = {
+            amount: convAmount
+        }
+        const results = await makePayment(convAmount);
+        // console.log(results);
+
+        if (results.error) {
+            console.log(results.error);
+            setloadingStatusStatus(false);
+            setalertStatus(true);
+            setalertMessageHead("Message");
+            setalertMessage("Something went wrong");
+            return;
+        }
+
+        const initRes = await initPaymentSheet({
+            appearance: {
+                colors: {
+                    primary: '#7C9070',
+                    background: '#FFFEF5',
+                    componentBackground: '#B8CEAA',
+                    componentBorder: '#E8F5E0',
+                    componentDivider: '#7C9070',
+                    primaryText: '#7C9070',
+                    secondaryText: '#FFFEF5',
+                    componentText: '#7C9070',
+                    placeholderText: '#7C9070',
+                    icon: '#7C9070',
+                },
+            },
+            merchantDisplayName: "The Odd Diner",
+            paymentIntentClientSecret: results.paymentIntent,
+            defaultBillingDetails: {
+                name: `${signedInUser.firstname} ${signedInUser.lastname}`,
+                address: `${signedInUser.address} ${signedInUser.city} ${signedInUser.addressZip}`
+            }
+        })
+
+        // console.log(initRes);
+        setInitResponse(initRes);
     }
 
     async function getAddressonSave() {
@@ -201,83 +257,59 @@ const CheckOutScreen = ({ navigation }) => {
 
 
     async function confirmPament() {
-        const convAmount = Math.floor(parseInt(itemsTotalPrice) * 100);
-        console.log(convAmount);
         setloadingStatusStatus(true);
-        const myAmount = {
-            amount: convAmount
-        }
-        const results = await makePayment(convAmount);
-        // console.log(results);
+        // const convAmount = Math.floor(parseInt(itemsTotalPrice) * 100);
+        // console.log(convAmount);
 
-        if (results.error) {
-            console.log(results.error);
-            setloadingStatusStatus(false);
-            setalertStatus(true);
-            setalertMessageHead("Message");
-            setalertMessage("Something went wrong");
-            return;
-        }
+        // const myAmount = {
+        //     amount: convAmount
+        // }
+        // const results = await makePayment(convAmount);
+        // // console.log(results);
 
-        const customAppearance = {
-            font: {
-                family:
-                    Platform.OS === 'android' ? 'avenirnextregular' : 'AvenirNext-Regular',
-            },
-            shapes: {
-                borderRadius: 12,
-                borderWidth: 0.5,
-            },
-            primaryButton: {
-                shapes: {
-                    borderRadius: 20,
-                },
-            },
-            colors: {
-                primary: '#fcfdff',
-                background: '#ffffff',
-                componentBackground: '#f3f8fa',
-                componentBorder: '#f3f8fa',
-                componentDivider: '#000000',
-                primaryText: '#000000',
-                secondaryText: '#000000',
-                componentText: '#000000',
-                placeholderText: '#73757b',
-            },
-        };
+        // if (results.error) {
+        //     console.log(results.error);
+        //     setloadingStatusStatus(false);
+        //     setalertStatus(true);
+        //     setalertMessageHead("Message");
+        //     setalertMessage("Something went wrong");
+        //     return;
+        // }
 
-        const initResponse = await initPaymentSheet({
-            appearance: {
-                // shapes: {
-                //     borderRadius: 12,
-                //     borderWidth: 0.5,
-                // },
-                // primaryButton: {
-                //     shapes: {
-                //         borderRadius: 20,
-                //     },
-                // },
-                
-                colors: {
-                    primary: '#7C9070',
-                    background: '#FFFEF5',
-                    componentBackground: '#7C9070',
-                    componentBorder: '#7C9070',
-                    componentDivider: '#FFFEF5',
-                    primaryText: '#7C9070',
-                    secondaryText: '#FFFEF5',
-                    componentText: '#FFFEF5',
-                    placeholderText: '#FFFEF5',
-                    icon:'#7C9070',
-                },
-            },
-            merchantDisplayName: "The Odd Diner",
-            paymentIntentClientSecret: results.paymentIntent,
-            defaultBillingDetails: {
-                name: `${signedInUser.firstname} ${signedInUser.lastname}`,
-                address: `${signedInUser.address} ${signedInUser.city} ${signedInUser.addressZip}`
-            }
-        })
+
+
+        // const initResponse = await initPaymentSheet({
+        //     appearance: {
+        //         // shapes: {
+        //         //     borderRadius: 12,
+        //         //     borderWidth: 0.5,
+        //         // },
+        //         // primaryButton: {
+        //         //     shapes: {
+        //         //         borderRadius: 20,
+        //         //     },
+        //         // },
+
+        //         colors: {
+        //             primary: '#7C9070',
+        //             background: '#FFFEF5',
+        //             componentBackground: '#B8CEAA',
+        //             componentBorder: '#E8F5E0',
+        //             componentDivider: '#7C9070',
+        //             primaryText: '#7C9070',
+        //             secondaryText: '#FFFEF5',
+        //             componentText: '#7C9070',
+        //             placeholderText: '#7C9070',
+        //             icon: '#7C9070',
+        //         },
+        //     },
+        //     merchantDisplayName: "The Odd Diner",
+        //     paymentIntentClientSecret: results.paymentIntent,
+        //     defaultBillingDetails: {
+        //         name: `${signedInUser.firstname} ${signedInUser.lastname}`,
+        //         address: `${signedInUser.address} ${signedInUser.city} ${signedInUser.addressZip}`
+        //     }
+        // })
 
         if (initResponse.error) {
             console.log(initResponse.error);
@@ -595,25 +627,25 @@ const styles = StyleSheet.create({
         // position: "absolute",
         // top: 50,
         // left: 15,
-        marginTop: 50,
+        marginTop: 60,
         marginLeft: 15,
         backgroundColor: "#FFFEF5",
-        width: 50,
-        height: 50,
+        width: 40,
+        height: 40,
         borderRadius: 100,
         alignItems: "center",
         justifyContent: "center"
     },
     backBtn: {
-        width: 25,
-        height: 25,
+        width: 20,
+        height: 20,
         marginLeft: -2
     },
     pageTitle: {
         position: "absolute",
         top: 50,
         right: 20,
-        fontSize: 33,
+        fontSize: 30,
         fontWeight: "bold",
         color: "#FFFEF5"
     },
@@ -701,7 +733,7 @@ const styles = StyleSheet.create({
     masterCardCont: {
         marginTop: 20,
         width: "90%",
-        height: 250,
+        height: 220,
         marginHorizontal: "5%",
         backgroundColor: "#7C9070",
         borderRadius: 15
@@ -724,7 +756,7 @@ const styles = StyleSheet.create({
     cardNum: {
         width: "100%",
         textAlign: "center",
-        marginTop: 110,
+        marginTop: 90,
         fontSize: 18,
         // fontWeight: "bold",
         color: "#FFFEF5",

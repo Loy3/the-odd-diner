@@ -331,6 +331,7 @@ export const storeOrders = async (data) => {
 
 //Get Orders
 export const getOrders = async (id) => {
+    // console.log(id);
     const url = `https://firestore.googleapis.com/v1/projects/${project}/databases/(default)/documents/oddOrders`;
     try {
         const response = await fetch(url, {

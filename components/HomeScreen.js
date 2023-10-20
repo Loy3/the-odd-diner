@@ -710,7 +710,7 @@ const styles = StyleSheet.create({
     marginTop: 15
   },
   popularDetailsSub: {
-    fontSize: 17,
+    fontSize: 15,
     color: "#A8C099",
     fontWeight: "bold",
     marginLeft: 20,
@@ -875,10 +875,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     color: "#7C9070",
     fontWeight: "bold",
-    fontSize: 18
+    fontSize: 17
   },
   cardPrepTimeCont: {
-    marginTop: 10,
+    marginTop: 0,
     marginLeft: 5,
     width: "50%",
     // backgroundColor:"yellow",
@@ -900,13 +900,14 @@ const styles = StyleSheet.create({
   },
   addToCart: {
     position: "absolute",
-    bottom: 10,
-    right: 10,
+    bottom: 5,
+    right: 5,
     width: 30,
     height: 30,
     backgroundColor: "#7C9070",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    borderRadius:50
   },
   addToCartImg: {
     width: 20,

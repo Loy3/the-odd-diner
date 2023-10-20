@@ -310,25 +310,25 @@ const styles = StyleSheet.create({
         // position: "absolute",
         // top: 50,
         // left: 15,
-        marginTop: 50,
+        marginTop: 60,
         marginLeft: 15,
         backgroundColor: "#FFFEF5",
-        width: 50,
-        height: 50,
+        width: 40,
+        height: 40,
         borderRadius: 100,
         alignItems: "center",
         justifyContent: "center"
     },
     backBtn: {
-        width: 25,
-        height: 25,
+        width: 20,
+        height: 20,
         marginLeft: -2
     },
     pageTitle: {
         position: "absolute",
         top: 50,
         right: 20,
-        fontSize: 33,
+        fontSize: 30,
         fontWeight: "bold",
         color: "#FFFEF5"
     },
