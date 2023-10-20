@@ -125,7 +125,7 @@ const CheckOutScreen = ({ navigation }) => {
     async function initPay(totalPrice) {
         const convAmount = Math.floor(parseInt(totalPrice) * 100);
         // console.log(convAmount);
-        // setloadingStatusStatus(true);
+        setloadingStatusStatus(false);
         const myAmount = {
             amount: convAmount
         }
