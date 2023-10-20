@@ -120,6 +120,7 @@ const UpdateUserComp = ({ setUpPersonalDStatus }) => {
                 </TouchableOpacity>
             </View>
             <Text style={styles.title}>Personal Details:</Text>
+            <Text style={{marginBottom: 20, marginLeft:10,fontSize:14}}>Update user details:</Text>
 
             {warningStatus ?
                 <Text style={{
@@ -184,7 +185,7 @@ const UpdateUserComp = ({ setUpPersonalDStatus }) => {
                 <View>
                     <TextInput style={styles.formInput}
                         autoComplete="off"
-                        keyboardType="visible-password"
+                        keyboardType="numeric"
                         autoCapitalize="none"
                         onChangeText={text => setphoneNum(text)}
                         value={phoneNum} placeholder={"Enter phone number: "} />
@@ -215,27 +216,27 @@ const styles = StyleSheet.create({
     },
     closeBtnCont: {
         position: "absolute",
-        top: -20,
-        right: -10,
+        top: -10,
+        right: -5,
         backgroundColor: "#FFFEF5",
         borderWidth: 2,
         borderColor: "#7C9070",
         borderRadius: 60,
-        width: 60,
-        height: 60,
+        width: 40,
+        height: 40,
         justifyContent: "center",
         alignItems: "center",
 
     },
     closeBtn: {
-        width: 20,
-        height: 20
+        width: 15,
+        height: 15
     },
     title: {
         color: "#7C9070",
         fontSize: 24,
         fontWeight: "bold",
-        marginBottom: 20,
+        // marginBottom: 20,
         marginLeft: 10
     },
     subTitle: {

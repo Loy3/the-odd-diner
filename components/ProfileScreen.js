@@ -422,7 +422,7 @@ const ProfileScreen = ({ setSignIn }) => {
                     <View>
                         <TextInput style={styles.formInput}
                             autoComplete="off"
-                            keyboardType="visible-password"
+                            keyboardType="numeric"
                             autoCapitalize="none"
                             onChangeText={text => setPhoneNum(text)}
                             value={phoneNum} placeholder={"Enter your phone number:"} />

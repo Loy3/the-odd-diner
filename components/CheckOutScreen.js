@@ -10,6 +10,7 @@ import backBtnIcon from "../assets/Icons/prev.png";
 import masterCardIcon from "../assets/Icons/card.png";
 import cardChipIcon from "../assets/Icons/chip.png";
 import locationIcon from "../assets/Icons/location2.png";
+import updateIcon from "../assets/Icons/edit.png";
 import UpdateAddressComp from './UpdateAddressComp';
 import UpdateCardDetailsComp from './UpdateCardDetailsComp';
 
@@ -454,9 +455,10 @@ user id,
                         {/* {!paymentStatus ? */}
                         <View style={{ marginTop: 30 }}>
                             <TouchableOpacity style={styles.editBtn2} onPress={openCardPopup}>
-                                <Text style={styles.editBtnTxt}>Edit</Text>
+                                {/* <Text style={styles.editBtnTxt}>Edit</Text> */}
+                                <Image source={updateIcon} style={{width:30, height:30}}/>
                             </TouchableOpacity>
-                            <Text style={[styles.paymentTitle, { marginLeft: "5%" }]}>Payment Method</Text>
+                            <Text style={[styles.paymentTitle, { marginLeft: "5%" }]}>Payment Method:</Text>
                             <View style={styles.masterCardCont}>
                                 <Image source={cardChipIcon} style={styles.chip} />
                                 <Image source={masterCardIcon} style={styles.cardMaster} />
@@ -582,13 +584,13 @@ user id,
 
             {successStatus ?
                 <View style={{ width: "100%", height: "100%", zIndex: 99, backgroundColor: "rgba(0,0,0,0.5)", position: "absolute", top: 0, left: 0, justifyContent: "center", alignItems: "center" }}>
-                    <View style={{ width: "90%", height: "35%", backgroundColor: "#FFFEF5", borderRadius: 20, alignItems: "center", justifyContent: "center" }}>
+                    <View style={{ width: "90%", height: "25%", backgroundColor: "#FFFEF5", borderRadius: 25, alignItems: "center", justifyContent: "center" }}>
                         <View style={{ alignItems: "center", justifyContent: "center", width: "100%" }}>
-                            <Text style={[styles.modalTitle, { margin: 0 }]}>Payment</Text>
-                            <Text style={[styles.modalTitle, { margin: 0 }]}>successfully made.</Text>
+                            <Text style={[styles.modalTitle, { margin: 0, marginBottom:5 }]}>Payment</Text>
+                            <Text style={[styles.modalTitle, { margin: 0 }]}>Successfully made.</Text>
 
                             <TouchableOpacity style={{ height: 50, backgroundColor: "#7C9070", marginTop: 10, width: "70%", borderRadius: 50 }} onPress={closeSuccess}>
-                                <Text style={styles.siBtnTxt}>Close</Text>
+                                <Text style={styles.siBtnTxt}>Proceed</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -597,7 +599,7 @@ user id,
 
             {alertStatus ?
                 <View style={{ width: "100%", height: "100%", zIndex: 99, backgroundColor: "rgba(0,0,0,0.5)", position: "absolute", top: 0, left: 0, justifyContent: "center", alignItems: "center" }}>
-                    <View style={{ width: "90%", height: "35%", backgroundColor: "#FFFEF5", borderRadius: 20, alignItems: "center", justifyContent: "center" }}>
+                    <View style={{ width: "90%", height: "25%", backgroundColor: "#FFFEF5", borderRadius: 25, alignItems: "center", justifyContent: "center" }}>
                         <View style={{ alignItems: "center", justifyContent: "center", width: "100%" }}>
                             <Text style={[styles.modalTitle, { margin: 0, fontSize: 24 }]}>{alertMessageHead}</Text>
                             <Text style={[styles.modalTitle, { marginVertical: 8, textAlign: "center", fontSize: 16 }]}>{alertMessage}</Text>
@@ -681,15 +683,16 @@ const styles = StyleSheet.create({
     editBtn2: {
         position: "absolute",
         right: 20,
-        top: 20,
-        width: 80,
+        top: 15,
+        width: 40,
         height: 40,
-        backgroundColor: "#FFFEF5",
-        borderColor: "#7C9070",
-        borderWidth: 3,
+        // backgroundColor: "#FFFEF5",
+        // borderColor: "#7C9070",
+        // borderWidth: 3,
         alignItems: "center",
         justifyContent: "center",
-        borderRadius: 8
+        borderRadius: 8, 
+        zIndex:10
     },
     editBtn: {
         position: "absolute",

@@ -95,7 +95,7 @@ const CardDetailsComp = ({ setpopUpCardStatus }) => {
         <View>
           <TextInput style={styles.formInput}
             autoComplete="off"
-            keyboardType="visible-password"
+            keyboardType="numeric"
             autoCapitalize="none"
             onChangeText={text => setZipCode(text)}
             value={zipCode} placeholder={"cvv"} />

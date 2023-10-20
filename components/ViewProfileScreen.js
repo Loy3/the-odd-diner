@@ -282,7 +282,8 @@ const ViewProfileScreen = ({ navigation }) => {
                                     </View>
 
                                     <TouchableOpacity style={styles.editBtn} onPress={openPersonalD}>
-                                        <Text style={{ color: "#7C9070", fontWeight: "bold" }}>Edit</Text>
+                                        {/* <Text style={{ color: "#7C9070", fontWeight: "bold" }}>Edit</Text> */}
+                                        <Image source={updateIcon} style={{width: 30, height:30}}/>
                                     </TouchableOpacity>
                                 </View>
                             }
@@ -330,7 +331,8 @@ const ViewProfileScreen = ({ navigation }) => {
                                     </View>
 
                                     <TouchableOpacity style={styles.editBtn} onPress={openCardD}>
-                                        <Text style={{ color: "#7C9070", fontWeight: "bold" }}>Edit</Text>
+                                        {/* <Text style={{ color: "#7C9070", fontWeight: "bold" }}>Edit</Text> */}
+                                        <Image source={updateIcon} style={{width: 30, height:30}}/>
                                     </TouchableOpacity>
                                 </View>
                             }
@@ -529,10 +531,10 @@ const styles = StyleSheet.create({
         position: "absolute",
         bottom: 10,
         right: 15,
-        borderColor: "#7C9070",
-        borderWidth: 3,
+        // borderColor: "#7C9070",
+        // borderWidth: 3,
         height: 40,
-        width: 70,
+        width: 40,
         borderRadius: 10,
         alignItems: "center",
         justifyContent: "center"

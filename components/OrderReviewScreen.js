@@ -11,7 +11,7 @@ import priceIcon from "../assets/Icons/money.png";
 import locationIcon from "../assets/Icons/location2.png";
 import UpdateAddressComp from './UpdateAddressComp';
 import UpdateCardDetailsComp from './UpdateCardDetailsComp';
-
+import updateIcon from "../assets/Icons/edit.png";
 
 import { CardField, useStripe } from '@stripe/stripe-react-native';
 
@@ -213,7 +213,8 @@ const OrderReviewScreen = ({ navigation }) => {
                             </View>
 
                             <TouchableOpacity style={styles.editBtn} onPress={editAddress}>
-                                <Text style={styles.editBtnTxt}>Edit</Text>
+                                {/* <Text style={styles.editBtnTxt}>Edit</Text> */}
+                                <Image source={updateIcon} style={{width:30, height:30}}/>
                             </TouchableOpacity>
                         </View>
 
@@ -235,7 +236,7 @@ const OrderReviewScreen = ({ navigation }) => {
                                             </View>
 
                                         </View>
-                                        <View style={[styles.countBtnCont, { position: "absolute", top: 15, right: 10 }]}>
+                                        <View style={[styles.countBtnCont, { position: "absolute", top: 15, right: 10, borderRadius:50 }]}>
                                             <Text style={styles.counter}>{item.numOfItems ? `${item.numOfItems}` : "1"}</Text>
                                         </View>
                                     </View>
@@ -374,11 +375,11 @@ const styles = StyleSheet.create({
         position: "absolute",
         right: 0,
         top: -35,
-        width: 80,
+        width: 40,
         height: 40,
-        backgroundColor: "#FFFEF5",
-        borderColor: "#7C9070",
-        borderWidth: 3,
+        // backgroundColor: "#FFFEF5",
+        // borderColor: "#7C9070",
+        // borderWidth: 3,
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 8

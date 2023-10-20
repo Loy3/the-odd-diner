@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, Image, Button, TextInput, ScrollView } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, Image, Button, ImageBackground, ScrollView } from 'react-native';
 
 import { getItems, getUsers } from "../services/serviceStoreDoc";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -9,6 +9,7 @@ import cartIcon from "../assets/Icons/cart.png";
 import moneyIcon from "../assets/Icons/money.png";
 import prepTimeIcon from "../assets/Icons/stopwatch2.png";
 import wishIcon from "../assets/Icons/wish2.png";
+//  } from 'react-native-web';
 
 const ViewItemScreen = ({ navigation }) => {
 
@@ -240,10 +241,8 @@ const ViewItemScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <ScrollView scrollEnabled={true} >
-                <>
-                    <View>
-                        <View style={styles.mainImageCont}>
+            <View style={styles.mainImageCont}>
+{/* <View style={{width:"100%", height:"100%", zIndex:10, backgroundColor: "rgba(124, 144, 112, 0.3)"}}/> */}
                             <Image source={item.itemImageUrl ? { uri: item.itemImageUrl } : subImg} style={styles.mainImage} />
                             {/* <Text>Hello</Text> */}
                             {/* {console.log("item", item)} */}
@@ -254,8 +253,12 @@ const ViewItemScreen = ({ navigation }) => {
                                 <Image source={cartIcon} style={styles.cartBtn} />
                             </TouchableOpacity>
                         </View>
+            <ScrollView scrollEnabled={true} >
+                <>
+                    <View>
+                        
 
-                        <View style={{ marginHorizontal: "6%", paddingVertical: 20 }}>
+                        <View style={{ marginHorizontal: "6%", paddingVertical: 10 }}>
                             <Text style={styles.itemTitle}>{item.itemName ? `${item.itemName}` : "Title"}</Text>
                             <Text style={styles.itemSubTitle}>{item.itemName ? `${item.itemSub}` : "Sub Title"}</Text>
 
@@ -271,7 +274,7 @@ const ViewItemScreen = ({ navigation }) => {
                             <View style={{ marginTop: 20, flexDirection: "row" }}>
                                 <Image source={moneyIcon} style={styles.cardPrepTimeIc} />
                                 <Text style={{
-                                    marginLeft: 5, color: "#7C9070", fontSize: 20, fontWeight: "700",
+                                    marginLeft: 5, color: "#7C9070", fontSize: 18, fontWeight: "700",
                                 }}>{item.itemPrice ? `R${item.itemPrice}.00` : "R00.00"}</Text>
                             </View>
 
@@ -320,29 +323,30 @@ const styles = StyleSheet.create({
         width: "100%",
     },
     mainImageCont: {
-        position: "relative",
+        // position: "relative",
         width: "100%",
-        // height: "50%",
+        height: "65%",
         // paddingTop: 50,
-        height: "auto",
+        // height: 520,
         backgroundColor: "#7C9070",
     },
     mainImage: {
         width: "100%",
-        height: 510,
+        height: "100%",
         objectFit: "cover",
     },
 
     backBtnCont: {
         position: "absolute",
         top: 50,
-        left: 15,
+        left: 20,
         backgroundColor: "#FFFEF5",
         width: 40,
         height: 40,
         borderRadius: 100,
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        zIndex:20
     },
     backBtn: {
         width: 20,
@@ -353,13 +357,14 @@ const styles = StyleSheet.create({
     cartBtnCont: {
         position: "absolute",
         top: 50,
-        right: 15,
+        right: 20,
         backgroundColor: "#FFFEF5",
         width: 45,
         height: 45,
         borderRadius: 100,
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        zIndex:20
     },
     cartBtn: {
         width: 23,
@@ -375,14 +380,14 @@ const styles = StyleSheet.create({
         marginTop: 0
     },
     itemSubTitle: {
-        fontSize: 18,
+        fontSize: 16,
         color: "#A8C099",
         fontWeight: "bold",
         // marginLeft: 10,
         marginTop: 2
     },
     cardPrepTimeCont: {
-        marginTop: 12,
+        marginTop: 5,
         marginLeft: -5,
         width: "50%",
         // backgroundColor:"yellow",
@@ -399,7 +404,7 @@ const styles = StyleSheet.create({
     cardPrepTimeText: {
         marginLeft: 5,
         color: "#7C9070",
-        fontSize: 16,
+        fontSize: 15,
         fontWeight: "700",
         // textAlign:"right"
     },

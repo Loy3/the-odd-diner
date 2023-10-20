@@ -13,7 +13,7 @@ export const makePayment = async (amount) => {
             }),
         });
         const data = await response.json();
-        console.log("Done: ", data);
+        // console.log("Done: ", data); 
 
         return data;
     } catch (error) {

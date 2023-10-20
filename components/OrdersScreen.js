@@ -182,9 +182,9 @@ const OrdersScreen = ({ navigation }) => {
         setorderViewStatus(false);
     }
 
-    function navigateToProfile(){
+    function navigateToProfile() {
         navigation.navigate("ViewProfile");
-      }
+    }
 
     if (loadingStatus === true) {
         return (
@@ -215,7 +215,7 @@ const OrdersScreen = ({ navigation }) => {
 
             {orderViewStatus ?
                 <View style={{ width: "100%", height: "100%", zIndex: 99, backgroundColor: "rgba(0,0,0,0.5)", position: "absolute", top: 0, left: 0, justifyContent: "center", alignItems: "center" }}>
-                    <View style={{ width: "90%", height: "70%", backgroundColor: "#FFFEF5", borderRadius: 30 }}>
+                    <View style={{ width: "90%", height: "70%", backgroundColor: "#FFFEF5", borderRadius: 40 }}>
                         <TouchableOpacity style={{ position: "absolute", right: "7%", top: "5%", width: 40, height: 40, backgroundColor: "#FFFEF5", zIndex: 99, justifyContent: "center", alignItems: "center", borderRadius: 40 }} onPress={closeViewer}>
                             <Image source={closeIcon} style={{ width: 20, height: 20 }} />
                         </TouchableOpacity>
@@ -241,12 +241,12 @@ const OrdersScreen = ({ navigation }) => {
 
                         <View>
                             <View style={{ marginTop: 0, marginBottom: 30 }}>
-                                <Text style={[styles.paymentTitle, { marginTop: 30, marginLeft: "3%" }]}>Order Items:</Text>
+                                <Text style={[styles.paymentTitle, { marginTop: 30, marginLeft: "3%" }]}>Orders:</Text>
 
                                 <View style={styles.cartCont}>
                                     {items.map((item, index) => (
                                         <View key={index}>
-                                            <Text style={[styles.paymentTitle, { marginTop: 20, fontSize: 18, marginLeft: -5 }]}>Order for date: {item.date ? item.date : "Friday, 13th October"}</Text>
+                                            <Text style={[styles.paymentTitle, { marginTop: 20, fontSize: 18, marginLeft: -5 }]}>Order date: {item.date ? item.date : "Friday, 13th October"}</Text>
                                             {item.value.map((itm, index) => (
                                                 <View style={styles.cartCard} key={index}>
                                                     <TouchableOpacity style={styles.itemImgCont} onPress={() => openViewer(itm)}>

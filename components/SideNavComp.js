@@ -112,7 +112,7 @@ const SideNavComp = ({ setMenuStatus }) => {
 
                     <TouchableOpacity style={{ flexDirection: "row" }} onPress={() => handleNav("wish")}>
                         <Image source={wishIcon} style={styles.btnIcon} />
-                        <Text style={styles.btnTxt}>Wish</Text>
+                        <Text style={styles.btnTxt}>Favorites</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity style={{ flexDirection: "row" }} onPress={() => handleNav("profile")}>

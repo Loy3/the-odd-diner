@@ -242,7 +242,7 @@ const WishScreen = ({ navigation }) => {
                 </View>
                 <View style={styles.headerTextCont}>
                     <Text style={styles.headerDate}>{formattedDate}</Text>
-                    <Text style={styles.headerUser}>Wish List</Text>
+                    <Text style={styles.headerUser}>Favorites</Text>
                 </View>
                 <TouchableOpacity style={styles.headerImageCont} onPress={navigateToProfile}>
                     <Image source={signedInUser.imageUrl === null ? userIcon : { uri: signedInUser.imageUrl }} style={styles.headerImage} />
@@ -251,12 +251,12 @@ const WishScreen = ({ navigation }) => {
 
             {orderViewStatus ?
                 <View style={{ width: "100%", height: "100%", zIndex: 99, backgroundColor: "rgba(0,0,0,0.5)", position: "absolute", top: 0, left: 0, justifyContent: "center", alignItems: "center" }}>
-                    <View style={{ width: "90%", height: "70%", backgroundColor: "#FFFEF5", borderRadius: 25 }}>
+                    <View style={{ width: "90%", height: "70%", backgroundColor: "#FFFEF5", borderRadius: 40 }}>
                         <TouchableOpacity style={{ position: "absolute", right: "5%", top: "3%", width: 40, height: 40, backgroundColor: "#FFFEF5", zIndex: 99, justifyContent: "center", alignItems: "center", borderRadius: 40 }} onPress={closeViewer}>
                             <Image source={closeIcon} style={{ width: 20, height: 20 }} />
                         </TouchableOpacity>
 
-                        <Image source={viewItem.itemImageUrl ? { uri: viewItem.itemImageUrl } : subImg} style={{ width: "96%", height: "80%", objectFit: "cover", marginHorizontal: "2%", marginTop: "2%", borderRadius: 20 }} />
+                        <Image source={viewItem.itemImageUrl ? { uri: viewItem.itemImageUrl } : subImg} style={{ width: "96%", height: "80%", objectFit: "cover", marginHorizontal: "2%", marginTop: "2%", borderRadius: 30 }} />
                         <View style={[styles.cardDetailsCont, { marginHorizontal: 20 }]}>
                             <Text style={[styles.cardItemTitle, { fontSize: 20 }]}>{viewItem.itemName ? `${viewItem.itemName}` : "Name"}</Text>
                             <Text style={[styles.cardItemSubTitle, { fontSize: 15 }]}>{viewItem.itemSub ? `${viewItem.itemSub}` : "Date"}</Text> 
@@ -276,7 +276,7 @@ const WishScreen = ({ navigation }) => {
 
 
                         <View style={{ marginTop: 30 }}>
-                            <Text style={[styles.paymentTitle, { marginTop: 0 }]}>Wish Items:</Text>
+                            <Text style={[styles.paymentTitle, { marginTop: 0 }]}>Favorites Items:</Text>
 
                             <View style={styles.cartCont}>
                                 {items.map((item, index) => (

@@ -98,7 +98,7 @@ const CartScreen = ({ navigation }) => {
         const jsonValue = await AsyncStorage.getItem('user');
         const resUser = jsonValue != null ? JSON.parse(jsonValue) : null;
 
-        console.log("itemsId", itemsId);
+        // console.log("itemsId", itemsId);
         var myItems = [];
         var totalIPrice = 0;
         var totalISubPrice = 0;
@@ -477,7 +477,7 @@ const CartScreen = ({ navigation }) => {
                 : null}
             {deleteStatus ?
                 <View style={{ width: "100%", height: "100%", zIndex: 99, backgroundColor: "rgba(0,0,0,0.5)", position: "absolute", top: 0, left: 0, justifyContent: "center", alignItems: "center" }}>
-                    <View style={{ width: "90%", height: "35%", backgroundColor: "#FFFEF5", borderRadius: 20, alignItems: "center", justifyContent: "center" }}>
+                    <View style={{ width: "90%", height: "25%", backgroundColor: "#FFFEF5", borderRadius: 25, alignItems: "center", justifyContent: "center" }}>
                         <View style={{ alignItems: "center", justifyContent: "center", width: "100%" }}>
                             <Text style={[styles.modalTitle, { margin: 0 }]}>Successfully deleted.</Text>
 
@@ -488,7 +488,6 @@ const CartScreen = ({ navigation }) => {
                     </View>
                 </View>
                 : null}
-
         </View>
     )
 
@@ -647,14 +646,14 @@ const styles = StyleSheet.create({
         // fontWeight:"bold",
         color: "#7C9070",
         marginTop: 3,
-        marginLeft: 5
+        // marginLeft: 5
     },
     prepTimeIc: {
         width: 25,
         height: 25
     },
     prepTimeText: {
-        marginLeft: 10,
+        marginLeft: 6,
         color: "#7C9070",
         fontSize: 16,
         fontWeight: "700",
@@ -662,7 +661,7 @@ const styles = StyleSheet.create({
     priceCont: {
         // width: "30%",
         // backgroundColor:"green",
-        marginTop: 10,
+        marginTop: 15,
         flexDirection: "row",
         alignItems: "center",
     },
@@ -681,23 +680,24 @@ const styles = StyleSheet.create({
         width: 105,
         height: 35,
         position: "absolute",
-        bottom: 5,
-        right: 5
+        bottom: -3,
+        right: -15
     },
     countBtnCont: {
-        height: 35,
-        width: 35,
+        height: 30,
+        width: 30,
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#7C9070"
+        backgroundColor: "#7C9070",
+        borderRadius:50
     },
     countBtn: {
-        width: 20,
-        height: 20
+        width: 15,
+        height: 15
     },
     counterCont: {
         height: 35,
-        width: 35,
+        width: 25,
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: "#FFFEF5"
