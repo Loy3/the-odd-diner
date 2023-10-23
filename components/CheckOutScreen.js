@@ -125,11 +125,10 @@ const CheckOutScreen = ({ navigation }) => {
 
     async function initPay(totalPrice) {
         const convAmount = Math.floor(parseInt(totalPrice) * 100);
-        // console.log(convAmount);
         setloadingStatusStatus(false);
-        const myAmount = {
-            amount: convAmount
-        }
+        // const myAmount = {
+        //     amount: convAmount
+        // }
         const results = await makePayment(convAmount);
         // console.log(results);
 
@@ -810,7 +809,7 @@ const styles = StyleSheet.create({
         marginHorizontal: "5%",
         // backgroundColor: "yellow",
         marginTop: 100,
-        marginBottom: 0,
+        marginBottom: 20,
         position: "fixed",
         zIndex: 99,
         bottom: 0
@@ -871,9 +870,9 @@ const styles = StyleSheet.create({
         width: "100%",
         // marginHorizontal: "8%",
         marginBottom: 30,
-        height: 60,
+        height: 70,
         borderRadius: 50,
-        marginTop: 40,
+        marginTop: 20,
         // marginHorizontal: "5%",
         backgroundColor: "#7C9070",
         alignItems: "center",
@@ -883,7 +882,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
         color: "#FFFEF5",
         paddingVertical: 15,
-        fontSize: 17,
+        fontSize: 18,
         fontWeight: "bold"
     },
 

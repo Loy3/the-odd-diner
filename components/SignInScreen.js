@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#FFFEF5",
     paddingVertical: 15,
-    fontSize: 17,
+    fontSize: 18,
     fontWeight: "bold"
   },
   accountCont: {

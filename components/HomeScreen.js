@@ -327,7 +327,7 @@ const HomeScreen = ({ navigation }) => {
   async function checkCart(id) {
     const jsonValue = await AsyncStorage.getItem('cartItems');
     const res = jsonValue != null ? JSON.parse(jsonValue) : null;
-    console.log(res);
+    // console.log(res);
     const curItem = id;
     // console.log(curItem);
     var status = false;

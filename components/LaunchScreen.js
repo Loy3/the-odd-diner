@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
         color: "#FFFEF5",
         paddingVertical: 15,
-        fontSize: 15,
+        fontSize: 18,
         fontWeight: "bold"
     },
 })

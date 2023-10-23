@@ -835,7 +835,7 @@ const styles = StyleSheet.create({
         width: "100%",
         // marginHorizontal: "8%",
         marginBottom: 30,
-        height: 60,
+        height: 70,
         borderRadius: 50,
         marginTop: 40,
         // marginHorizontal: "5%",
@@ -847,7 +847,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
         color: "#FFFEF5",
         paddingVertical: 15,
-        fontSize: 17,
+        fontSize: 18,
         fontWeight: "bold"
     },
 

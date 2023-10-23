@@ -539,9 +539,9 @@ const styles = StyleSheet.create({
         width: "100%",
         // marginHorizontal: "8%",
         marginBottom: 0,
-        height: 60,
+        height: 70,
         borderRadius: 50,
-        // marginTop: 40,
+        marginTop: 20,
         // marginHorizontal: "5%",
         backgroundColor: "#7C9070",
         alignItems: "center",
@@ -552,7 +552,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
         color: "#FFFEF5",
         paddingVertical: 15,
-        fontSize: 17,
+        fontSize: 18,
         fontWeight: "bold"
     },
 

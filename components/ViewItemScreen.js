@@ -427,7 +427,7 @@ const styles = StyleSheet.create({
     siBtn: {
         width: "79%",
         // marginHorizontal: "8%",
-        height: 60,
+        height: 70,
         borderRadius: 50,
         marginTop: 40,
         // marginHorizontal: "5%",
@@ -440,14 +440,14 @@ const styles = StyleSheet.create({
         textAlign: "center",
         color: "#FFFEF5",
         paddingVertical: 15,
-        fontSize: 17,
+        fontSize: 18,
         fontWeight: "bold"
     },
 
     altBtn: {
         width: "79%",
         // marginHorizontal: "8%",
-        height: 60,
+        height: 70,
         borderRadius: 50,
         marginTop: 40,
         // marginHorizontal: "5%",
@@ -460,14 +460,14 @@ const styles = StyleSheet.create({
         textAlign: "center",
         color: "#7C9070",
         paddingVertical: 15,
-        fontSize: 17,
+        fontSize: 18,
         fontWeight: "bold"
     },
     wishBtn: {
         width: "20%",
-        height: 60,
+        height: 70,
         backgroundColor: "#7C9070",
-        borderRadius: 50,
+        borderRadius: 100,
         marginTop: 40,
         justifyContent: "center",
         alignItems: "center"
