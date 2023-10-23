@@ -122,6 +122,11 @@ const CartScreen = ({ navigation }) => {
                 }
             });
         });
+
+        if(myItems.length === 0){
+            setitemsStatus(true);
+        }
+
         // console.log("myItems",myItems);
         totalIPrice = totalISubPrice + 60;
         setItemsSubTotalPrice(totalISubPrice);
@@ -136,7 +141,7 @@ const CartScreen = ({ navigation }) => {
         // await AsyncStorage.removeItem('checkout')
         const jsonValue = await AsyncStorage.getItem('cartItems');
         const res = jsonValue != null ? JSON.parse(jsonValue) : null;
-        console.log("before", res);
+        // console.log("before", res);
         var price = iPrice;
         var suTotal = itemsSubTotalPrice;
         var totalIPrice = itemsTotalPrice;
@@ -153,7 +158,7 @@ const CartScreen = ({ navigation }) => {
         totalIPrice = suTotal + 60;
         setItemsSubTotalPrice(suTotal);
         setItemsTotalPrice(totalIPrice);
-        console.log("Remaining items", remainingItems);
+        // console.log("Remaining items", remainingItems);
 
         const jsonSetValue = JSON.stringify(remainingItems);
         await AsyncStorage.setItem('cartItems', jsonSetValue).then(async () => {
@@ -366,12 +371,6 @@ const CartScreen = ({ navigation }) => {
                 <>
                     {/* {console.log(items)} */}
                     <View>
-
-
-
-
-
-
 
                         {itemsStatus ?
                             <View style={{ height: 400, width: "100%", alignItems: "center", justifyContent: "center" }}>

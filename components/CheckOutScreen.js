@@ -259,6 +259,16 @@ const CheckOutScreen = ({ navigation }) => {
 
     async function confirmPament() {
         setloadingStatusStatus(true);
+        
+        if (initResponse === null) {
+            console.log(initResponse.error);
+            setloadingStatusStatus(false);
+            setalertStatus(true);
+            setalertMessageHead("Message");
+            setalertMessage("Please wait a moment, then try again.");
+            return;
+        }
+        
         // const convAmount = Math.floor(parseInt(itemsTotalPrice) * 100);
         // console.log(convAmount);
 

@@ -95,12 +95,12 @@ const HomeScreen = ({ navigation }) => {
         setStorePopularItems(popular)
         // console.log("get pop", popular);
         setPopularItems({
-          id: popular[0].id,
-          itemImageUrl: popular[0].itemImageUrl,
-          itemName: popular[0].itemName,
-          itemSub: popular[0].itemSub,
-          itemPrepTime: popular[0].itemPrepTime,
-          itemPrice: popular[0].itemPrice,
+          id: popular[1].id,
+          itemImageUrl: popular[1].itemImageUrl,
+          itemName: popular[1].itemName,
+          itemSub: popular[1].itemSub,
+          itemPrepTime: popular[1].itemPrepTime,
+          itemPrice: popular[1].itemPrice,
         });
         setloadingStatusStatus(false)
       })
@@ -266,7 +266,7 @@ const HomeScreen = ({ navigation }) => {
   async function addToCart(id) {
     const res = await checkCart(id);
     // console.log(res);
-
+    console.log("itemId",id);
     if (res === true) {
       console.log("Item already added");
       // const jsonValue = await AsyncStorage.getItem('cartItems');
@@ -303,6 +303,7 @@ const HomeScreen = ({ navigation }) => {
         userID: signedInUser.userID
       }
 
+   
       // console.log(itemId);
       if (result === null) {
         itemsToCart.push(itemId);
@@ -326,13 +327,13 @@ const HomeScreen = ({ navigation }) => {
   async function checkCart(id) {
     const jsonValue = await AsyncStorage.getItem('cartItems');
     const res = jsonValue != null ? JSON.parse(jsonValue) : null;
-    // console.log(res);
+    console.log(res);
     const curItem = id;
     // console.log(curItem);
     var status = false;
     if (res !== null) {
       res.forEach(r => {
-        if (r.id === curItem) {
+        if (r.id === curItem && r.userID === signedInUser.userID) {
           console.log("found");
           status = true;
         } else {

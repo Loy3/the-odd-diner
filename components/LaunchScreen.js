@@ -14,8 +14,8 @@ const LaunchScreen = ({ navigation }) => {
                 <View style={styles.titleCont}>
                     <Text style={styles.title}>The Odd Diner</Text>
                     <Text style={styles.subTitle}>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the
-                        1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                        Welcome to the Odd Diner, where eccentricity meets culinary delight. Step into a world of unique flavors and unforgettable dining experiences. 
+                        Join us as we redefine the ordinary and embrace the extraordinary.
                     </Text>
                 </View>
 
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
         fontSize: 36,
         fontStyle: "normal",
         fontWeight: "bold",
-        marginBottom: 15
+        marginBottom: 10
     },
     subTitle: {
         // width: "90%",
