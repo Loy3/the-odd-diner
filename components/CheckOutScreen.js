@@ -44,7 +44,7 @@ const CheckOutScreen = ({ navigation }) => {
     const [alertMessage, setalertMessage] = useState("");
     const [alertMessageHead, setalertMessageHead] = useState("Message");
     const { initPaymentSheet, presentPaymentSheet } = useStripe();
-    const [initResponse, setInitResponse] = useState(null);
+    // const [initResponse, setInitResponse] = useState(null);
 
     useEffect(() => {
         const unsubscribe = navigation.addListener("focus", async () => {
@@ -120,53 +120,53 @@ const CheckOutScreen = ({ navigation }) => {
         setCheckoutItems(res.items);
         // console.log(res.itemsTotalPrice);
 
-        await initPay(res.itemsTotalPrice);
+        // await initPay(res.itemsTotalPrice);
     }
 
-    async function initPay(totalPrice) {
-        const convAmount = Math.floor(parseInt(totalPrice) * 100);
-        setloadingStatusStatus(false);
-        // const myAmount = {
-        //     amount: convAmount
-        // }
-        const results = await makePayment(convAmount);
-        // console.log(results);
+    // async function initPay(totalPrice) {
+    //     const convAmount = Math.floor(parseInt(totalPrice) * 100);
+    //     setloadingStatusStatus(false);
+    //     // const myAmount = {
+    //     //     amount: convAmount
+    //     // }
+    //     const results = await makePayment(convAmount);
+    //     // console.log(results);
 
-        if (results.error) {
-            console.log(results.error);
-            setloadingStatusStatus(false);
-            setalertStatus(true);
-            setalertMessageHead("Message");
-            setalertMessage("Something went wrong");
-            return;
-        }
+    //     if (results.error) {
+    //         console.log(results.error);
+    //         setloadingStatusStatus(false);
+    //         setalertStatus(true);
+    //         setalertMessageHead("Message");
+    //         setalertMessage("Something went wrong");
+    //         return;
+    //     }
 
-        const initRes = await initPaymentSheet({
-            appearance: {
-                colors: {
-                    primary: '#7C9070',
-                    background: '#FFFEF5',
-                    componentBackground: '#B8CEAA',
-                    componentBorder: '#E8F5E0',
-                    componentDivider: '#7C9070',
-                    primaryText: '#7C9070',
-                    secondaryText: '#FFFEF5',
-                    componentText: '#7C9070',
-                    placeholderText: '#7C9070',
-                    icon: '#7C9070',
-                },
-            },
-            merchantDisplayName: "The Odd Diner",
-            paymentIntentClientSecret: results.paymentIntent,
-            defaultBillingDetails: {
-                name: `${signedInUser.firstname} ${signedInUser.lastname}`,
-                address: `${signedInUser.address} ${signedInUser.city} ${signedInUser.addressZip}`
-            }
-        })
+    //     const initRes = await initPaymentSheet({
+    //         appearance: {
+    //             colors: {
+    //                 primary: '#7C9070',
+    //                 background: '#FFFEF5',
+    //                 componentBackground: '#B8CEAA',
+    //                 componentBorder: '#E8F5E0',
+    //                 componentDivider: '#7C9070',
+    //                 primaryText: '#7C9070',
+    //                 secondaryText: '#FFFEF5',
+    //                 componentText: '#7C9070',
+    //                 placeholderText: '#7C9070',
+    //                 icon: '#7C9070',
+    //             },
+    //         },
+    //         merchantDisplayName: "The Odd Diner",
+    //         paymentIntentClientSecret: results.paymentIntent,
+    //         defaultBillingDetails: {
+    //             name: `${signedInUser.firstname} ${signedInUser.lastname}`,
+    //             address: `${signedInUser.address} ${signedInUser.city} ${signedInUser.addressZip}`
+    //         }
+    //     })
 
-        // console.log(initRes);
-        setInitResponse(initRes);
-    }
+    //     // console.log(initRes);
+    //     setInitResponse(initRes);
+    // }
 
     async function getAddressonSave() {
         var myAddress = null;
@@ -259,67 +259,67 @@ const CheckOutScreen = ({ navigation }) => {
     async function confirmPament() {
         setloadingStatusStatus(true);
         
-        if (initResponse === null) {
-            console.log(initResponse.error);
-            setloadingStatusStatus(false);
-            setalertStatus(true);
-            setalertMessageHead("Message");
-            setalertMessage("Please wait a moment, then try again.");
-            return;
-        }
-        
-        // const convAmount = Math.floor(parseInt(itemsTotalPrice) * 100);
-        // console.log(convAmount);
-
-        // const myAmount = {
-        //     amount: convAmount
-        // }
-        // const results = await makePayment(convAmount);
-        // // console.log(results);
-
-        // if (results.error) {
-        //     console.log(results.error);
+        // if (initResponse === null) {
+        //     console.log(initResponse.error);
         //     setloadingStatusStatus(false);
         //     setalertStatus(true);
         //     setalertMessageHead("Message");
-        //     setalertMessage("Something went wrong");
+        //     setalertMessage("Please wait a moment, then try again.");
         //     return;
         // }
+        
+        const convAmount = Math.floor(parseInt(itemsTotalPrice) * 100);
+        // console.log(convAmount);
+
+        const myAmount = {
+            amount: convAmount
+        }
+        const results = await makePayment(convAmount);
+        // console.log(results);
+
+        if (results.error) {
+            console.log(results.error);
+            setloadingStatusStatus(false);
+            setalertStatus(true);
+            setalertMessageHead("Message");
+            setalertMessage("Something went wrong");
+            return;
+        }
 
 
 
-        // const initResponse = await initPaymentSheet({
-        //     appearance: {
-        //         // shapes: {
-        //         //     borderRadius: 12,
-        //         //     borderWidth: 0.5,
-        //         // },
-        //         // primaryButton: {
-        //         //     shapes: {
-        //         //         borderRadius: 20,
-        //         //     },
-        //         // },
+        const initResponse = await initPaymentSheet({
+            appearance: {
+                // shapes: {
+                //     borderRadius: 12,
+                //     borderWidth: 0.5,
+                // },
+                // primaryButton: {
+                //     shapes: {
+                //         borderRadius: 20,
+                //     },
+                // },
 
-        //         colors: {
-        //             primary: '#7C9070',
-        //             background: '#FFFEF5',
-        //             componentBackground: '#B8CEAA',
-        //             componentBorder: '#E8F5E0',
-        //             componentDivider: '#7C9070',
-        //             primaryText: '#7C9070',
-        //             secondaryText: '#FFFEF5',
-        //             componentText: '#7C9070',
-        //             placeholderText: '#7C9070',
-        //             icon: '#7C9070',
-        //         },
-        //     },
-        //     merchantDisplayName: "The Odd Diner",
-        //     paymentIntentClientSecret: results.paymentIntent,
-        //     defaultBillingDetails: {
-        //         name: `${signedInUser.firstname} ${signedInUser.lastname}`,
-        //         address: `${signedInUser.address} ${signedInUser.city} ${signedInUser.addressZip}`
-        //     }
-        // })
+                colors: {
+                    primary: '#7C9070',
+                    background: '#FFFEF5',
+                    componentBackground: '#B8CEAA',
+                    componentBorder: '#E8F5E0',
+                    componentDivider: '#7C9070',
+                    primaryText: '#7C9070',
+                    secondaryText: '#FFFEF5',
+                    componentText: '#7C9070',
+                    placeholderText: '#7C9070',
+                    icon: '#7C9070',
+                },
+            },
+            merchantDisplayName: "The Odd Diner",
+            paymentIntentClientSecret: results.paymentIntent,
+            defaultBillingDetails: {
+                name: `${signedInUser.firstname} ${signedInUser.lastname}`,
+                address: `${signedInUser.address} ${signedInUser.city} ${signedInUser.addressZip}`
+            }
+        })
 
         if (initResponse.error) {
             console.log(initResponse.error);
